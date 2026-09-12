@@ -44,6 +44,7 @@ const allowedOrigin = (origin, callback) => {
 
   const isAllowed =
     origin === process.env.CORS_ORIGIN ||
+    origin === "https://nour-store-pi.vercel.app" ||
     /^https:\/\/nour-store-[a-z0-9]+-mhmd-ataas-projects\.vercel\.app$/.test(origin);
 
   if (isAllowed) {
@@ -52,6 +53,8 @@ const allowedOrigin = (origin, callback) => {
     callback(new Error("Not allowed by CORS"));
   }
 };
+
+app.use(cors({ origin: allowedOrigin }));
 
 app.use(cors({ origin: allowedOrigin }));app.use(express.json({ limit: "1mb" }));
 
