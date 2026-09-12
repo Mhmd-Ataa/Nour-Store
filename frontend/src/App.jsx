@@ -6451,22 +6451,23 @@ export default function App() {
       ]);
     }
   };
-  const deleteProduct = async (
-    id
-  ) => {
-    const d = await api.del(
-      `/products/${id}`
-    );
+  const deleteProduct = async (id) => {
+  try {
+    await api.del(`/products/${id}`);
 
     setProducts((prev) =>
-      prev.map((p) =>
-        p.id === id
-          ? d.product
-          : p
-      )
+      prev.filter((p) => p.id !== id)
     );
-  };
 
+    notify("تم حذف المنتج بنجاح 🗑️");
+  } catch (err) {
+    console.error(err);
+
+    notify(
+      err.message || "تعذر حذف المنتج"
+    );
+  }
+};
   const reactivateProduct = async (id) => {
     const d = await api.put(
       `/products/${id}`,
