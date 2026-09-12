@@ -2005,7 +2005,9 @@ function Shop({
   openProduct
 }) {
   const filtered = useMemo(() => {
-    let list = products;
+  let list = products.filter(
+    (p) => p.isActive === true
+  );
 
     if (catFilter !== "الكل")
       list = list.filter(
@@ -6451,12 +6453,16 @@ export default function App() {
       ]);
     }
   };
-  const deleteProduct = async (id) => {
+const deleteProduct = async (id) => {
   try {
-    await api.del(`/products/${id}`);
+    const d = await api.del(`/products/${id}`);
 
     setProducts((prev) =>
-      prev.filter((p) => p.id !== id)
+      prev.map((p) =>
+        p.id === id
+          ? d.product
+          : p
+      )
     );
 
     notify("تم حذف المنتج بنجاح 🗑️");
