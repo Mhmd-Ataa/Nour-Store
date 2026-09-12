@@ -3,8 +3,8 @@ const router = require("express").Router();
 const prisma = require("../prisma");
 const { auth } = require("../middleware/auth");
 
-console.log("PRISMA CART:", prisma.cart);
-console.log("PRISMA CART ITEM:", prisma.cartItem);
+// console.log("PRISMA CART:", prisma.cart);
+// console.log("PRISMA CART ITEM:", prisma.cartItem);
 
 // GET /api/cart
 // جلب السلة الخاصة بالمستخدم الحالي
