@@ -39,8 +39,21 @@ const app = express();
 app.set("trust proxy", 1);
 
 app.use(helmet());
-app.use(cors({ origin: process.env.CORS_ORIGIN || "*" }));
-app.use(express.json({ limit: "1mb" }));
+const allowedOrigin = (origin, callback) => {
+  if (!origin) return callback(null, true);
+
+  const isAllowed =
+    origin === process.env.CORS_ORIGIN ||
+    /^https:\/\/nour-store-[a-z0-9]+-mhmd-ataas-projects\.vercel\.app$/.test(origin);
+
+  if (isAllowed) {
+    callback(null, true);
+  } else {
+    callback(new Error("Not allowed by CORS"));
+  }
+};
+
+app.use(cors({ origin: allowedOrigin }));app.use(express.json({ limit: "1mb" }));
 
 // General API rate limit, plus a stricter one for auth endpoints to slow
 // down credential-stuffing / brute-force attempts.
