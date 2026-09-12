@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: nour-store-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: nour
+      POSTGRES_PASSWORD: nour_pass
+      POSTGRES_DB: nour_store
+    ports:
+      - "5432:5432"
+    volumes:
+      - nour_pg_data:/var/lib/postgresql/data
+
+volumes:
+  nour_pg_data:

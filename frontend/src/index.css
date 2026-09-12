@@ -1,0 +1,130 @@
+@import url("https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+table th,
+table td {
+  text-align: right;
+}
+
+select {
+  cursor: pointer;
+}
+
+.product-details-grid {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .product-details-grid {
+    grid-template-columns: 1fr !important;
+    gap: 25px !important;
+  }
+}
+
+/* =========================
+   ACCOUNT DASHBOARD
+========================= */
+
+.account-dashboard {
+  width: 100%;
+}
+
+.account-dashboard-layout {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* =========================
+   TABLET / MOBILE
+========================= */
+
+@media (max-width: 900px) {
+  .account-dashboard-layout {
+    flex-direction: column !important;
+    gap: 16px !important;
+    padding: 0 16px !important;
+  }
+
+  .account-dashboard-layout > * {
+    width: 100% !important;
+    max-width: 100%;
+  }
+
+  .account-dashboard-layout > div:last-child {
+    min-width: 0;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 600px) {
+  .account-dashboard {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .account-dashboard-layout {
+    padding: 25px 30px !important;
+    gap: 14px !important;
+  }
+
+  .account-dashboard h2 {
+    font-size: 1.3rem !important;
+    margin-bottom: 18px !important;
+  }
+
+  .account-kpis {
+    gap: 10px !important;
+    margin-bottom: 22px !important;
+  }
+
+  .account-kpis > * {
+    min-width: 0;
+  }
+
+  .account-dashboard h3 {
+    font-size: 1rem !important;
+    margin-bottom: 12px !important;
+  }
+
+  .account-profile-form {
+    max-width: 100% !important;
+  }
+}
+
+/* =========================
+   VERY SMALL MOBILE
+========================= */
+
+@media (max-width: 400px) {
+  .account-kpis {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+
+.mobile-search-button {
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .mobile-search-button {
+    display: flex !important;
+  }
+}
