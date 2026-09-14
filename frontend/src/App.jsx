@@ -1853,7 +1853,7 @@ function FeaturedProductsSlider({
             color: C.ivory
           }}
         >
-          منتجات مميزة
+           احدث الاضافات
         </h2>
 
         <div
