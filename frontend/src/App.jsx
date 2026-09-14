@@ -1211,10 +1211,16 @@ function MobileNav({ open, onClose, setView, setSearch }) {
 function Hero({ setView }) {
   return (
     <section
-      style={{
+     style={{
         position: "relative",
         overflow: "hidden",
-        borderBottom: `1px solid ${C.line}`
+        borderBottom: "1px solid ${C.line}",
+        // minHeight: 620,
+        // backgroundImage: `
+        //   url("/images/nour-store-hero.jpg")
+        // `,
+        // backgroundSize: "cover",
+        // backgroundPosition: "center"
       }}
     >
       <div
