@@ -5,12 +5,12 @@ import {
   ShoppingCart, Search, User, Menu, X, Star, Plus, Minus, Trash2, RotateCcw,
   LayoutDashboard, Package, Users as UsersIcon, LogOut, ChevronLeft,
   ShoppingBag, Shirt, Gem, Droplet, Home as HomeIcon, Footprints,
-  Pencil,UserRound,Paintbrush,Gamepad2,Wand2,
-   Mail, Lock, LogIn, UserPlus, ClipboardList,
+  Pencil, UserRound, Paintbrush, Gamepad2, Wand2,
+  Mail, Lock, LogIn, UserPlus, ClipboardList,
   Clock, Truck, CheckCircle2, XCircle, DollarSign, TrendingUp, Save,
   Loader2, CreditCard, ChevronRight, Zap, ShieldCheck,
   Headphones, Facebook,
-  Instagram,  Sparkles,
+  Instagram, Sparkles,
   MessageCircle,
   Banknote,
   RefreshCcw
@@ -517,8 +517,8 @@ function Header({
       >
         {/* Mobile Menu */}
         <button
-  className="md:hidden"
-              onClick={() => setMobileOpen(true)}
+          className="md:hidden"
+          onClick={() => setMobileOpen(true)}
           style={{
             background: "transparent",
             border: 0,
@@ -690,7 +690,7 @@ function Header({
                   zIndex: 100
                 }}
               > */}
-                {/* {searchHistory.map((term) => (
+          {/* {searchHistory.map((term) => (
                   <button
                     key={term}
                     onMouseDown={(e) => {
@@ -717,7 +717,7 @@ function Header({
                     {term}
                   </button>
                 ))} */}
-{/* 
+          {/* 
                 <button
                   onMouseDown={(e) => {
                     e.preventDefault();
@@ -748,7 +748,7 @@ function Header({
 
           {/* Mobile Search Button */}
           <button
-  className="mobile-search-button"
+            className="mobile-search-button"
             onClick={() => {
               setMobileSearchOpen((v) => !v);
               setTimeout(() => {
@@ -945,13 +945,13 @@ function Header({
 
       {/* Mobile Search */}
       {mobileSearchOpen && (
-    <div
-  className="md:hidden"
-  style={{
-    padding: "0 16px 12px",
-    position: "relative"
-  }}
->
+        <div
+          className="md:hidden"
+          style={{
+            padding: "0 16px 12px",
+            position: "relative"
+          }}
+        >
           <div
             style={{
               display: "flex",
@@ -1093,7 +1093,7 @@ function Header({
     </header>
   );
 }
-function MenuLink({ children, onClick, danger,setSearch }) {
+function MenuLink({ children, onClick, danger, setSearch }) {
   return (
     <button
       onClick={onClick}
@@ -1122,7 +1122,7 @@ function MenuLink({ children, onClick, danger,setSearch }) {
 }
 
 function MobileNav({ open, onClose, setView, setSearch }) {
-    if (!open) return null;
+  if (!open) return null;
 
   return (
     <div
@@ -1165,22 +1165,22 @@ function MobileNav({ open, onClose, setView, setSearch }) {
         <button
           key={k}
           onClick={() => {
-  if (k === "home" || k === "shop") {
-    setSearch("");
-  }
+            if (k === "home" || k === "shop") {
+              setSearch("");
+            }
 
-  setView(k);
+            setView(k);
 
-  if (k === "home") {
-    window.history.pushState({}, "", "/");
-  }
+            if (k === "home") {
+              window.history.pushState({}, "", "/");
+            }
 
-  if (k === "shop") {
-    window.history.pushState({}, "", "/shop");
-  }
+            if (k === "shop") {
+              window.history.pushState({}, "", "/shop");
+            }
 
-  onClose();
-}}
+            onClose();
+          }}
           style={{
             display: "block",
             width: "100%",
@@ -1827,8 +1827,9 @@ function FeaturedProductsSlider({
     );
   }
 
-  const featured = products.slice(0, 8);
-
+  const featured = products
+    .filter((p) => p.isActive === true)
+    .slice(0, 8);
   return (
     <section
       style={{
@@ -2005,9 +2006,9 @@ function Shop({
   openProduct
 }) {
   const filtered = useMemo(() => {
-  let list = products.filter(
-    (p) => p.isActive === true
-  );
+    let list = products.filter(
+      (p) => p.isActive === true
+    );
 
     if (catFilter !== "الكل")
       list = list.filter(
@@ -2559,7 +2560,7 @@ function Footer() {
           © 2026 Nour Store. جميع الحقوق محفوظة.
         </div>
       </div>
-      
+
     </footer>
   );
 }
@@ -4857,6 +4858,9 @@ function AdminDashboard({
                       }}
                     >
                       <th style={{ padding: 14 }}>
+                        الصورة
+                      </th>
+                      <th style={{ padding: 14 }}>
                         المنتج
                       </th>
 
@@ -4885,6 +4889,24 @@ function AdminDashboard({
                           color: C.ivory
                         }}
                       >
+                        <td
+                          style={{
+                            padding: 10
+                          }}
+                        >
+                          <img
+                            src={p.image}
+                            alt={p.name}
+                            style={{
+                              width: 60,
+                              height: 60,
+                              objectFit: "cover",
+                              borderRadius: 6,
+                              border: `1px solid ${C.line}`,
+                              display: "block"
+                            }}
+                          />
+                        </td>
                         <td
                           style={{
                             padding: 14,
@@ -6453,27 +6475,27 @@ export default function App() {
       ]);
     }
   };
-const deleteProduct = async (id) => {
-  try {
-    const d = await api.del(`/products/${id}`);
+  const deleteProduct = async (id) => {
+    try {
+      const d = await api.del(`/products/${id}`);
 
-    setProducts((prev) =>
-      prev.map((p) =>
-        p.id === id
-          ? d.product
-          : p
-      )
-    );
+      setProducts((prev) =>
+        prev.map((p) =>
+          p.id === id
+            ? d.product
+            : p
+        )
+      );
 
-    notify("تم حذف المنتج بنجاح 🗑️");
-  } catch (err) {
-    console.error(err);
+      notify("تم حذف المنتج بنجاح 🗑️");
+    } catch (err) {
+      console.error(err);
 
-    notify(
-      err.message || "تعذر حذف المنتج"
-    );
-  }
-};
+      notify(
+        err.message || "تعذر حذف المنتج"
+      );
+    }
+  };
   const reactivateProduct = async (id) => {
     const d = await api.put(
       `/products/${id}`,
@@ -6570,25 +6592,25 @@ const deleteProduct = async (id) => {
         color: C.ivory
       }}
     ><Header
-  view={view}
-  setView={setView}
-  cartCount={cartCount}
-  onOpenCart={() =>
-    setCartOpen(true)
-  }
-  currentUser={currentUser}
-  onLogout={logout}
-  setMobileOpen={setMobileOpen}
-  search={search}
-  setSearch={setSearch}
-/>
+        view={view}
+        setView={setView}
+        cartCount={cartCount}
+        onOpenCart={() =>
+          setCartOpen(true)
+        }
+        currentUser={currentUser}
+        onLogout={logout}
+        setMobileOpen={setMobileOpen}
+        search={search}
+        setSearch={setSearch}
+      />
 
-<MobileNav
-  open={mobileOpen}
-  onClose={() => setMobileOpen(false)}
-  setView={setView}
-  setSearch={setSearch}
-/>
+      <MobileNav
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        setView={setView}
+        setSearch={setSearch}
+      />
       {view === "home" && (
         <>
           <Hero
@@ -6660,44 +6682,44 @@ const deleteProduct = async (id) => {
             />
           </section>
         ) : selectedProduct ? (
-         <ProductDetails
-  product={selectedProduct}
-  onAdd={addToCart}
-  onBack={() => {
-    setSearch("");
+          <ProductDetails
+            product={selectedProduct}
+            onAdd={addToCart}
+            onBack={() => {
+              setSearch("");
 
-    if (productPreviousView === "home") {
-      setView("home");
+              if (productPreviousView === "home") {
+                setView("home");
 
-      window.history.pushState(
-        {},
-        "",
-        "/"
-      );
+                window.history.pushState(
+                  {},
+                  "",
+                  "/"
+                );
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth"
+                });
 
-      return;
-    }
+                return;
+              }
 
-    setCatFilter(productPreviousCategory || "الكل");
-    setView("shop");
+              setCatFilter(productPreviousCategory || "الكل");
+              setView("shop");
 
-    window.history.pushState(
-      {},
-      "",
-      "/shop"
-    );
+              window.history.pushState(
+                {},
+                "",
+                "/shop"
+              );
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }}
-/>
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+              });
+            }}
+          />
         ) : (
           <section
             style={{
