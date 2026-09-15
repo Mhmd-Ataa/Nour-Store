@@ -1416,19 +1416,20 @@ function ProductCard({ p, onAdd, onOpen }) {
           />
         )}
 
-        <div
-          style={{
-            position: "absolute",
-            bottom: 12,
-            left: 12,
-            right: 12,
-            opacity: hover ? 1 : 0,
-            transform: hover
-              ? "translateY(0)"
-              : "translateY(10px)",
-            transition: ".2s"
-          }}
-        >
+       <div
+  className="product-card-add"
+  style={{
+    position: "absolute",
+    bottom: 12,
+    left: 12,
+    right: 12,
+    opacity: hover ? 1 : 0,
+    transform: hover
+      ? "translateY(0)"
+      : "translateY(10px)",
+    transition: ".2s"
+  }}
+>
           <button
             onClick={(e) => {
               e.stopPropagation();

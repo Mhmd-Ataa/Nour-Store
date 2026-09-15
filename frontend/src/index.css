@@ -128,3 +128,9 @@ select {
     display: flex !important;
   }
 }
+@media (max-width: 767px) {
+  .product-card-add {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+}
