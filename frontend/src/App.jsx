@@ -650,22 +650,22 @@ function Header({
 
           <input
             value={search}
-  onChange={(e) => {
-  const value = e.target.value;
+            onChange={(e) => {
+              const value = e.target.value;
 
-  if (value.trim() && !search.trim()) {
-    setPreviousCategory(catFilter);
-    setCatFilter("الكل");
-    setProductsPage(1);
-  }
+              if (value.trim() && !search.trim()) {
+                setPreviousCategory(catFilter);
+                setCatFilter("الكل");
+                setProductsPage(1);
+              }
 
-  if (!value.trim() && search.trim()) {
-    setCatFilter(previousCategory);
-    setProductsPage(1);
-  }
+              if (!value.trim() && search.trim()) {
+                setCatFilter(previousCategory);
+                setProductsPage(1);
+              }
 
-  setSearch(value);
-}}
+              setSearch(value);
+            }}
             onFocus={() => {
               setSearchFocused(true);
             }}
@@ -1001,22 +1001,22 @@ function Header({
               autoFocus
               value={search}
               onChange={(e) => {
-  const value = e.target.value;
+                const value = e.target.value;
 
-  if (value.trim() && !search.trim()) {
-    setPreviousCategory(catFilter);
-    setCatFilter("الكل");
-    setProductsPage(1);
-  }
+                if (value.trim() && !search.trim()) {
+                  setPreviousCategory(catFilter);
+                  setCatFilter("الكل");
+                  setProductsPage(1);
+                }
 
-  if (!value.trim() && search.trim()) {
-    setCatFilter(previousCategory);
-    setProductsPage(1);
-  }
+                if (!value.trim() && search.trim()) {
+                  setCatFilter(previousCategory);
+                  setProductsPage(1);
+                }
 
-  setSearch(value);
-  setView("shop");
-}}
+                setSearch(value);
+                setView("shop");
+              }}
               onFocus={() => {
                 setSearchFocused(true);
               }}
@@ -1241,15 +1241,15 @@ function MobileNav({ open, onClose, setView, setSearch }) {
 function Hero({ setView }) {
   return (
     <section
-     style={{
+      style={{
         position: "relative",
         overflow: "hidden",
         borderBottom: "1px solid ${C.line}",
         // minHeight: 620,
-      //    backgroundImage: `
-      //      url("/images/nour-store-hero.jpg")`,
-      //   backgroundSize: "cover",
-      //  backgroundPosition: "center"
+        //    backgroundImage: `
+        //      url("/images/nour-store-hero.jpg")`,
+        //   backgroundSize: "cover",
+        //  backgroundPosition: "center"
       }}
     >
       <div
@@ -1416,44 +1416,7 @@ function ProductCard({ p, onAdd, onOpen }) {
           />
         )}
 
-       <div
-  className="product-card-add"
-  style={{
-    position: "absolute",
-    bottom: 12,
-    left: 12,
-    right: 12,
-    opacity: hover ? 1 : 0,
-    transform: hover
-      ? "translateY(0)"
-      : "translateY(10px)",
-    transition: ".2s"
-  }}
->
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onAdd(p);
-            }} style={{
-              width: "100%",
-              background: C.ink,
-              color: C.ivory,
-              border: `1px solid ${C.gold}`,
-              padding: 11,
-              borderRadius: 4,
-              fontWeight: 700,
-              fontSize: ".8rem",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 8,
-              cursor: "pointer"
-            }}
-          >
-            <ShoppingCart size={14} />
-            أضيفي للسلة
-          </button>
-        </div>
+        
       </div>
 
       <div
@@ -1510,7 +1473,45 @@ function ProductCard({ p, onAdd, onOpen }) {
               {fmt(p.old)}
             </span>
           )}
+
+
         </div>
+                  <div
+  className="product-card-add"
+  style={{
+    marginTop: 12,
+    opacity: hover ? 1 : 0,
+    transform: hover
+      ? "translateY(0)"
+      : "translateY(10px)",
+    transition: ".2s"
+  }}
+>
+  <button
+    onClick={(e) => {
+      e.stopPropagation();
+      onAdd(p);
+    }}
+    style={{
+      width: "100%",
+      background: C.ink,
+      color: C.ivory,
+      border: `1px solid ${C.gold}`,
+      padding: 9,
+      borderRadius: 4,
+      fontWeight: 700,
+      fontSize: ".7rem",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+      cursor: "pointer"
+    }}
+  >
+    <ShoppingCart size={14} />
+    أضيفي للسلة
+  </button>
+</div>
       </div>
     </div>
   );
@@ -1889,7 +1890,7 @@ function FeaturedProductsSlider({
             color: C.ivory
           }}
         >
-           أحدث الاضافات
+          أحدث الاضافات
         </h2>
 
         <div
@@ -2080,18 +2081,17 @@ function Shop({
           {["الكل", ...CATS].map((c) => (
             <button
               key={c}
- onClick={() => {
-  setSearch("");
-  setCatFilter(c);
-  setProductsPage(1);
-}}           style={{
+              onClick={() => {
+                setSearch("");
+                setCatFilter(c);
+                setProductsPage(1);
+              }} style={{
                 padding: "9px 20px",
                 borderRadius: 999,
-                border: `1px solid ${
-                  catFilter === c
+                border: `1px solid ${catFilter === c
                     ? C.gold
                     : C.line
-                }`,
+                  }`,
                 background:
                   catFilter === c
                     ? C.gold
@@ -2151,100 +2151,99 @@ function Shop({
             </div>
 
             {/* Pagination */}
-           {/* Pagination */}
-{productsPagination?.totalPages > 1 && (
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: 8,
-      marginTop: 45,
-      flexWrap: "wrap"
-    }}
-  >
-    {/* السابق */}
-    <button
-      disabled={!productsPagination.hasPreviousPage}
-      onClick={() =>
-        setProductsPage((prev) => prev - 1)
-      }
-      style={{
-        padding: "9px 16px",
-        borderRadius: 999,
-        border: `1px solid ${C.line}`,
-        background: "transparent",
-        color: C.ivory,
-        cursor: productsPagination.hasPreviousPage
-          ? "pointer"
-          : "not-allowed",
-        opacity: productsPagination.hasPreviousPage
-          ? 1
-          : 0.5
-      }}
-    >
-      السابق
-    </button>
+            {/* Pagination */}
+            {productsPagination?.totalPages > 1 && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 8,
+                  marginTop: 45,
+                  flexWrap: "wrap"
+                }}
+              >
+                {/* السابق */}
+                <button
+                  disabled={!productsPagination.hasPreviousPage}
+                  onClick={() =>
+                    setProductsPage((prev) => prev - 1)
+                  }
+                  style={{
+                    padding: "9px 16px",
+                    borderRadius: 999,
+                    border: `1px solid ${C.line}`,
+                    background: "transparent",
+                    color: C.ivory,
+                    cursor: productsPagination.hasPreviousPage
+                      ? "pointer"
+                      : "not-allowed",
+                    opacity: productsPagination.hasPreviousPage
+                      ? 1
+                      : 0.5
+                  }}
+                >
+                  السابق
+                </button>
 
-    {/* أرقام الصفحات */}
-    {Array.from(
-      {
-        length: productsPagination.totalPages
-      },
-      (_, index) => index + 1
-    ).map((page) => (
-      <button
-        key={page}
-        onClick={() => setProductsPage(page)}
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: "50%",
-          border: `1px solid ${
-            productsPage === page
-              ? C.gold
-              : C.line
-          }`,
-          background:
-            productsPage === page
-              ? C.gold
-              : "transparent",
-          color:
-            productsPage === page
-              ? C.ink
-              : C.ivoryDim,
-          cursor: "pointer",
-          fontWeight: 600
-        }}
-      >
-        {page}
-      </button>
-    ))}
+                {/* أرقام الصفحات */}
+                {Array.from(
+                  {
+                    length: productsPagination.totalPages
+                  },
+                  (_, index) => index + 1
+                ).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => setProductsPage(page)}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: "50%",
+                      border: `1px solid ${productsPage === page
+                          ? C.gold
+                          : C.line
+                        }`,
+                      background:
+                        productsPage === page
+                          ? C.gold
+                          : "transparent",
+                      color:
+                        productsPage === page
+                          ? C.ink
+                          : C.ivoryDim,
+                      cursor: "pointer",
+                      fontWeight: 600
+                    }}
+                  >
+                    {page}
+                  </button>
+                ))}
 
-    {/* التالي */}
-    <button
-      disabled={!productsPagination.hasNextPage}
-      onClick={() =>
-        setProductsPage((prev) => prev + 1)
-      }
-      style={{
-        padding: "9px 16px",
-        borderRadius: 999,
-        border: `1px solid ${C.line}`,
-        background: "transparent",
-        color: C.ivory,
-        cursor: productsPagination.hasNextPage
-          ? "pointer"
-          : "not-allowed",
-        opacity: productsPagination.hasNextPage
-          ? 1
-          : 0.5
-      }}
-    >
-      التالي
-    </button>
-  </div>
-)}
+                {/* التالي */}
+                <button
+                  disabled={!productsPagination.hasNextPage}
+                  onClick={() =>
+                    setProductsPage((prev) => prev + 1)
+                  }
+                  style={{
+                    padding: "9px 16px",
+                    borderRadius: 999,
+                    border: `1px solid ${C.line}`,
+                    background: "transparent",
+                    color: C.ivory,
+                    cursor: productsPagination.hasNextPage
+                      ? "pointer"
+                      : "not-allowed",
+                    opacity: productsPagination.hasNextPage
+                      ? 1
+                      : 0.5
+                  }}
+                >
+                  التالي
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>
@@ -5635,22 +5634,22 @@ export default function App() {
 
   const [catFilter, setCatFilter] =
     useState("الكل");
-const [previousCategory, setPreviousCategory] = useState("الكل");
+  const [previousCategory, setPreviousCategory] = useState("الكل");
   const [toast, setToast] =
     useState("");
 
   const [products, setProducts] = useState([]);
 
-const [productsPage, setProductsPage] = useState(1);
+  const [productsPage, setProductsPage] = useState(1);
 
-const [productsPagination, setProductsPagination] = useState({
-  page: 1,
-  limit: 10,
-  total: 0,
-  totalPages: 0,
-  hasNextPage: false,
-  hasPreviousPage: false,
-});
+  const [productsPagination, setProductsPagination] = useState({
+    page: 1,
+    limit: 10,
+    total: 0,
+    totalPages: 0,
+    hasNextPage: false,
+    hasPreviousPage: false,
+  });
   const [productsLoading, setProductsLoading] =
     useState(true);
 
@@ -5887,56 +5886,56 @@ const [productsPagination, setProductsPagination] = useState({
 
   /* ============================= LOAD PRODUCTS ============================= */
 
-useEffect(() => {
-  const loadProducts = async () => {
-    try {
-      setProductsLoading(true);     
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        setProductsLoading(true);
 
-      const params = new URLSearchParams();
+        const params = new URLSearchParams();
 
-      params.set("page", productsPage);
-      params.set("limit", 8);
+        params.set("page", productsPage);
+        params.set("limit", 8);
 
-      if (
-  catFilter &&
-  catFilter !== "الكل" &&
-  !search.trim()
-) {
-  params.set("category", catFilter);
-}
+        if (
+          catFilter &&
+          catFilter !== "الكل" &&
+          !search.trim()
+        ) {
+          params.set("category", catFilter);
+        }
 
-if (search.trim()) {
-  params.set("search", search.trim());
-}
+        if (search.trim()) {
+          params.set("search", search.trim());
+        }
 
-      const url = `/products?${params.toString()}`;
-
-
-      const d = await api.get(url);
-
-      setProducts(d.products);
-      setProductsPagination(d.pagination);
-
-    } catch (err) {
-      console.error("PRODUCTS ERROR:", err);
-      notify(err.message);
-    } finally {
-      setProductsLoading(false);
-    }
-  };
-
-  if (!authChecked) return;
+        const url = `/products?${params.toString()}`;
 
 
+        const d = await api.get(url);
 
-  loadProducts();
-}, [
-  currentUser,
-  authChecked,
-  productsPage,
-  catFilter,
-  search,
-]);
+        setProducts(d.products);
+        setProductsPagination(d.pagination);
+
+      } catch (err) {
+        console.error("PRODUCTS ERROR:", err);
+        notify(err.message);
+      } finally {
+        setProductsLoading(false);
+      }
+    };
+
+    if (!authChecked) return;
+
+
+
+    loadProducts();
+  }, [
+    currentUser,
+    authChecked,
+    productsPage,
+    catFilter,
+    search,
+  ]);
 
   /* ============================= RESTORE SESSION ============================= */
 
@@ -6754,23 +6753,23 @@ if (search.trim()) {
         color: C.ivory
       }}
     ><Header
-  view={view}
-  setView={setView}
-  cartCount={cartCount}
-  onOpenCart={() =>
-    setCartOpen(true)
-  }
-  currentUser={currentUser}
-  onLogout={logout}
-  setMobileOpen={setMobileOpen}
-  search={search}
-  setSearch={setSearch}
-  catFilter={catFilter}
-  setCatFilter={setCatFilter}
-  previousCategory={previousCategory}
-  setPreviousCategory={setPreviousCategory}
-  setProductsPage={setProductsPage}
-/>
+        view={view}
+        setView={setView}
+        cartCount={cartCount}
+        onOpenCart={() =>
+          setCartOpen(true)
+        }
+        currentUser={currentUser}
+        onLogout={logout}
+        setMobileOpen={setMobileOpen}
+        search={search}
+        setSearch={setSearch}
+        catFilter={catFilter}
+        setCatFilter={setCatFilter}
+        previousCategory={previousCategory}
+        setPreviousCategory={setPreviousCategory}
+        setProductsPage={setProductsPage}
+      />
       <MobileNav
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
@@ -6824,8 +6823,8 @@ if (search.trim()) {
           setView={setView}
           openProduct={openProduct}
           productsPage={productsPage}
-setProductsPage={setProductsPage}
-productsPagination={productsPagination}
+          setProductsPage={setProductsPage}
+          productsPagination={productsPagination}
         />
       )}
 
