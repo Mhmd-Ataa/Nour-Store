@@ -28,18 +28,71 @@ const uploadToCloudinary = (buffer) => {
 // GET /api/products
 router.get("/", async (req, res) => {
   try {
-    const products = await prisma.product.findMany({
-      where: {
-        isActive: true,
-      },
-      orderBy: {
-        id: "desc",
+    // الصفحة الحالية
+    const page = Math.max(Number(req.query.page) || 1, 1);
+
+    // عدد المنتجات في الصفحة
+    const limit = Math.min(
+      Math.max(Number(req.query.limit) || 8, 1),
+      50
+    );
+
+    // حساب عدد المنتجات التي سيتم تخطيها
+    const skip = (page - 1) * limit;
+
+    const where = {
+  isActive: true,
+};
+
+// فلترة حسب التصنيف
+// البحث عن المنتج - Global Search
+if (req.query.search) {
+  where.name = {
+    contains: String(req.query.search).trim(),
+    mode: "insensitive",
+  };
+}
+
+// فلترة حسب التصنيف - تعمل فقط بدون Search
+else if (req.query.category) {
+  where.cat = String(req.query.category).trim();
+}
+
+    // جلب المنتجات + العدد الكلي في نفس الوقت
+    const [products, total] = await Promise.all([
+      prisma.product.findMany({
+        where,
+        orderBy: {
+          id: "desc",
+        },
+        skip,
+        take: limit,
+      }),
+
+      prisma.product.count({
+        where,
+      }),
+    ]);
+
+    // إجمالي الصفحات
+    const totalPages = Math.ceil(total / limit);
+
+    res.json({
+      products,
+
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages,
+
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1,
       },
     });
-
-    res.json({ products });
   } catch (err) {
     console.error(err);
+
     res.status(500).json({
       message: "حدث خطأ في الخادم",
     });
@@ -455,4 +508,12 @@ router.delete(
   }
 );
 
+
+
+
+
 module.exports = router;
+
+
+
+

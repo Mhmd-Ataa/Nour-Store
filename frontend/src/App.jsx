@@ -432,7 +432,12 @@ function Header({
   onLogout,
   setMobileOpen,
   search,
-  setSearch
+  setSearch,
+  catFilter,
+  setCatFilter,
+  previousCategory,
+  setPreviousCategory,
+  setProductsPage
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
@@ -645,10 +650,22 @@ function Header({
 
           <input
             value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setView("shop");
-            }}
+  onChange={(e) => {
+  const value = e.target.value;
+
+  if (value.trim() && !search.trim()) {
+    setPreviousCategory(catFilter);
+    setCatFilter("الكل");
+    setProductsPage(1);
+  }
+
+  if (!value.trim() && search.trim()) {
+    setCatFilter(previousCategory);
+    setProductsPage(1);
+  }
+
+  setSearch(value);
+}}
             onFocus={() => {
               setSearchFocused(true);
             }}
@@ -984,9 +1001,22 @@ function Header({
               autoFocus
               value={search}
               onChange={(e) => {
-                setSearch(e.target.value);
-                setView("shop");
-              }}
+  const value = e.target.value;
+
+  if (value.trim() && !search.trim()) {
+    setPreviousCategory(catFilter);
+    setCatFilter("الكل");
+    setProductsPage(1);
+  }
+
+  if (!value.trim() && search.trim()) {
+    setCatFilter(previousCategory);
+    setProductsPage(1);
+  }
+
+  setSearch(value);
+  setView("shop");
+}}
               onFocus={() => {
                 setSearchFocused(true);
               }}
@@ -1216,11 +1246,10 @@ function Hero({ setView }) {
         overflow: "hidden",
         borderBottom: "1px solid ${C.line}",
         // minHeight: 620,
-        // backgroundImage: `
-        //   url("/images/nour-store-hero.jpg")
-        // `,
-        // backgroundSize: "cover",
-        // backgroundPosition: "center"
+      //    backgroundImage: `
+      //      url("/images/nour-store-hero.jpg")`,
+      //   backgroundSize: "cover",
+      //  backgroundPosition: "center"
       }}
     >
       <div
@@ -1859,7 +1888,7 @@ function FeaturedProductsSlider({
             color: C.ivory
           }}
         >
-           احدث الاضافات
+           أحدث الاضافات
         </h2>
 
         <div
@@ -1999,7 +2028,6 @@ function FeaturedProductsSlider({
     </section>
   );
 }
-
 function Shop({
   products,
   loading,
@@ -2009,26 +2037,12 @@ function Shop({
   search,
   setSearch,
   setView,
-  openProduct
+  openProduct,
+  productsPage,
+  setProductsPage,
+  productsPagination
 }) {
-  const filtered = useMemo(() => {
-    let list = products.filter(
-      (p) => p.isActive === true
-    );
-
-    if (catFilter !== "الكل")
-      list = list.filter(
-        (p) => p.cat === catFilter
-      );
-
-    if (search)
-      list = list.filter((p) =>
-        p.name.includes(search)
-      );
-
-    return list;
-  }, [products, catFilter, search]);
-
+  const filtered = products;
   return (
     <section
       style={{
@@ -2052,9 +2066,10 @@ function Shop({
             color: C.ivory
           }}
         >
-          منتجات مميزة
+          منتجات المتجر
         </h2>
 
+        {/* Categories */}
         <div
           className="flex gap-2 flex-wrap"
           style={{
@@ -2064,16 +2079,18 @@ function Shop({
           {["الكل", ...CATS].map((c) => (
             <button
               key={c}
-              onClick={() => {
-                setSearch("");
-                setCatFilter(c);
-              }} style={{
+ onClick={() => {
+  setSearch("");
+  setCatFilter(c);
+  setProductsPage(1);
+}}           style={{
                 padding: "9px 20px",
                 borderRadius: 999,
-                border: `1px solid ${catFilter === c
-                  ? C.gold
-                  : C.line
-                  }`,
+                border: `1px solid ${
+                  catFilter === c
+                    ? C.gold
+                    : C.line
+                }`,
                 background:
                   catFilter === c
                     ? C.gold
@@ -2092,6 +2109,7 @@ function Shop({
           ))}
         </div>
 
+        {/* Products */}
         {loading ? (
           <div
             style={{
@@ -2113,25 +2131,125 @@ function Shop({
             لا توجد منتجات مطابقة لبحثك.
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-            {filtered.map((p) => (
-              <ProductCard
-                key={p.id}
-                p={p}
-                onAdd={onAdd}
-                onOpen={(id) => {
+          <>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+              {filtered.map((p) => (
+                <ProductCard
+                  key={p.id}
+                  p={p}
+                  onAdd={onAdd}
+                  onOpen={(id) => {
+                    openProduct(
+                      id,
+                      "shop",
+                      catFilter
+                    );
+                  }}
+                />
+              ))}
+            </div>
 
-                  openProduct(id, "shop", catFilter);
-                }}
-              />
-            ))}
-          </div>
+            {/* Pagination */}
+           {/* Pagination */}
+{productsPagination?.totalPages > 1 && (
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: 8,
+      marginTop: 45,
+      flexWrap: "wrap"
+    }}
+  >
+    {/* السابق */}
+    <button
+      disabled={!productsPagination.hasPreviousPage}
+      onClick={() =>
+        setProductsPage((prev) => prev - 1)
+      }
+      style={{
+        padding: "9px 16px",
+        borderRadius: 999,
+        border: `1px solid ${C.line}`,
+        background: "transparent",
+        color: C.ivory,
+        cursor: productsPagination.hasPreviousPage
+          ? "pointer"
+          : "not-allowed",
+        opacity: productsPagination.hasPreviousPage
+          ? 1
+          : 0.5
+      }}
+    >
+      السابق
+    </button>
+
+    {/* أرقام الصفحات */}
+    {Array.from(
+      {
+        length: productsPagination.totalPages
+      },
+      (_, index) => index + 1
+    ).map((page) => (
+      <button
+        key={page}
+        onClick={() => setProductsPage(page)}
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: "50%",
+          border: `1px solid ${
+            productsPage === page
+              ? C.gold
+              : C.line
+          }`,
+          background:
+            productsPage === page
+              ? C.gold
+              : "transparent",
+          color:
+            productsPage === page
+              ? C.ink
+              : C.ivoryDim,
+          cursor: "pointer",
+          fontWeight: 600
+        }}
+      >
+        {page}
+      </button>
+    ))}
+
+    {/* التالي */}
+    <button
+      disabled={!productsPagination.hasNextPage}
+      onClick={() =>
+        setProductsPage((prev) => prev + 1)
+      }
+      style={{
+        padding: "9px 16px",
+        borderRadius: 999,
+        border: `1px solid ${C.line}`,
+        background: "transparent",
+        color: C.ivory,
+        cursor: productsPagination.hasNextPage
+          ? "pointer"
+          : "not-allowed",
+        opacity: productsPagination.hasNextPage
+          ? 1
+          : 0.5
+      }}
+    >
+      التالي
+    </button>
+  </div>
+)}
+          </>
         )}
       </div>
     </section>
   );
 }
-
 
 function CategoryStrip({ setView, setCatFilter }) {
   return (
@@ -5516,13 +5634,22 @@ export default function App() {
 
   const [catFilter, setCatFilter] =
     useState("الكل");
-
+const [previousCategory, setPreviousCategory] = useState("الكل");
   const [toast, setToast] =
     useState("");
 
-  const [products, setProducts] =
-    useState([]);
+  const [products, setProducts] = useState([]);
 
+const [productsPage, setProductsPage] = useState(1);
+
+const [productsPagination, setProductsPagination] = useState({
+  page: 1,
+  limit: 10,
+  total: 0,
+  totalPages: 0,
+  hasNextPage: false,
+  hasPreviousPage: false,
+});
   const [productsLoading, setProductsLoading] =
     useState(true);
 
@@ -5759,28 +5886,56 @@ export default function App() {
 
   /* ============================= LOAD PRODUCTS ============================= */
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        const endpoint =
-          currentUser?.role === "admin"
-            ? "/products/admin"
-            : "/products";
+useEffect(() => {
+  const loadProducts = async () => {
+    try {
+      setProductsLoading(true);     
 
-        const d = await api.get(endpoint);
+      const params = new URLSearchParams();
 
-        setProducts(d.products);
-      } catch (err) {
-        notify(err.message);
-      } finally {
-        setProductsLoading(false);
-      }
-    };
+      params.set("page", productsPage);
+      params.set("limit", 8);
 
-    if (!authChecked) return;
+      if (
+  catFilter &&
+  catFilter !== "الكل" &&
+  !search.trim()
+) {
+  params.set("category", catFilter);
+}
 
-    loadProducts();
-  }, [currentUser, authChecked]);
+if (search.trim()) {
+  params.set("search", search.trim());
+}
+
+      const url = `/products?${params.toString()}`;
+
+
+      const d = await api.get(url);
+
+      setProducts(d.products);
+      setProductsPagination(d.pagination);
+
+    } catch (err) {
+      console.error("PRODUCTS ERROR:", err);
+      notify(err.message);
+    } finally {
+      setProductsLoading(false);
+    }
+  };
+
+  if (!authChecked) return;
+
+
+
+  loadProducts();
+}, [
+  currentUser,
+  authChecked,
+  productsPage,
+  catFilter,
+  search,
+]);
 
   /* ============================= RESTORE SESSION ============================= */
 
@@ -6598,19 +6753,23 @@ export default function App() {
         color: C.ivory
       }}
     ><Header
-        view={view}
-        setView={setView}
-        cartCount={cartCount}
-        onOpenCart={() =>
-          setCartOpen(true)
-        }
-        currentUser={currentUser}
-        onLogout={logout}
-        setMobileOpen={setMobileOpen}
-        search={search}
-        setSearch={setSearch}
-      />
-
+  view={view}
+  setView={setView}
+  cartCount={cartCount}
+  onOpenCart={() =>
+    setCartOpen(true)
+  }
+  currentUser={currentUser}
+  onLogout={logout}
+  setMobileOpen={setMobileOpen}
+  search={search}
+  setSearch={setSearch}
+  catFilter={catFilter}
+  setCatFilter={setCatFilter}
+  previousCategory={previousCategory}
+  setPreviousCategory={setPreviousCategory}
+  setProductsPage={setProductsPage}
+/>
       <MobileNav
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
@@ -6663,6 +6822,9 @@ export default function App() {
           setSearch={setSearch}
           setView={setView}
           openProduct={openProduct}
+          productsPage={productsPage}
+setProductsPage={setProductsPage}
+productsPagination={productsPagination}
         />
       )}
 
