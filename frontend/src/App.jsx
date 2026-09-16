@@ -2044,8 +2044,7 @@ function Shop({
   setProductsPage,
   productsPagination
 }) {
-  const filtered = products;
-  return (
+const filtered = products.filter((p) => p.isActive === true);  return (
     <section
       style={{
         padding: "60px 0"
@@ -5884,59 +5883,78 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /* ============================= LOAD PRODUCTS ============================= */
+ /* ============================= LOAD PRODUCTS ============================= */
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        setProductsLoading(true);
+/* ============================= LOAD PRODUCTS ============================= */
 
-        const params = new URLSearchParams();
+useEffect(() => {
+  const loadProducts = async () => {
+    try {
+      setProductsLoading(true);
 
-        params.set("page", productsPage);
-        params.set("limit", 8);
+      const isAdminDashboard =
+        window.location.pathname.startsWith("/admin");
 
-        if (
-          catFilter &&
-          catFilter !== "الكل" &&
-          !search.trim()
-        ) {
-          params.set("category", catFilter);
-        }
-
-        if (search.trim()) {
-          params.set("search", search.trim());
-        }
-
-        const url = `/products?${params.toString()}`;
-
-
-        const d = await api.get(url);
+      // ================= ADMIN DASHBOARD =================
+      // الأدمن داشبورد يشوف كل المنتجات، حتى المخفية
+      if (
+        isAdminDashboard &&
+        currentUser?.role === "admin"
+      ) {
+        const d = await api.get("/products/admin");
 
         setProducts(d.products);
-        setProductsPagination(d.pagination);
+        setProductsPagination(null);
 
-      } catch (err) {
-        console.error("PRODUCTS ERROR:", err);
-        notify(err.message);
-      } finally {
-        setProductsLoading(false);
+        return;
       }
-    };
 
-    if (!authChecked) return;
+      // ================= PUBLIC WEBSITE =================
+      // الموقع، حتى لو المستخدم Admin، يشوف المنتجات النشطة فقط
+      // مع Pagination و Category و Search
 
+      const params = new URLSearchParams();
 
+      params.set("page", productsPage);
+      params.set("limit", 8);
 
-    loadProducts();
-  }, [
-    currentUser,
-    authChecked,
-    productsPage,
-    catFilter,
-    search,
-  ]);
+      if (
+        catFilter &&
+        catFilter !== "الكل" &&
+        !search.trim()
+      ) {
+        params.set("category", catFilter);
+      }
 
+      if (search.trim()) {
+        params.set("search", search.trim());
+      }
+
+      const url = `/products?${params.toString()}`;
+
+      const d = await api.get(url);
+
+      setProducts(d.products);
+      setProductsPagination(d.pagination);
+
+    } catch (err) {
+      console.error("PRODUCTS ERROR:", err);
+      notify(err.message);
+    } finally {
+      setProductsLoading(false);
+    }
+  };
+
+  if (!authChecked) return;
+
+  loadProducts();
+}, [
+  currentUser,
+  authChecked,
+  productsPage,
+  catFilter,
+  search,
+]);
   /* ============================= RESTORE SESSION ============================= */
 
   useEffect(() => {
@@ -6636,27 +6654,27 @@ export default function App() {
       ]);
     }
   };
-  const deleteProduct = async (id) => {
-    try {
-      const d = await api.del(`/products/${id}`);
+ const deleteProduct = async (id) => {
+  try {
+    const d = await api.del(`/products/${id}`);
 
-      setProducts((prev) =>
-        prev.map((p) =>
-          p.id === id
-            ? d.product
-            : p
-        )
-      );
+    setProducts((prev) =>
+      prev.map((p) =>
+        p.id === id
+          ? d.product
+          : p
+      )
+    );
 
-      notify("تم حذف المنتج بنجاح 🗑️");
-    } catch (err) {
-      console.error(err);
+    notify("تم حذف المنتج بنجاح 🗑️");
+  } catch (err) {
+    console.error(err);
 
-      notify(
-        err.message || "تعذر حذف المنتج"
-      );
-    }
-  };
+    notify(
+      err.message || "تعذر حذف المنتج"
+    );
+  }
+};
   const reactivateProduct = async (id) => {
     const d = await api.put(
       `/products/${id}`,
