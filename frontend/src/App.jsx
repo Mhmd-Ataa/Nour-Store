@@ -1431,6 +1431,7 @@ function Hero({ setView }) {
 
       {/* Content */}
       <div
+        key={current}
         className="hero-content"
         style={{
           position: "relative",
@@ -1443,6 +1444,7 @@ function Hero({ setView }) {
           gridTemplateColumns: "1fr 1fr",
           alignItems: "center",
           gap: 30,
+          animation: "heroSlide .7s ease both",
         }}
       >
         {/* الكلام */}
@@ -1451,7 +1453,6 @@ function Hero({ setView }) {
           className="hero-text"
           style={{
             textAlign: "right",
-            animation: "heroText .6s ease both",
           }}
         >
           <Eyebrow>{slide.eyebrow}</Eyebrow>
@@ -1493,7 +1494,6 @@ function Hero({ setView }) {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            animation: "heroImage .8s ease both",
             padding:"15px"
           }}
         >
@@ -1503,7 +1503,7 @@ function Hero({ setView }) {
             style={{
               width: "90%",
               maxWidth: 570,
-              height: "auto",
+              height: "280px",
               objectFit: "contain",
               display: "block",
               marginTop: "15px"
@@ -1562,27 +1562,18 @@ function Hero({ setView }) {
 
       <style>
         {`
-          @keyframes heroText {
-            from {
-              opacity: 0;
-              transform: translateX(-25px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
+        
+            @keyframes heroSlide {
+  from {
+    opacity: 0;
+    transform: translateX(120px);
+  }
 
-          @keyframes heroImage {
-            from {
-              opacity: 0;
-              transform: translateX(35px) scale(.96);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0) scale(1);
-            }
-          }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 
           @media (max-width: 767px) {
             .hero-content {
