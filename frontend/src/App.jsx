@@ -2069,45 +2069,76 @@ const filtered = products.filter((p) => p.isActive === true);  return (
         >
           منتجات المتجر
         </h2>
+{/* Categories */}
+<div
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 10,
+    marginBottom: 35,
+    flexWrap: "wrap"
+  }}
+>
+  {["الكل", ...CATS].map((c) => {
+    const active = catFilter === c;
 
-        {/* Categories */}
-        <div
-          className="flex gap-2 flex-wrap"
-          style={{
-            marginBottom: 30
-          }}
-        >
-          {["الكل", ...CATS].map((c) => (
-            <button
-              key={c}
-              onClick={() => {
-                setSearch("");
-                setCatFilter(c);
-                setProductsPage(1);
-              }} style={{
-                padding: "9px 20px",
-                borderRadius: 999,
-                border: `1px solid ${catFilter === c
-                    ? C.gold
-                    : C.line
-                  }`,
-                background:
-                  catFilter === c
-                    ? C.gold
-                    : "transparent",
-                color:
-                  catFilter === c
-                    ? C.ink
-                    : C.ivoryDim,
-                fontSize: ".85rem",
-                fontWeight: 600,
-                cursor: "pointer"
-              }}
-            >
-              {c}
-            </button>
-          ))}
-        </div>
+    return (
+      <button
+        key={c}
+        onClick={() => {
+          setSearch("");
+          setCatFilter(c);
+          setProductsPage(1);
+        }}
+        style={{
+          width: 150,
+          height: 44,
+          padding: 0,
+          borderRadius: 999,
+          border: `1px solid ${
+            active ? C.gold : C.line
+          }`,
+          background: active
+            ? C.gold
+            : "rgba(255,255,255,0.025)",
+          color: active
+            ? C.ink
+            : C.ivory,
+          fontSize: ".86rem",
+          fontWeight: active ? 700 : 500,
+          cursor: "pointer",
+          transition: "all .25s ease",
+          whiteSpace: "nowrap",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          boxShadow: active
+            ? "0 5px 18px rgba(0,0,0,.18)"
+            : "none"
+        }}
+        onMouseEnter={(e) => {
+          if (!active) {
+            e.currentTarget.style.borderColor = C.gold;
+            e.currentTarget.style.color = C.gold;
+            e.currentTarget.style.background =
+              "rgba(255,255,255,0.05)";
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!active) {
+            e.currentTarget.style.borderColor = C.line;
+            e.currentTarget.style.color = C.ivory;
+            e.currentTarget.style.background =
+              "rgba(255,255,255,0.025)";
+          }
+        }}
+      >
+        {c}
+      </button>
+    );
+  })}
+</div>
 
         {/* Products */}
         {loading ? (
