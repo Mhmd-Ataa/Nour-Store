@@ -123,7 +123,7 @@ const CAT_META = {
 
   "البرفانات والعطور": {
     icon: SprayCan,
-     grad:
+    grad:
       "radial-gradient(circle at 30% 20%, rgba(232,199,102,.20), transparent 55%), linear-gradient(160deg,#261B24,#120E12)"
   },
 
@@ -1305,8 +1305,8 @@ function Hero({ setView }) {
               margin: "22px 0 32px"
             }}
           >
-            تشكيلة مختارة بعناية من الأزياء، الإكسسوارات، الجمال،
-            ومستلزمات المنزل — جودة توثقين بها، وأسعار تُنصفك.
+            تشكيلة مختارة بعناية من الأزياء - الإكسسوارات  - مستحضرات التجميل  -  منتجات العناية بالبشرة
+          -  مستلزمات المنزل — جودة توثقين بها، وأسعار تُنصفك.
           </p>
 
           <div className="flex gap-3 flex-wrap">
@@ -2718,6 +2718,32 @@ function Footer() {
         >
           © 2026 Nour Store. جميع الحقوق محفوظة.
         </div>
+        <div
+          style={{
+            paddingTop: 20,
+            color: C.taupe,
+            fontSize: ".75rem"
+          }}
+        >
+         <div>
+  Designed & Developed by{" "}
+  <a
+    href="https://wa.me/201152357201"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      color: C.gold,
+      textDecoration: "none",
+      fontWeight: 600,
+      cursor: "pointer",
+    }}
+  >
+    Mohamed Ataa
+  </a>
+</div>
+
+        </div>
+
       </div>
 
     </footer>
