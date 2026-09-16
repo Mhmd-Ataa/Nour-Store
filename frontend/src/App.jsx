@@ -1244,18 +1244,23 @@ function MobileNav({ open, onClose, setView, setSearch }) {
 
 /* ============================= STORE PAGES ============================= */
 
+
+
+
 function Hero({ setView }) {
   return (
     <section
       style={{
         position: "relative",
         overflow: "hidden",
+        // minHeight:"600px",
         borderBottom: "1px solid ${C.line}",
-        // minHeight: 620,
-        //    backgroundImage: `
-        //      url("/images/nour-store-hero.jpg")`,
-        //   backgroundSize: "cover",
-        //  backgroundPosition: "center"
+        // backgroundImage:`
+        // url("/images/nour-store.png")`,
+        // backgroundSize: "contain",
+        // backgroundRepeat: "no-repeat",
+        // backgroundPosition: "center",
+
       }}
     >
       <div
@@ -1269,7 +1274,7 @@ function Hero({ setView }) {
           filter: "blur(10px)",
           top: -140,
           right: -100,
-          zIndex: 0
+          zIndex: 0,
         }}
       />
 
@@ -1280,7 +1285,9 @@ function Hero({ setView }) {
           zIndex: 1,
           maxWidth: 1240,
           margin: "0 auto",
-          padding: "70px 24px"
+          padding: "70px 24px",
+                  
+
         }}
       >
         <div>
@@ -1289,7 +1296,7 @@ function Hero({ setView }) {
             style={{
               ...display,
               fontSize: "clamp(2.1rem,4.4vw,3.6rem)",
-              lineHeight: 1.25,
+              lineHeight: 1.5,
               color: C.ivory
             }}
           >
@@ -1302,11 +1309,12 @@ function Hero({ setView }) {
             style={{
               color: C.ivoryDim,
               maxWidth: 460,
-              margin: "22px 0 32px"
+              margin: "20px 0 32px",
+              
             }}
           >
             تشكيلة مختارة بعناية من الأزياء - الإكسسوارات  - مستحضرات التجميل  -  منتجات العناية بالبشرة
-          -  مستلزمات المنزل — جودة توثقين بها، وأسعار تُنصفك.
+            -  مستلزمات المنزل — جودة توثقين بها، وأسعار تُنصفك.
           </p>
 
           <div className="flex gap-3 flex-wrap">
@@ -2725,22 +2733,22 @@ function Footer() {
             fontSize: ".75rem"
           }}
         >
-         <div>
-  Designed & Developed by{" "}
-  <a
-    href="https://wa.me/201152357201"
-    target="_blank"
-    rel="noopener noreferrer"
-    style={{
-      color: C.gold,
-      textDecoration: "none",
-      fontWeight: 600,
-      cursor: "pointer",
-    }}
-  >
-    Mohamed Ataa
-  </a>
-</div>
+          <div>
+            Designed & Developed by{" "}
+            <a
+              href="https://wa.me/201152357201"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: C.gold,
+                textDecoration: "none",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              Mohamed Ataa
+            </a>
+          </div>
 
         </div>
 
