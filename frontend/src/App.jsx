@@ -5,7 +5,7 @@ import {
   ShoppingCart, Search, User, Menu, X, Star, Plus, Minus, Trash2, RotateCcw,
   LayoutDashboard, Package, Users as UsersIcon, LogOut, ChevronLeft,
   ShoppingBag, Shirt, Gem, Droplet, Home as HomeIcon, Footprints,
-  Pencil, UserRound, Paintbrush, Gamepad2, Wand2,
+  Pencil, UserRound, SprayCan, Gamepad2, Wand2,
   Mail, Lock, LogIn, UserPlus, ClipboardList,
   Clock, Truck, CheckCircle2, XCircle, DollarSign, TrendingUp, Save,
   Loader2, CreditCard, ChevronRight, Zap, ShieldCheck,
@@ -119,6 +119,12 @@ const CAT_META = {
     icon: Gamepad2,
     grad:
       "radial-gradient(circle at 30% 20%, rgba(180,130,220,.18), transparent 55%), linear-gradient(160deg,#21172A,#120E16)"
+  },
+
+  "البرفانات والعطور": {
+    icon: SprayCan,
+     grad:
+      "radial-gradient(circle at 30% 20%, rgba(232,199,102,.20), transparent 55%), linear-gradient(160deg,#261B24,#120E12)"
   },
 
   "منتجات اخري": {
@@ -1416,7 +1422,7 @@ function ProductCard({ p, onAdd, onOpen }) {
           />
         )}
 
-        
+
       </div>
 
       <div
@@ -1476,42 +1482,42 @@ function ProductCard({ p, onAdd, onOpen }) {
 
 
         </div>
-                  <div
-  className="product-card-add"
-  style={{
-    marginTop: 12,
-    opacity: hover ? 1 : 0,
-    transform: hover
-      ? "translateY(0)"
-      : "translateY(10px)",
-    transition: ".2s"
-  }}
->
-  <button
-    onClick={(e) => {
-      e.stopPropagation();
-      onAdd(p);
-    }}
-    style={{
-      width: "100%",
-      background: C.ink,
-      color: C.ivory,
-      border: `1px solid ${C.gold}`,
-      padding: 9,
-      borderRadius: 4,
-      fontWeight: 700,
-      fontSize: ".7rem",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: 8,
-      cursor: "pointer"
-    }}
-  >
-    <ShoppingCart size={14} />
-    أضيفي للسلة
-  </button>
-</div>
+        <div
+          className="product-card-add"
+          style={{
+            marginTop: 12,
+            opacity: hover ? 1 : 0,
+            transform: hover
+              ? "translateY(0)"
+              : "translateY(10px)",
+            transition: ".2s"
+          }}
+        >
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onAdd(p);
+            }}
+            style={{
+              width: "100%",
+              background: C.ink,
+              color: C.ivory,
+              border: `1px solid ${C.gold}`,
+              padding: 9,
+              borderRadius: 4,
+              fontWeight: 700,
+              fontSize: ".7rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+              cursor: "pointer"
+            }}
+          >
+            <ShoppingCart size={14} />
+            أضيفي للسلة
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -2044,7 +2050,7 @@ function Shop({
   setProductsPage,
   productsPagination
 }) {
-const filtered = products.filter((p) => p.isActive === true);  return (
+  const filtered = products.filter((p) => p.isActive === true); return (
     <section
       style={{
         padding: "60px 0"
@@ -2069,76 +2075,75 @@ const filtered = products.filter((p) => p.isActive === true);  return (
         >
           منتجات المتجر
         </h2>
-{/* Categories */}
-<div
-  style={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 10,
-    marginBottom: 35,
-    flexWrap: "wrap"
-  }}
->
-  {["الكل", ...CATS].map((c) => {
-    const active = catFilter === c;
+        {/* Categories */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 10,
+            marginBottom: 35,
+            flexWrap: "wrap"
+          }}
+        >
+          {["الكل", ...CATS].map((c) => {
+            const active = catFilter === c;
 
-    return (
-      <button
-        key={c}
-        onClick={() => {
-          setSearch("");
-          setCatFilter(c);
-          setProductsPage(1);
-        }}
-        style={{
-          width: 150,
-          height: 44,
-          padding: 0,
-          borderRadius: 999,
-          border: `1px solid ${
-            active ? C.gold : C.line
-          }`,
-          background: active
-            ? C.gold
-            : "rgba(255,255,255,0.025)",
-          color: active
-            ? C.ink
-            : C.ivory,
-          fontSize: ".86rem",
-          fontWeight: active ? 700 : 500,
-          cursor: "pointer",
-          transition: "all .25s ease",
-          whiteSpace: "nowrap",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          boxShadow: active
-            ? "0 5px 18px rgba(0,0,0,.18)"
-            : "none"
-        }}
-        onMouseEnter={(e) => {
-          if (!active) {
-            e.currentTarget.style.borderColor = C.gold;
-            e.currentTarget.style.color = C.gold;
-            e.currentTarget.style.background =
-              "rgba(255,255,255,0.05)";
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (!active) {
-            e.currentTarget.style.borderColor = C.line;
-            e.currentTarget.style.color = C.ivory;
-            e.currentTarget.style.background =
-              "rgba(255,255,255,0.025)";
-          }
-        }}
-      >
-        {c}
-      </button>
-    );
-  })}
-</div>
+            return (
+              <button
+                key={c}
+                onClick={() => {
+                  setSearch("");
+                  setCatFilter(c);
+                  setProductsPage(1);
+                }}
+                style={{
+                  width: 150,
+                  height: 44,
+                  padding: 0,
+                  borderRadius: 999,
+                  border: `1px solid ${active ? C.gold : C.line
+                    }`,
+                  background: active
+                    ? C.gold
+                    : "rgba(255,255,255,0.025)",
+                  color: active
+                    ? C.ink
+                    : C.ivory,
+                  fontSize: ".86rem",
+                  fontWeight: active ? 700 : 500,
+                  cursor: "pointer",
+                  transition: "all .25s ease",
+                  whiteSpace: "nowrap",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: active
+                    ? "0 5px 18px rgba(0,0,0,.18)"
+                    : "none"
+                }}
+                onMouseEnter={(e) => {
+                  if (!active) {
+                    e.currentTarget.style.borderColor = C.gold;
+                    e.currentTarget.style.color = C.gold;
+                    e.currentTarget.style.background =
+                      "rgba(255,255,255,0.05)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!active) {
+                    e.currentTarget.style.borderColor = C.line;
+                    e.currentTarget.style.color = C.ivory;
+                    e.currentTarget.style.background =
+                      "rgba(255,255,255,0.025)";
+                  }
+                }}
+              >
+                {c}
+              </button>
+            );
+          })}
+        </div>
 
         {/* Products */}
         {loading ? (
@@ -2231,8 +2236,8 @@ const filtered = products.filter((p) => p.isActive === true);  return (
                       height: 40,
                       borderRadius: "50%",
                       border: `1px solid ${productsPage === page
-                          ? C.gold
-                          : C.line
+                        ? C.gold
+                        : C.line
                         }`,
                       background:
                         productsPage === page
@@ -5914,78 +5919,78 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
- /* ============================= LOAD PRODUCTS ============================= */
+  /* ============================= LOAD PRODUCTS ============================= */
 
-/* ============================= LOAD PRODUCTS ============================= */
+  /* ============================= LOAD PRODUCTS ============================= */
 
-useEffect(() => {
-  const loadProducts = async () => {
-    try {
-      setProductsLoading(true);
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        setProductsLoading(true);
 
-      const isAdminDashboard =
-        window.location.pathname.startsWith("/admin");
+        const isAdminDashboard =
+          window.location.pathname.startsWith("/admin");
 
-      // ================= ADMIN DASHBOARD =================
-      // الأدمن داشبورد يشوف كل المنتجات، حتى المخفية
-      if (
-        isAdminDashboard &&
-        currentUser?.role === "admin"
-      ) {
-        const d = await api.get("/products/admin");
+        // ================= ADMIN DASHBOARD =================
+        // الأدمن داشبورد يشوف كل المنتجات، حتى المخفية
+        if (
+          isAdminDashboard &&
+          currentUser?.role === "admin"
+        ) {
+          const d = await api.get("/products/admin");
+
+          setProducts(d.products);
+          setProductsPagination(null);
+
+          return;
+        }
+
+        // ================= PUBLIC WEBSITE =================
+        // الموقع، حتى لو المستخدم Admin، يشوف المنتجات النشطة فقط
+        // مع Pagination و Category و Search
+
+        const params = new URLSearchParams();
+
+        params.set("page", productsPage);
+        params.set("limit", 8);
+
+        if (
+          catFilter &&
+          catFilter !== "الكل" &&
+          !search.trim()
+        ) {
+          params.set("category", catFilter);
+        }
+
+        if (search.trim()) {
+          params.set("search", search.trim());
+        }
+
+        const url = `/products?${params.toString()}`;
+
+        const d = await api.get(url);
 
         setProducts(d.products);
-        setProductsPagination(null);
+        setProductsPagination(d.pagination);
 
-        return;
+      } catch (err) {
+        console.error("PRODUCTS ERROR:", err);
+        notify(err.message);
+      } finally {
+        setProductsLoading(false);
       }
+    };
 
-      // ================= PUBLIC WEBSITE =================
-      // الموقع، حتى لو المستخدم Admin، يشوف المنتجات النشطة فقط
-      // مع Pagination و Category و Search
+    if (!authChecked) return;
 
-      const params = new URLSearchParams();
-
-      params.set("page", productsPage);
-      params.set("limit", 8);
-
-      if (
-        catFilter &&
-        catFilter !== "الكل" &&
-        !search.trim()
-      ) {
-        params.set("category", catFilter);
-      }
-
-      if (search.trim()) {
-        params.set("search", search.trim());
-      }
-
-      const url = `/products?${params.toString()}`;
-
-      const d = await api.get(url);
-
-      setProducts(d.products);
-      setProductsPagination(d.pagination);
-
-    } catch (err) {
-      console.error("PRODUCTS ERROR:", err);
-      notify(err.message);
-    } finally {
-      setProductsLoading(false);
-    }
-  };
-
-  if (!authChecked) return;
-
-  loadProducts();
-}, [
-  currentUser,
-  authChecked,
-  productsPage,
-  catFilter,
-  search,
-]);
+    loadProducts();
+  }, [
+    currentUser,
+    authChecked,
+    productsPage,
+    catFilter,
+    search,
+  ]);
   /* ============================= RESTORE SESSION ============================= */
 
   useEffect(() => {
@@ -6685,27 +6690,27 @@ useEffect(() => {
       ]);
     }
   };
- const deleteProduct = async (id) => {
-  try {
-    const d = await api.del(`/products/${id}`);
+  const deleteProduct = async (id) => {
+    try {
+      const d = await api.del(`/products/${id}`);
 
-    setProducts((prev) =>
-      prev.map((p) =>
-        p.id === id
-          ? d.product
-          : p
-      )
-    );
+      setProducts((prev) =>
+        prev.map((p) =>
+          p.id === id
+            ? d.product
+            : p
+        )
+      );
 
-    notify("تم حذف المنتج بنجاح 🗑️");
-  } catch (err) {
-    console.error(err);
+      notify("تم حذف المنتج بنجاح 🗑️");
+    } catch (err) {
+      console.error(err);
 
-    notify(
-      err.message || "تعذر حذف المنتج"
-    );
-  }
-};
+      notify(
+        err.message || "تعذر حذف المنتج"
+      );
+    }
+  };
   const reactivateProduct = async (id) => {
     const d = await api.put(
       `/products/${id}`,
