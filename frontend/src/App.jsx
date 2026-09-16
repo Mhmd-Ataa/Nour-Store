@@ -24,49 +24,60 @@ import Cropper from "react-easy-crop";
 
 /* ============================= THEME ============================= */
 
+
 // const C = {
-//   ink: "#0F0E0C",
-//   inkSoft: "#15120D",
-//   panel: "#1B160F",
-//   panel2: "#211B12",
-//   gold: "#C9A227",
-//   goldLight: "#E8C765",
-//   goldDim: "rgba(201,162,39,.14)",
-//   ivory: "#FAF6EE",
-//   ivoryDim: "#CBC0A8",
-//   taupe: "#93866C",
-//   line: "rgba(232,199,102,.16)",
-//   danger: "#C2542F",
-//   success: "#5B8C5A",
+//   // Main backgrounds
+//   ink: "#F0F8FF",          // Alice Blue
+//   inkSoft: "#EAF4FB",
+
+//   // Panels / Cards
+//   panel: "#FFFFFF",
+//   panel2: "#F5FAFE",
+
+//   // Brand accent
+//   gold: "#4A90B8",
+//   goldLight: "#6AAED0",
+//   goldDim: "rgba(74,144,184,.12)",
+
+//   // Text
+//   ivory: "#1F2933",
+//   ivoryDim: "#526575",
+//   taupe: "#718596",
+
+//   // Borders
+//   line: "rgba(74,144,184,.18)",
+
+//   // Status
+//   danger: "#D9534F",
+//   success: "#4F8A5B",
 // };
+
 const C = {
   // Main backgrounds
-  ink: "#F0F8FF",          // Alice Blue
-  inkSoft: "#EAF4FB",
+  ink: "#fff",
+  inkSoft: "#FCECEF",      // Pink أغمق درجة بسيطة
 
   // Panels / Cards
   panel: "#FFFFFF",
-  panel2: "#F5FAFE",
+  panel2: "#FFF9FA",
 
   // Brand accent
-  gold: "#4A90B8",
-  goldLight: "#6AAED0",
-  goldDim: "rgba(74,144,184,.12)",
+  gold: "#D98FA3",         // اللون الأساسي للأزرار والعناصر المهمة
+  goldLight: "#E7AFC0",    // Hover / درجات أفتح
+  goldDim: "rgba(217,143,163,.12)",
 
   // Text
-  ivory: "#1F2933",
-  ivoryDim: "#526575",
-  taupe: "#718596",
+  ivory: "#3A2C32",        // العناوين والنص الأساسي
+  ivoryDim: "#6F5A63",     // النصوص الثانوية
+  taupe: "#927B84",        // النص الخفيف
 
   // Borders
-  line: "rgba(74,144,184,.18)",
+  line: "rgba(217,143,163,.20)",
 
   // Status
   danger: "#D9534F",
   success: "#4F8A5B",
 };
-
-
 const display = {
   fontFamily: "'Amiri', 'Times New Roman', serif"
 };
@@ -1247,93 +1258,374 @@ function MobileNav({ open, onClose, setView, setSearch }) {
 
 
 
+// function Hero({ setView }) {
+//   return (
+//     <section
+//       style={{
+//         position: "relative",
+//         overflow: "hidden",
+//         // minHeight:"600px",
+//         borderBottom: "1px solid ${C.line}",
+//         // backgroundImage:`
+//         // url("/images/nour-store.png")`,
+//         // backgroundSize: "contain",
+//         // backgroundRepeat: "no-repeat",
+//         // backgroundPosition: "center",
+
+//       }}
+//     >
+//       <div
+//         style={{
+//           position: "absolute",
+//           width: 560,
+//           height: 560,
+//           borderRadius: "50%",
+//           // background:
+//           //   "radial-gradient(circle, rgba(201,162,39,.32), rgba(201,162,39,0) 70%)",
+//           filter: "blur(10px)",
+//           top: -140,
+//           right: -100,
+//           zIndex: 0,
+//         }}
+//       />
+
+//       <div
+//         className="grid md:grid-cols-2 items-center gap-10"
+//         style={{
+//           position: "relative",
+//           zIndex: 1,
+//           maxWidth: 1240,
+//           margin: "0 auto",
+//           padding: "70px 24px",
+
+
+//         }}
+//       >
+//         <div>
+//           <Eyebrow>اختياراتك تبدأ من هنا</Eyebrow>
+//           <h1
+//             style={{
+//               ...display,
+//               fontSize: "clamp(2.1rem,4.4vw,3.6rem)",
+//               lineHeight: 1.5,
+//               color: C.ivory
+//             }}
+//           >
+//             كل اللي <span style={{ color: C.gold }}>بتحبيه  </span>
+
+//             في مكان واحد
+//           </h1>
+
+//           <p
+//             style={{
+//               color: C.ivoryDim,
+//               maxWidth: 460,
+//               margin: "20px 0 32px",
+
+//             }}
+//           >
+//             تشكيلة مختارة بعناية من الأزياء - الإكسسوارات  - مستحضرات التجميل  -  منتجات العناية بالبشرة
+//             -  مستلزمات المنزل — جودة توثقين بها، وأسعار تُنصفك.
+//           </p>
+
+//           <div className="flex gap-3 flex-wrap">
+//             <Btn onClick={() => setView("shop")}>
+//               تسوّقي المجموعة
+//             </Btn>
+
+//             {/* <Btn
+//               variant="outline"
+//               onClick={() => setView("shop")}
+//             >
+//               اكتشفي العروض
+//             </Btn> */}
+//           </div>
+//         </div>
+
+
+
+//       </div>
+//     </section>
+//   );
+// }
+
+
 function Hero({ setView }) {
+  const slides = [
+    {
+      image: "/images/Untitled design (1).png",
+      eyebrow: "اختياراتك تبدأ من هنا",
+      title: "كل اللي",
+      highlight: "بتحبيه",
+      title2: "في مكان واحد",
+      description:
+        "تشكيلة مختارة بعناية من الأزياء والإكسسوارات ومستحضرات التجميل ومنتجات العناية بالبشرة.",
+    },
+    {
+      image: "/images/pngtree-cosmetics-make-up-scene-photography-advertising-background-image_2216431-removebg-preview.png",
+      eyebrow: "جمالك يبدأ من هنا",
+      title: "اختاري",
+      highlight: "مستحضراتك المفضلة",
+      title2: "لإطلالة متكاملة",
+      description:
+        "اكتشفي تشكيلتنا من مستحضرات التجميل واختاري كل ما يناسب إطلالتك.",
+    },
+    {
+      image: "/images/pngtree-various-perfume-luxury-glamour-perfume-photo-image_4088236-removebg-preview.png",
+      eyebrow: "عطرك يعبر عنك",
+      title: "اختاري",
+      highlight: "عطرك المفضل",
+      title2: "بلمسة مختلفة",
+      description:
+        "اكتشفي تشكيلتنا من البرفانات والعطور واختاري الرائحة المناسبة لكِ.",
+    },
+    {
+      image: "/images/1887d260e8c42642e11e254a14b9dfe0-removebg-preview.png",
+      eyebrow: "كمّلي إطلالتك",
+      title: "اختاري",
+      highlight: "طرحتك المفضلة",
+      title2: "بلمسة أنيقة",
+      description:
+        "اكتشفي تشكيلتنا من الطرح بألوان وتصاميم متنوعة تناسب كل إطلالة.",
+    },
+    {
+      image: "/images/mimi-so-rings_de95c1ea-c247-4d36-aa2a-9568dd5fb80d_1000x1000-removebg-preview.png",
+      eyebrow: "كمّلي إطلالتك",
+      title: "تفاصيل",
+      highlight: "صغيرة",
+      title2: "تصنع فرقًا كبيرًا",
+      description:
+        "شنط وإكسسوارات مختارة تضيف لمسة مميزة لكل إطلالة.",
+    },
+  ];
+
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % slides.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const slide = slides[current];
+
   return (
     <section
       style={{
         position: "relative",
         overflow: "hidden",
-        // minHeight:"600px",
-        borderBottom: "1px solid ${C.line}",
-        // backgroundImage:`
-        // url("/images/nour-store.png")`,
-        // backgroundSize: "contain",
-        // backgroundRepeat: "no-repeat",
-        // backgroundPosition: "center",
-
+        borderBottom: `1px solid ${C.line}`,
+        minHeight: 560,
       }}
     >
+      {/* Background */}
       <div
         style={{
           position: "absolute",
-          width: 560,
-          height: 560,
-          borderRadius: "50%",
-          // background:
-          //   "radial-gradient(circle, rgba(201,162,39,.32), rgba(201,162,39,0) 70%)",
-          filter: "blur(10px)",
-          top: -140,
-          right: -100,
+          inset: 0,
           zIndex: 0,
         }}
       />
 
+      {/* Content */}
       <div
-        className="grid md:grid-cols-2 items-center gap-10"
+        className="hero-content"
         style={{
           position: "relative",
-          zIndex: 1,
+          zIndex: 2,
           maxWidth: 1240,
+          minHeight: 560,
           margin: "0 auto",
-          padding: "70px 24px",
-                  
-
+          padding: "55px 24px",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          alignItems: "center",
+          gap: 30,
         }}
       >
-        <div>
-          <Eyebrow>اختياراتك تبدأ من هنا</Eyebrow>
+        {/* الكلام */}
+        <div
+          key={`text-${current}`}
+          className="hero-text"
+          style={{
+            textAlign: "right",
+            animation: "heroText .6s ease both",
+          }}
+        >
+          <Eyebrow>{slide.eyebrow}</Eyebrow>
+
           <h1
             style={{
               ...display,
               fontSize: "clamp(2.1rem,4.4vw,3.6rem)",
-              lineHeight: 1.5,
-              color: C.ivory
+              lineHeight: 1.25,
+              color: C.ivory,
             }}
           >
-            كل اللي <span style={{ color: C.gold }}>بتحبيه  </span>
-
-            في مكان واحد
+            {slide.title}{" "}
+            <span style={{ color: C.gold }}>
+              {slide.highlight}{" "}
+            </span>
+            {slide.title2}
           </h1>
 
           <p
             style={{
-              color: C.ivoryDim,
+              color: C.ivory,
               maxWidth: 460,
-              margin: "20px 0 32px",
-              
+              margin: "22px 0 32px auto",
+              lineHeight: 1.9,
             }}
           >
-            تشكيلة مختارة بعناية من الأزياء - الإكسسوارات  - مستحضرات التجميل  -  منتجات العناية بالبشرة
-            -  مستلزمات المنزل — جودة توثقين بها، وأسعار تُنصفك.
+            {slide.description}
           </p>
 
-          <div className="flex gap-3 flex-wrap">
-            <Btn onClick={() => setView("shop")}>
-              تسوّقي المجموعة
-            </Btn>
 
-            {/* <Btn
-              variant="outline"
-              onClick={() => setView("shop")}
-            >
-              اكتشفي العروض
-            </Btn> */}
-          </div>
         </div>
 
-
-
+        {/* الصورة */}
+        <div
+          key={`image-${current}`}
+          className="hero-image"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            animation: "heroImage .8s ease both",
+            padding:"15px"
+          }}
+        >
+          <img
+            src={slide.image}
+            alt=""
+            style={{
+              width: "90%",
+              maxWidth: 570,
+              height: "auto",
+              objectFit: "contain",
+              display: "block",
+              marginTop: "15px"
+            }}
+          />
+        
+        </div>
+        <div
+          style={{
+            gridColumn: "1 / -1",
+            width: "100%",
+            display: "flex",
+            justifyContent: "flex-start",
+            marginTop: "10px",
+          }}
+        >
+          <Btn onClick={() => setView("shop")}>
+            تسوّقي المجموعة
+          </Btn>
+        </div>
       </div>
+
+      {/* Dots */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 22,
+          left: 0,
+          right: 0,
+          zIndex: 5,
+          display: "flex",
+          justifyContent: "center",
+          gap: 8,
+        }}
+      >
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrent(index)}
+            style={{
+              width: current === index ? 28 : 8,
+              height: 8,
+              padding: 0,
+              border: 0,
+              borderRadius: 999,
+              background:
+                current === index
+                  ? C.gold
+                  : "rgba(255,255,255,.4)",
+              cursor: "pointer",
+              transition: "all .3s ease",
+            }}
+          />
+        ))}
+      </div>
+
+      <style>
+        {`
+          @keyframes heroText {
+            from {
+              opacity: 0;
+              transform: translateX(-25px);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
+
+          @keyframes heroImage {
+            from {
+              opacity: 0;
+              transform: translateX(35px) scale(.96);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0) scale(1);
+            }
+          }
+
+          @media (max-width: 767px) {
+            .hero-content {
+              display: flex !important;
+              flex-direction: column;
+              justify-content: flex-start;
+              min-height: 600px !important;
+              padding: 38px 20px 55px !important;
+              gap: 0 !important;
+            }
+
+            .hero-text {
+              width: 100%;
+              position: relative;
+              z-index: 3;
+              padding-top: 5px;
+            }
+
+            .hero-text h1 {
+              font-size: clamp(2rem, 9vw, 2.8rem) !important;
+            }
+
+            .hero-text p {
+              font-size: .9rem;
+              line-height: 1.8 !important;
+              margin-top: 16px !important;
+              margin-bottom: 22px !important;
+            }
+
+            .hero-image {
+              width: 115% !important;
+              margin-top: -35px !important;
+              margin-right: -7% !important;
+              position: relative;
+              z-index: 1;
+            }
+
+            .hero-image img {
+              max-width: 520px !important;
+            }
+          }
+        `}
+      </style>
     </section>
   );
 }
