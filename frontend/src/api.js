@@ -39,8 +39,7 @@ async function request(path, { method = "GET", body } = {}) {
     });
   } catch (err) {
     throw new Error(
-      "تعذر الاتصال بالخادم، تأكدي إن السيرفر شغال على " +
-        API_URL
+      "تعذر الاتصال بالخادم، تأكدي إن السيرفر شغال على " 
     );
   }
 
