@@ -2,7 +2,7 @@ const router = require("express").Router();
 const prisma = require("../prisma");
 const { auth, optionalAuth, requireAdmin } = require("../middleware/auth");
 const ORDER_STATUSES = ["بانتظار الدفع", "قيد المعالجة", "تم الشحن", "تم التسليم", "ملغي"];
-const ORDER_LIMIT = 3;
+const ORDER_LIMIT = 4;
 const ORDER_WINDOW_MS = 30 * 60 * 1000;
 function getClientIp(req) {
   return (
