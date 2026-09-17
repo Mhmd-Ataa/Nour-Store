@@ -147,96 +147,27 @@ router.post("/", optionalAuth, async (req, res) => {
       });
     }
 
-    const order = await prisma.$transaction(async (tx) => {
-      let total = 0;
-      const orderItemsData = [];
+    const order = await prisma.$transaction(
+  async (tx) => {
+    let total = 0;
+    const orderItemsData = [];
 
-      for (const ci of items) {
-        const productId = Number(ci.id);
-        const qty = Number(ci.qty);
+    // نفس الكود الموجود عندك...
 
-        if (!Number.isInteger(productId) || productId <= 0) {
-          throw new Error("معرّف المنتج غير صحيح");
-        }
-
-        if (!Number.isInteger(qty) || qty <= 0 || qty > 100) {
-          throw new Error("كمية المنتج غير صحيحة");
-        }
-
-        const product = await tx.product.findFirst({
-  where: {
-    id: productId,
-    isActive: true
-  }
-});
-if (!product) {
-  throw new Error("أحد المنتجات غير متاح حاليًا");
-}
-        if (product.stock < qty) {
-          throw new Error(
-            `الكمية المطلوبة من "${product.name}" غير متوفرة، المتاح حاليًا: ${product.stock}`
-          );
-        }
-
-        total += product.price * qty;
-
-        orderItemsData.push({
-          productId: product.id,
-          name: product.name,
-          cat: product.cat,
-          price: product.price,
-          qty,
-        });
-
-        await tx.product.update({
-          where: { id: product.id },
-          data: {
-            stock: {
-              decrement: qty,
-            },
-          },
-        });
-      }
-
-      if (orderItemsData.length === 0) {
-        throw new Error("المنتجات في السلة غير متاحة");
-      }
-
-      return tx.order.create({
-        data: {
-          userId: req.user ? req.user.id : null,
-          ipAddress: clientIp,
-
-          customerName: req.user
-            ? req.user.name
-            : customerName?.trim(),
-
-          phone: phone?.trim(),
-          address: address?.trim(),
-          city: city?.trim(),
-          governorate: governorate?.trim(),
-          notes: notes?.trim(),
-
-          total,
-
-          status:
-            paymentMethod === "card"
-              ? "بانتظار الدفع"
-              : "قيد المعالجة",
-
-          paymentMethod,
-          paid: false,
-
-          items: {
-            create: orderItemsData,
-          },
-        },
-
-        include: {
-          items: true,
-        },
-      });
+    return tx.order.create({
+      data: {
+        // نفس البيانات الموجودة عندك...
+      },
+      include: {
+        items: true,
+      },
     });
+  },
+  {
+    timeout: 10000,
+    maxWait: 5000,
+  }
+);
 
     if (paymentMethod === "cod" && req.user) {
       await prisma.cartItem.deleteMany({
@@ -322,14 +253,28 @@ router.patch("/:id/status", auth, requireAdmin, async (req, res) => {
     const existing = await prisma.order.findUnique({ where: { id }, include: { items: true } });
     if (!existing) return res.status(404).json({ message: "الطلب غير موجود" });
 
-    const order = await prisma.$transaction(async (tx) => {
-      if (status === "ملغي" && existing.status !== "ملغي") {
-        for (const item of existing.items) {
-          await tx.product.update({ where: { id: item.productId }, data: { stock: { increment: item.qty } } });
-        }
+   const order = await prisma.$transaction(
+  async (tx) => {
+    if (status === "ملغي" && existing.status !== "ملغي") {
+      for (const item of existing.items) {
+        await tx.product.update({
+          where: { id: item.productId },
+          data: { stock: { increment: item.qty } },
+        });
       }
-      return tx.order.update({ where: { id }, data: { status }, include: { items: true } });
+    }
+
+    return tx.order.update({
+      where: { id },
+      data: { status },
+      include: { items: true },
     });
+  },
+  {
+    timeout: 10000,
+    maxWait: 5000,
+  }
+);
 
     res.json({ order: serializeOrder(order) });
   } catch (err) {
