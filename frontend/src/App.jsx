@@ -21,6 +21,7 @@ import {
 } from "recharts";
 import { api } from "./api.js";
 import Cropper from "react-easy-crop";
+import LoadingScreen from "./LoadingScreen";
 
 /* ============================= THEME ============================= */
 
@@ -2866,7 +2867,7 @@ function BackToTop() {
 function FloatingWhatsApp() {
   return (
     <a
-      href="https://wa.me/201148476391"
+      href="https://wa.me/201105720205"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="WhatsApp"
@@ -2907,7 +2908,7 @@ function Footer() {
     {
       name: "WhatsApp",
       icon: MessageCircle,
-      url: "https://wa.me/201148476391"
+      url: "https://wa.me/20105720205"
     }
   ];
 
@@ -6004,6 +6005,7 @@ export default function App() {
   });
   const [productsLoading, setProductsLoading] =
     useState(true);
+    const [initialLoading, setInitialLoading] = useState(true);
 
   const selectedProduct = products.find(
     (p) => p.id === selectedProductId
@@ -6298,17 +6300,23 @@ export default function App() {
     }
   };
 
-  useEffect(() => {
-    if (!authChecked) return;
+useEffect(() => {
+  if (!authChecked) return;
 
-    loadProducts();
-  }, [
-    currentUser,
-    authChecked,
-    productsPage,
-    catFilter,
-    search,
-  ]);
+  loadProducts();
+}, [
+  currentUser,
+  authChecked,
+  productsPage,
+  catFilter,
+  search,
+]);
+
+useEffect(() => {
+  if (!authChecked || productsLoading) return;
+
+  setInitialLoading(false);
+}, [authChecked, productsLoading]);
   /* ============================= RESTORE SESSION ============================= */
 
   useEffect(() => {
@@ -7118,7 +7126,11 @@ const updateOrderStatus = async (
   /* ============================= UI ============================= */
 
   return (
-    <div
+    <>
+        {initialLoading && <LoadingScreen />}
+
+     <div
+    
       dir="rtl"
       style={{
         ...body,
@@ -7535,6 +7547,8 @@ const updateOrderStatus = async (
       )}
 
     </div>
+    </>
+   
   );
 }
 
