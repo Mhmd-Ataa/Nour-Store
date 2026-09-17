@@ -1494,7 +1494,7 @@ function Hero({ setView }) {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            padding:"15px"
+            padding: "15px"
           }}
         >
           <img
@@ -1509,7 +1509,7 @@ function Hero({ setView }) {
               marginTop: "15px"
             }}
           />
-        
+
         </div>
         <div
           style={{
@@ -6240,64 +6240,65 @@ export default function App() {
 
   /* ============================= LOAD PRODUCTS ============================= */
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        setProductsLoading(true);
+  /* ============================= LOAD PRODUCTS ============================= */
 
-        const isAdminDashboard =
-          window.location.pathname.startsWith("/admin");
+  const loadProducts = async () => {
+    try {
+      setProductsLoading(true);
 
-        // ================= ADMIN DASHBOARD =================
-        // الأدمن داشبورد يشوف كل المنتجات، حتى المخفية
-        if (
-          isAdminDashboard &&
-          currentUser?.role === "admin"
-        ) {
-          const d = await api.get("/products/admin");
+      const isAdminDashboard =
+        window.location.pathname.startsWith("/admin");
 
-          setProducts(d.products);
-          setProductsPagination(null);
-
-          return;
-        }
-
-        // ================= PUBLIC WEBSITE =================
-        // الموقع، حتى لو المستخدم Admin، يشوف المنتجات النشطة فقط
-        // مع Pagination و Category و Search
-
-        const params = new URLSearchParams();
-
-        params.set("page", productsPage);
-        params.set("limit", 8);
-
-        if (
-          catFilter &&
-          catFilter !== "الكل" &&
-          !search.trim()
-        ) {
-          params.set("category", catFilter);
-        }
-
-        if (search.trim()) {
-          params.set("search", search.trim());
-        }
-
-        const url = `/products?${params.toString()}`;
-
-        const d = await api.get(url);
+      // ================= ADMIN DASHBOARD =================
+      if (
+        isAdminDashboard &&
+        currentUser?.role === "admin"
+      ) {
+        const d = await api.get("/products/admin");
 
         setProducts(d.products);
-        setProductsPagination(d.pagination);
+        setProductsPagination(null);
 
-      } catch (err) {
-        console.error("PRODUCTS ERROR:", err);
-        notify(err.message);
-      } finally {
-        setProductsLoading(false);
+        return;
       }
-    };
 
+      // ================= PUBLIC WEBSITE =================
+
+      const params = new URLSearchParams();
+
+      params.set("page", productsPage);
+      params.set("limit", 8);
+
+      // Category only when there is NO search
+      if (
+        catFilter &&
+        catFilter !== "الكل" &&
+        !search.trim()
+      ) {
+        params.set("category", catFilter);
+      }
+
+      // Search is global
+      if (search.trim()) {
+        params.set("search", search.trim());
+      }
+
+      const url = `/products?${params.toString()}`;
+
+      const d = await api.get(url);
+
+      setProducts(d.products);
+      setProductsPagination(d.pagination);
+
+    } catch (err) {
+      console.error("PRODUCTS ERROR:", err);
+      notify(err.message);
+    } finally {
+      setProductsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     if (!authChecked) return;
 
     loadProducts();
@@ -6793,8 +6794,11 @@ export default function App() {
         Order successfully created.
         Empty current user's cart.
       */
+setCart([]);
+await loadProducts();
 
-      setCart([]);
+
+
 
       if (!currentUser) {
         localStorage.removeItem("nour_store_guest_cart");
@@ -7043,35 +7047,34 @@ export default function App() {
     );
   };
 
-  /* ============================= ORDER STATUS ============================= */
-
-  const updateOrderStatus = async (
-    id,
-    status
-  ) => {
-    try {
-      const d =
-        await api.patch(
-          `/orders/${id}/status`,
-          {
-            status
-          }
-        );
-
-      setOrders((prev) =>
-        prev.map((o) =>
-          o.id === id
-            ? d.order
-            : o
-        )
+const updateOrderStatus = async (
+  id,
+  status
+) => {
+  try {
+    const d =
+      await api.patch(
+        `/orders/${id}/status`,
+        {
+          status
+        }
       );
-    } catch (err) {
-      notify(err.message);
-    }
-  };
 
+    setOrders((prev) =>
+      prev.map((o) =>
+        o.id === id
+          ? d.order
+          : o
+      )
+    );
 
+    // تحديث المنتجات والـ stock في الواجهة
+    await loadProducts();
 
+  } catch (err) {
+    notify(err.message);
+  }
+};
   const onDeleteOrder = async () => {
     if (!deleteOrderId) return;
 

@@ -244,15 +244,11 @@ router.post("/", optionalAuth, async (req, res) => {
   }
 );
 
-    if (paymentMethod === "cod" && req.user) {
-      await prisma.cartItem.deleteMany({
-        where: {
-          cart: {
-            userId: req.user.id,
-          },
-        },
-      });
-    }
+   if (req.user) {
+  await prisma.cartItem.deleteMany({
+    where: { cart: { userId: req.user.id } },
+  });
+}
 
     res.status(201).json({
       order: serializeOrder(order),
