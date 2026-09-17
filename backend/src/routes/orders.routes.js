@@ -324,14 +324,46 @@ router.patch("/:id/status", auth, requireAdmin, async (req, res) => {
     const existing = await prisma.order.findUnique({ where: { id }, include: { items: true } });
     if (!existing) return res.status(404).json({ message: "الطلب غير موجود" });
 
-   const order = await prisma.$transaction(
+const order = await prisma.$transaction(
   async (tx) => {
+    // من حالة نشطة → ملغي
+    // نرجع الكمية للمخزون
     if (status === "ملغي" && existing.status !== "ملغي") {
       for (const item of existing.items) {
         await tx.product.update({
           where: { id: item.productId },
-          data: { stock: { increment: item.qty } },
+          data: {
+            stock: {
+              increment: item.qty,
+            },
+          },
         });
+      }
+    }
+
+    // من ملغي → حالة نشطة
+    // نحجز الكمية مرة أخرى ونخصمها من المخزون
+    if (existing.status === "ملغي" && status !== "ملغي") {
+      for (const item of existing.items) {
+        const updatedProduct = await tx.product.updateMany({
+          where: {
+            id: item.productId,
+            stock: {
+              gte: item.qty,
+            },
+          },
+          data: {
+            stock: {
+              decrement: item.qty,
+            },
+          },
+        });
+
+        if (updatedProduct.count === 0) {
+          throw new Error(
+            `الكمية المطلوبة من المنتج غير متاحة حاليًا`
+          );
+        }
       }
     }
 
