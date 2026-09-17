@@ -147,17 +147,92 @@ router.post("/", optionalAuth, async (req, res) => {
       });
     }
 
-    const order = await prisma.$transaction(
+ const order = await prisma.$transaction(
   async (tx) => {
     let total = 0;
     const orderItemsData = [];
 
-    // نفس الكود الموجود عندك...
+    for (const ci of items) {
+      const productId = Number(ci.id);
+      const qty = Number(ci.qty);
+
+      if (!Number.isInteger(productId) || productId <= 0) {
+        throw new Error("معرّف المنتج غير صحيح");
+      }
+
+      if (!Number.isInteger(qty) || qty <= 0) {
+        throw new Error("كمية المنتج غير صحيحة");
+      }
+
+      const product = await tx.product.findFirst({
+        where: {
+          id: productId,
+          isActive: true,
+        },
+      });
+
+      if (!product) {
+        throw new Error("المنتج غير موجود أو غير متاح");
+      }
+
+      if (product.stock < qty) {
+        throw new Error(`الكمية المطلوبة من ${product.name} غير متاحة`);
+      }
+
+      total += product.price * qty;
+
+      orderItemsData.push({
+        productId: product.id,
+        name: product.name,
+        cat: product.cat,
+        price: product.price,
+        qty,
+      });
+
+      await tx.product.update({
+        where: { id: product.id },
+        data: {
+          stock: {
+            decrement: qty,
+          },
+        },
+      });
+    }
+
+    if (orderItemsData.length === 0) {
+      throw new Error("لا توجد منتجات في الطلب");
+    }
 
     return tx.order.create({
       data: {
-        // نفس البيانات الموجودة عندك...
+        userId: req.user ? req.user.id : null,
+        ipAddress: clientIp,
+
+        customerName: req.user
+          ? req.user.name
+          : cleanName,
+
+        phone: cleanPhone,
+        address: cleanAddress,
+        city: cleanCity,
+        governorate: cleanGovernorate,
+        notes: cleanNotes,
+
+        total,
+
+        status:
+          paymentMethod === "card"
+            ? "بانتظار الدفع"
+            : "قيد المعالجة",
+
+        paymentMethod,
+        paid: false,
+
+        items: {
+          create: orderItemsData,
+        },
       },
+
       include: {
         items: true,
       },
