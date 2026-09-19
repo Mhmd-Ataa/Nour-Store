@@ -2913,132 +2913,207 @@ function Footer() {
   ];
 
   return (
-    <footer
+<footer
+  style={{
+    background: C.inkSoft,
+    borderTop: `1px solid ${C.line}`,
+    padding: "55px 24px 30px",
+    textAlign: "center"
+  }}
+>
+  <div
+    style={{
+      maxWidth: 1240,
+      margin: "0 auto"
+    }}
+  >
+    <div
       style={{
-        background: C.inkSoft,
-        borderTop: `1px solid ${C.line}`,
-        padding: "55px 24px 30px",
-        textAlign: "center"
+        ...display,
+        color: C.ivory,
+        fontSize: "1.4rem",
+        fontWeight: 800,
+        marginBottom: 10
       }}
     >
+      Nour Store
+    </div>
+
+    <p
+      style={{
+        color: C.taupe,
+        fontSize: ".82rem",
+        margin: "0 auto 30px"
+      }}
+    >
+      كل ما تحتاجينه... في مكان واحد.
+    </p>
+
+    {/* الفروع */}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        gap: 60,
+        flexWrap: "wrap",
+        marginBottom: 35
+      }}
+    >
+      {/* الفرع الأول */}
       <div
         style={{
-          maxWidth: 1240,
-          margin: "0 auto"
+          maxWidth: 300,
+          minWidth: 250
         }}
       >
         <div
           style={{
-            ...display,
-            color: C.ivory,
-            fontSize: "1.4rem",
-            fontWeight: 800,
-            marginBottom: 10
+            color: C.gold,
+            fontSize: ".9rem",
+            fontWeight: 700,
+            marginBottom: 8
           }}
         >
-          Nour Store
+          📍 الفرع الأول
         </div>
 
         <p
           style={{
             color: C.taupe,
-            fontSize: ".82rem",
-            margin: "0 auto 24px"
+            fontSize: ".78rem",
+            lineHeight: 1.8,
+            margin: 0
           }}
         >
-          كل ما تحتاجينه... في مكان واحد.
+          الريدانية – طريق محل الدمنة – عند محطة القهوة.
         </p>
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 12,
-            marginBottom: 35
-          }}
-        >
-          {socialLinks.map((social) => {
-            const Icon = social.icon;
-
-            return (
-              <a
-                key={social.name}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={social.name}
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: "50%",
-                  border: `1px solid ${C.line}`,
-                  background: C.panel,
-                  color: C.ivoryDim,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textDecoration: "none",
-                  transition: "all .2s ease"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = C.gold;
-                  e.currentTarget.style.borderColor = C.gold;
-                  e.currentTarget.style.transform =
-                    "translateY(-3px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = C.ivoryDim;
-                  e.currentTarget.style.borderColor = C.line;
-                  e.currentTarget.style.transform =
-                    "translateY(0)";
-                }}
-              >
-                <Icon size={19} />
-              </a>
-            );
-          })}
-        </div>
-
-        <div
-          style={{
-            borderTop: `1px solid ${C.line}`,
-            paddingTop: 20,
-            color: C.taupe,
-            fontSize: ".75rem"
-          }}
-        >
-          © 2026 Nour Store. جميع الحقوق محفوظة.
-        </div>
-        <div
-          style={{
-            paddingTop: 20,
-            color: C.taupe,
-            fontSize: ".75rem"
-          }}
-        >
-          <div>
-            Designed & Developed by{" "}
-            <a
-              href="https://wa.me/201152357201"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: C.gold,
-                textDecoration: "none",
-                fontWeight: 600,
-                cursor: "pointer",
-              }}
-            >
-              Mohamed Ataa
-            </a>
-          </div>
-
-        </div>
-
       </div>
 
-    </footer>
+      {/* الفرع الثاني */}
+      <div
+        style={{
+          maxWidth: 360,
+          minWidth: 250
+        }}
+      >
+        <div
+          style={{
+            color: C.gold,
+            fontSize: ".9rem",
+            fontWeight: 700,
+            marginBottom: 8
+          }}
+        >
+          📍 الفرع الثاني
+        </div>
+
+        <p
+          style={{
+            color: C.taupe,
+            fontSize: ".78rem",
+            lineHeight: 1.8,
+            margin: 0
+          }}
+        >
+          الترعة – شارع محل WK – قبل الوكالة بشارعين،
+          مقابل الساعي للبدل وHot Mix من ناحية 6 أكتوبر،
+          أمام بيت الخيوط.
+        </p>
+      </div>
+    </div>
+
+    {/* Social Links */}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 12,
+        marginBottom: 35
+      }}
+    >
+      {socialLinks.map((social) => {
+        const Icon = social.icon;
+
+        return (
+          <a
+            key={social.name}
+            href={social.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={social.name}
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: "50%",
+              border: `1px solid ${C.line}`,
+              background: C.panel,
+              color: C.ivoryDim,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textDecoration: "none",
+              transition: "all .2s ease"
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = C.gold;
+              e.currentTarget.style.borderColor = C.gold;
+              e.currentTarget.style.transform =
+                "translateY(-3px)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = C.ivoryDim;
+              e.currentTarget.style.borderColor = C.line;
+              e.currentTarget.style.transform =
+                "translateY(0)";
+            }}
+          >
+            <Icon size={19} />
+          </a>
+        );
+      })}
+    </div>
+
+    {/* Copyright */}
+    <div
+      style={{
+        borderTop: `1px solid ${C.line}`,
+        paddingTop: 20,
+        color: C.taupe,
+        fontSize: ".75rem"
+      }}
+    >
+      © 2026 Nour Store. جميع الحقوق محفوظة.
+    </div>
+
+    {/* Developer */}
+    <div
+      style={{
+        paddingTop: 20,
+        color: C.taupe,
+        fontSize: ".75rem"
+      }}
+    >
+      <div>
+        Designed & Developed by{" "}
+        <a
+          href="https://wa.me/201152357201"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: C.gold,
+            textDecoration: "none",
+            fontWeight: 600,
+            cursor: "pointer"
+          }}
+        >
+          Mohamed Ataa
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
   );
 }
 /* ============================= CART DRAWER ============================= */
