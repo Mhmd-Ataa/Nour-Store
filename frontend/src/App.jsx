@@ -1647,18 +1647,18 @@ function ProductCard({ p, onAdd, onOpen }) {
       }}
 
     >
-     <div
-  style={{
-    aspectRatio: "4 / 5",
-    background: catGrad(p.cat),
-    position: "relative",
-    width: "100%",
-    overflow: "hidden",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center"
-  }}
->
+      <div
+        style={{
+          aspectRatio: "4 / 5",
+          background: catGrad(p.cat),
+          position: "relative",
+          width: "100%",
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
         {p.old && (
           <span
             style={{
@@ -1696,17 +1696,17 @@ function ProductCard({ p, onAdd, onOpen }) {
         )}
 
         {p.image ? (
-         <img
-  src={p.image}
-  alt={p.name}
-  style={{
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    display: "block",
-    verticalAlign: "middle"
-  }}
-/>
+          <img
+            src={p.image}
+            alt={p.name}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+              verticalAlign: "middle"
+            }}
+          />
         ) : (
           <Icon
             size={54}
@@ -1895,16 +1895,16 @@ function ProductDetails({ product, onAdd, onBack }) {
           >
             {product.image ? (
               <img
-  src={product.image}
-  alt={product.name}
-  style={{
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    display: "block",
-    verticalAlign: "middle"
-  }}
-/>
+                src={product.image}
+                alt={product.name}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                  verticalAlign: "middle"
+                }}
+              />
             ) : (
               <Icon
                 size={80}
@@ -2917,206 +2917,206 @@ function Footer() {
   ];
 
   return (
-<footer
-  style={{
-    background: C.inkSoft,
-    borderTop: `1px solid ${C.line}`,
-    padding: "55px 24px 30px",
-    textAlign: "center"
-  }}
->
-  <div
-    style={{
-      maxWidth: 1240,
-      margin: "0 auto"
-    }}
-  >
-    <div
+    <footer
       style={{
-        ...display,
-        color: C.ivory,
-        fontSize: "1.4rem",
-        fontWeight: 800,
-        marginBottom: 10
+        background: C.inkSoft,
+        borderTop: `1px solid ${C.line}`,
+        padding: "55px 24px 30px",
+        textAlign: "center"
       }}
     >
-      Nour Store
-    </div>
-
-    <p
-      style={{
-        color: C.taupe,
-        fontSize: ".82rem",
-        margin: "0 auto 30px"
-      }}
-    >
-      كل ما تحتاجينه... في مكان واحد.
-    </p>
-
-    {/* الفروع */}
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        gap: 60,
-        flexWrap: "wrap",
-        marginBottom: 35
-      }}
-    >
-      {/* الفرع الأول */}
       <div
         style={{
-          maxWidth: 300,
-          minWidth: 250
+          maxWidth: 1240,
+          margin: "0 auto"
         }}
       >
         <div
           style={{
-            color: C.gold,
-            fontSize: ".9rem",
-            fontWeight: 700,
-            marginBottom: 8
+            ...display,
+            color: C.ivory,
+            fontSize: "1.4rem",
+            fontWeight: 800,
+            marginBottom: 10
           }}
         >
-          📍 الفرع الأول
+          Nour Store
         </div>
 
         <p
           style={{
             color: C.taupe,
-            fontSize: ".78rem",
-            lineHeight: 1.8,
-            margin: 0
+            fontSize: ".82rem",
+            margin: "0 auto 30px"
           }}
         >
-          الريدانية – طريق محل الدمنة – عند محطة القهوة.
+          كل ما تحتاجينه... في مكان واحد.
         </p>
-      </div>
 
-      {/* الفرع الثاني */}
-      <div
-        style={{
-          maxWidth: 360,
-          minWidth: 250
-        }}
-      >
+        {/* الفروع */}
         <div
           style={{
-            color: C.gold,
-            fontSize: ".9rem",
-            fontWeight: 700,
-            marginBottom: 8
+            display: "flex",
+            justifyContent: "center",
+            gap: 60,
+            flexWrap: "wrap",
+            marginBottom: 35
           }}
         >
-          📍 الفرع الثاني
-        </div>
-
-        <p
-          style={{
-            color: C.taupe,
-            fontSize: ".78rem",
-            lineHeight: 1.8,
-            margin: 0
-          }}
-        >
-          الترعة – شارع محل WK – قبل الوكالة بشارعين،
-          مقابل الساعي للبدل وHot Mix من ناحية 6 أكتوبر،
-          أمام بيت الخيوط.
-        </p>
-      </div>
-    </div>
-
-    {/* Social Links */}
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 12,
-        marginBottom: 35
-      }}
-    >
-      {socialLinks.map((social) => {
-        const Icon = social.icon;
-
-        return (
-          <a
-            key={social.name}
-            href={social.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={social.name}
+          {/* الفرع الأول */}
+          <div
             style={{
-              width: 44,
-              height: 44,
-              borderRadius: "50%",
-              border: `1px solid ${C.line}`,
-              background: C.panel,
-              color: C.ivoryDim,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              textDecoration: "none",
-              transition: "all .2s ease"
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = C.gold;
-              e.currentTarget.style.borderColor = C.gold;
-              e.currentTarget.style.transform =
-                "translateY(-3px)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = C.ivoryDim;
-              e.currentTarget.style.borderColor = C.line;
-              e.currentTarget.style.transform =
-                "translateY(0)";
+              maxWidth: 300,
+              minWidth: 250
             }}
           >
-            <Icon size={19} />
-          </a>
-        );
-      })}
-    </div>
+            <div
+              style={{
+                color: C.gold,
+                fontSize: ".9rem",
+                fontWeight: 700,
+                marginBottom: 8
+              }}
+            >
+              📍 الفرع الأول
+            </div>
 
-    {/* Copyright */}
-    <div
-      style={{
-        borderTop: `1px solid ${C.line}`,
-        paddingTop: 20,
-        color: C.taupe,
-        fontSize: ".75rem"
-      }}
-    >
-      © 2026 Nour Store. جميع الحقوق محفوظة.
-    </div>
+            <p
+              style={{
+                color: C.taupe,
+                fontSize: ".78rem",
+                lineHeight: 1.8,
+                margin: 0
+              }}
+            >
+              الريدانية – طريق محل الدمنة – عند محطة القهوة.
+            </p>
+          </div>
 
-    {/* Developer */}
-    <div
-      style={{
-        paddingTop: 20,
-        color: C.taupe,
-        fontSize: ".75rem"
-      }}
-    >
-      <div>
-        Designed & Developed by{" "}
-        <a
-          href="https://wa.me/201152357201"
-          target="_blank"
-          rel="noopener noreferrer"
+          {/* الفرع الثاني */}
+          <div
+            style={{
+              maxWidth: 360,
+              minWidth: 250
+            }}
+          >
+            <div
+              style={{
+                color: C.gold,
+                fontSize: ".9rem",
+                fontWeight: 700,
+                marginBottom: 8
+              }}
+            >
+              📍 الفرع الثاني
+            </div>
+
+            <p
+              style={{
+                color: C.taupe,
+                fontSize: ".78rem",
+                lineHeight: 1.8,
+                margin: 0
+              }}
+            >
+              الترعة – شارع محل WK – قبل الوكالة بشارعين،
+              مقابل الساعي للبدل وHot Mix من ناحية 6 أكتوبر،
+              أمام بيت الخيوط.
+            </p>
+          </div>
+        </div>
+
+        {/* Social Links */}
+        <div
           style={{
-            color: C.gold,
-            textDecoration: "none",
-            fontWeight: 600,
-            cursor: "pointer"
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 12,
+            marginBottom: 35
           }}
         >
-          Mohamed Ataa
-        </a>
+          {socialLinks.map((social) => {
+            const Icon = social.icon;
+
+            return (
+              <a
+                key={social.name}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.name}
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: "50%",
+                  border: `1px solid ${C.line}`,
+                  background: C.panel,
+                  color: C.ivoryDim,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textDecoration: "none",
+                  transition: "all .2s ease"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = C.gold;
+                  e.currentTarget.style.borderColor = C.gold;
+                  e.currentTarget.style.transform =
+                    "translateY(-3px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = C.ivoryDim;
+                  e.currentTarget.style.borderColor = C.line;
+                  e.currentTarget.style.transform =
+                    "translateY(0)";
+                }}
+              >
+                <Icon size={19} />
+              </a>
+            );
+          })}
+        </div>
+
+        {/* Copyright */}
+        <div
+          style={{
+            borderTop: `1px solid ${C.line}`,
+            paddingTop: 20,
+            color: C.taupe,
+            fontSize: ".75rem"
+          }}
+        >
+          © 2026 Nour Store. جميع الحقوق محفوظة.
+        </div>
+
+        {/* Developer */}
+        <div
+          style={{
+            paddingTop: 20,
+            color: C.taupe,
+            fontSize: ".75rem"
+          }}
+        >
+          <div>
+            Designed & Developed by{" "}
+            <a
+              href="https://wa.me/201152357201"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: C.gold,
+                textDecoration: "none",
+                fontWeight: 600,
+                cursor: "pointer"
+              }}
+            >
+              Mohamed Ataa
+            </a>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</footer>
+    </footer>
 
   );
 }
@@ -4526,27 +4526,34 @@ const createCroppedImage = (imageSrc, pixelCrop) => {
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
 
-      canvas.width = pixelCrop.width;
-      canvas.height = pixelCrop.height;
+      // استخدام أبعاد صحيحة لمنع ظهور خط أسود على الحواف
+      const cropWidth = Math.round(pixelCrop.width);
+      const cropHeight = Math.round(pixelCrop.height);
+      const cropX = Math.round(pixelCrop.x);
+      const cropY = Math.round(pixelCrop.y);
+
+      canvas.width = cropWidth;
+      canvas.height = cropHeight;
+
+      // منع أي خلفية سوداء للـcanvas
+      ctx.clearRect(0, 0, cropWidth, cropHeight);
 
       ctx.drawImage(
         image,
-        pixelCrop.x,
-        pixelCrop.y,
-        pixelCrop.width,
-        pixelCrop.height,
+        cropX,
+        cropY,
+        cropWidth,
+        cropHeight,
         0,
         0,
-        pixelCrop.width,
-        pixelCrop.height
+        cropWidth,
+        cropHeight
       );
 
       canvas.toBlob(
         (blob) => {
           if (!blob) {
-            reject(
-              new Error("تعذر تجهيز الصورة")
-            );
+            reject(new Error("تعذر تجهيز الصورة"));
             return;
           }
 
@@ -4561,7 +4568,6 @@ const createCroppedImage = (imageSrc, pixelCrop) => {
     image.src = imageSrc;
   });
 };
-
 function ProductFormModal({
   product,
   onSave,
@@ -4879,10 +4885,10 @@ function ProductFormModal({
                         const croppedUrl =
                           URL.createObjectURL(croppedBlob);
 
-                        setForm({
-                          ...form,
+                        setForm((prev) => ({
+                          ...prev,
                           image: croppedFile
-                        });
+                        }));
 
                         setImagePreview(croppedUrl);
                         setShowCrop(false);
@@ -6084,7 +6090,7 @@ export default function App() {
   });
   const [productsLoading, setProductsLoading] =
     useState(true);
-    const [initialLoading, setInitialLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   const selectedProduct = products.find(
     (p) => p.id === selectedProductId
@@ -6379,23 +6385,23 @@ export default function App() {
     }
   };
 
-useEffect(() => {
-  if (!authChecked) return;
+  useEffect(() => {
+    if (!authChecked) return;
 
-  loadProducts();
-}, [
-  currentUser,
-  authChecked,
-  productsPage,
-  catFilter,
-  search,
-]);
+    loadProducts();
+  }, [
+    currentUser,
+    authChecked,
+    productsPage,
+    catFilter,
+    search,
+  ]);
 
-useEffect(() => {
-  if (!authChecked || productsLoading) return;
+  useEffect(() => {
+    if (!authChecked || productsLoading) return;
 
-  setInitialLoading(false);
-}, [authChecked, productsLoading]);
+    setInitialLoading(false);
+  }, [authChecked, productsLoading]);
   /* ============================= RESTORE SESSION ============================= */
 
   useEffect(() => {
@@ -6881,8 +6887,8 @@ useEffect(() => {
         Order successfully created.
         Empty current user's cart.
       */
-setCart([]);
-await loadProducts();
+      setCart([]);
+      await loadProducts();
 
 
 
@@ -7134,34 +7140,34 @@ await loadProducts();
     );
   };
 
-const updateOrderStatus = async (
-  id,
-  status
-) => {
-  try {
-    const d =
-      await api.patch(
-        `/orders/${id}/status`,
-        {
-          status
-        }
+  const updateOrderStatus = async (
+    id,
+    status
+  ) => {
+    try {
+      const d =
+        await api.patch(
+          `/orders/${id}/status`,
+          {
+            status
+          }
+        );
+
+      setOrders((prev) =>
+        prev.map((o) =>
+          o.id === id
+            ? d.order
+            : o
+        )
       );
 
-    setOrders((prev) =>
-      prev.map((o) =>
-        o.id === id
-          ? d.order
-          : o
-      )
-    );
+      // تحديث المنتجات والـ stock في الواجهة
+      await loadProducts();
 
-    // تحديث المنتجات والـ stock في الواجهة
-    await loadProducts();
-
-  } catch (err) {
-    notify(err.message);
-  }
-};
+    } catch (err) {
+      notify(err.message);
+    }
+  };
   const onDeleteOrder = async () => {
     if (!deleteOrderId) return;
 
@@ -7206,428 +7212,428 @@ const updateOrderStatus = async (
 
   return (
     <>
-        {initialLoading && <LoadingScreen />}
+      {initialLoading && <LoadingScreen />}
 
-     <div
-    
-      dir="rtl"
-      style={{
-        ...body,
-        background: C.ink,
-        minHeight: "100vh",
-        color: C.ivory
-      }}
-    ><Header
-        view={view}
-        setView={setView}
-        cartCount={cartCount}
-        onOpenCart={() =>
-          setCartOpen(true)
+      <div
+
+        dir="rtl"
+        style={{
+          ...body,
+          background: C.ink,
+          minHeight: "100vh",
+          color: C.ivory
+        }}
+      ><Header
+          view={view}
+          setView={setView}
+          cartCount={cartCount}
+          onOpenCart={() =>
+            setCartOpen(true)
+          }
+          currentUser={currentUser}
+          onLogout={logout}
+          setMobileOpen={setMobileOpen}
+          search={search}
+          setSearch={setSearch}
+          catFilter={catFilter}
+          setCatFilter={setCatFilter}
+          previousCategory={previousCategory}
+          setPreviousCategory={setPreviousCategory}
+          setProductsPage={setProductsPage}
+        />
+        <MobileNav
+          open={mobileOpen}
+          onClose={() => setMobileOpen(false)}
+          setView={setView}
+          setSearch={setSearch}
+        />
+        {view === "home" && (
+          <>
+            <Hero
+              setView={setView}
+            />
+
+            <FeaturedProductsSlider
+              products={products}
+              loading={productsLoading}
+              onAdd={addToCart}
+              openProduct={openProduct}
+              openShop={() => {
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth"
+                });
+
+                setView("shop");
+                window.history.pushState({}, "", "/shop");
+
+
+
+              }}
+            />
+            <CategoryStrip
+              setView={setView}
+              setCatFilter={setCatFilter}
+            />
+
+            <WhyNourStore />
+          </>
+        )
+
         }
-        currentUser={currentUser}
-        onLogout={logout}
-        setMobileOpen={setMobileOpen}
-        search={search}
-        setSearch={setSearch}
-        catFilter={catFilter}
-        setCatFilter={setCatFilter}
-        previousCategory={previousCategory}
-        setPreviousCategory={setPreviousCategory}
-        setProductsPage={setProductsPage}
-      />
-      <MobileNav
-        open={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-        setView={setView}
-        setSearch={setSearch}
-      />
-      {view === "home" && (
-        <>
-          <Hero
-            setView={setView}
-          />
 
-          <FeaturedProductsSlider
+        {view === "shop" && (
+          <Shop
             products={products}
             loading={productsLoading}
             onAdd={addToCart}
-            openProduct={openProduct}
-            openShop={() => {
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-              });
-
-              setView("shop");
-              window.history.pushState({}, "", "/shop");
-
-
-
-            }}
-          />
-          <CategoryStrip
-            setView={setView}
+            catFilter={catFilter}
             setCatFilter={setCatFilter}
+            search={search}
+            setSearch={setSearch}
+            setView={setView}
+            openProduct={openProduct}
+            productsPage={productsPage}
+            setProductsPage={setProductsPage}
+            productsPagination={productsPagination}
           />
-
-          <WhyNourStore />
-        </>
-      )
-
-      }
-
-      {view === "shop" && (
-        <Shop
-          products={products}
-          loading={productsLoading}
-          onAdd={addToCart}
-          catFilter={catFilter}
-          setCatFilter={setCatFilter}
-          search={search}
-          setSearch={setSearch}
-          setView={setView}
-          openProduct={openProduct}
-          productsPage={productsPage}
-          setProductsPage={setProductsPage}
-          productsPagination={productsPagination}
-        />
-      )}
+        )}
 
 
 
-      {view === "product" && (
-        productsLoading ? (
-          <section
-            style={{
-              minHeight: "60vh",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "60px 20px",
-            }}
-          >
-            <Loader2
-              size={32}
+        {view === "product" && (
+          productsLoading ? (
+            <section
               style={{
-                color: C.gold,
-                animation: "spin 1s linear infinite",
+                minHeight: "60vh",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "60px 20px",
               }}
-            />
-          </section>
-        ) : selectedProduct ? (
-          <ProductDetails
-            product={selectedProduct}
-            onAdd={addToCart}
-            onBack={() => {
-              setSearch("");
+            >
+              <Loader2
+                size={32}
+                style={{
+                  color: C.gold,
+                  animation: "spin 1s linear infinite",
+                }}
+              />
+            </section>
+          ) : selectedProduct ? (
+            <ProductDetails
+              product={selectedProduct}
+              onAdd={addToCart}
+              onBack={() => {
+                setSearch("");
 
-              if (productPreviousView === "home") {
-                setView("home");
+                if (productPreviousView === "home") {
+                  setView("home");
+
+                  window.history.pushState(
+                    {},
+                    "",
+                    "/"
+                  );
+
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                  });
+
+                  return;
+                }
+
+                setCatFilter(productPreviousCategory || "الكل");
+                setView("shop");
 
                 window.history.pushState(
                   {},
                   "",
-                  "/"
+                  "/shop"
                 );
 
                 window.scrollTo({
                   top: 0,
                   behavior: "smooth"
                 });
-
-                return;
-              }
-
-              setCatFilter(productPreviousCategory || "الكل");
-              setView("shop");
-
-              window.history.pushState(
-                {},
-                "",
-                "/shop"
-              );
-
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-              });
-            }}
-          />
-        ) : (
-          <section
-            style={{
-              minHeight: "60vh",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "60px 20px",
-              textAlign: "center"
-            }}
-          >
-            <div>
-              <div
-                style={{
-                  color: C.gold,
-                  fontSize: "3rem",
-                  marginBottom: 15
-                }}
-              >
-                404
-              </div>
-
-              <h2
-                style={{
-                  ...display,
-                  color: C.ivory,
-                  margin: "0 0 10px"
-                }}
-              >
-                المنتج غير موجود
-              </h2>
-
-              <p
-                style={{
-                  color: C.ivoryDim,
-                  margin: "0 0 25px"
-                }}
-              >
-                المنتج الذي تبحثين عنه غير متوفر أو تم حذفه.
-              </p>
-
-              <button
-                onClick={() => {
-                  setView("shop");
-                  window.history.pushState(
-                    {},
-                    "",
-                    "/"
-                  );
-                }}
-                style={{
-                  padding: "11px 20px",
-                  borderRadius: 6,
-                  border: `1px solid ${C.gold}`,
-                  background: C.gold,
-                  color: C.ink,
-                  fontWeight: 800,
-                  cursor: "pointer",
-                  fontFamily: "inherit"
-                }}
-              >
-                العودة للمتجر
-              </button>
-            </div>
-          </section>
-        )
-      )}
-
-      {view === "login" && (
-        <LoginPage
-          onLogin={login}
-          setView={setView}
-        />
-      )}
-
-      {view === "register" && (
-        <RegisterPage
-          onRegister={register}
-          setView={setView}
-        />
-      )}
-
-      {view === "account" &&
-        currentUser && (
-          <AccountDashboard
-            user={currentUser}
-            orders={orders}
-            ordersLoading={
-              ordersLoading
-            }
-            onUpdateProfile={
-              updateProfile
-            }
-          />
-        )}
-
-      {view === "admin" &&
-        currentUser?.role ===
-        "admin" && (
-          <AdminDashboard
-            products={products}
-            orders={orders}
-            ordersLoading={ordersLoading}
-            customers={customers}
-            onSaveProduct={saveProduct}
-            onDeleteProduct={deleteProduct}
-            reactivateProduct={reactivateProduct}
-            onNotify={notify}
-            onUpdateOrderStatus={updateOrderStatus}
-            onDeleteOrder={onDeleteOrder}
-            onOpenDeleteOrder={openDeleteOrderModal}
-          />
-        )}
-
-      <Footer />
-
-      <BackToTop />
-      <FloatingWhatsApp />
-
-
-      <CartDrawer
-        open={cartOpen}
-        onClose={() =>
-          setCartOpen(false)
-        }
-        cart={cart}
-        onInc={incItem}
-        onDec={decItem}
-        onRemove={removeItem}
-        onCheckout={checkout}
-        checkingOut={checkingOut}
-        currentUser={currentUser}
-        guestInfo={guestInfo}
-        setGuestInfo={setGuestInfo}
-      />
-
-
-
-      <Toast message={toast} />
-
-      {deleteOrderId && (
-        <div
-          onClick={() => {
-            if (!deletingOrder) {
-              setDeleteOrderId(null);
-            }
-          }}
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0, 0, 0, 0.72)",
-            backdropFilter: "blur(5px)",
-            WebkitBackdropFilter: "blur(5px)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 20,
-            zIndex: 9999,
-          }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              width: "100%",
-              maxWidth: 420,
-              background: C.panel,
-              border: `1px solid ${C.line}`,
-              borderRadius: 12,
-              padding: 28,
-              textAlign: "center",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
-            }}
-          >
-            <div
+              }}
+            />
+          ) : (
+            <section
               style={{
-                width: 54,
-                height: 54,
-                margin: "0 auto 18px",
-                borderRadius: "50%",
-                background: "rgba(220, 80, 80, 0.10)",
-                border: "1px solid rgba(220, 80, 80, 0.25)",
+                minHeight: "60vh",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                padding: "60px 20px",
+                textAlign: "center"
               }}
             >
-              <Trash2
-                size={24}
-                style={{
-                  color: C.danger,
-                }}
-              />
-            </div>
+              <div>
+                <div
+                  style={{
+                    color: C.gold,
+                    fontSize: "3rem",
+                    marginBottom: 15
+                  }}
+                >
+                  404
+                </div>
 
-            <h3
-              style={{
-                color: C.ivory,
-                margin: "0 0 10px",
-                fontSize: "1.1rem",
-              }}
-            >
-              حذف الطلب
-            </h3>
+                <h2
+                  style={{
+                    ...display,
+                    color: C.ivory,
+                    margin: "0 0 10px"
+                  }}
+                >
+                  المنتج غير موجود
+                </h2>
 
-            <p
-              style={{
-                color: C.taupe,
-                margin: "0 0 24px",
-                fontSize: ".85rem",
-                lineHeight: 1.7,
-              }}
-            >
-              هل أنت متأكد من حذف هذا الطلب؟
-              <br />
-              لا يمكن التراجع عن هذه العملية.
-            </p>
+                <p
+                  style={{
+                    color: C.ivoryDim,
+                    margin: "0 0 25px"
+                  }}
+                >
+                  المنتج الذي تبحثين عنه غير متوفر أو تم حذفه.
+                </p>
 
+                <button
+                  onClick={() => {
+                    setView("shop");
+                    window.history.pushState(
+                      {},
+                      "",
+                      "/"
+                    );
+                  }}
+                  style={{
+                    padding: "11px 20px",
+                    borderRadius: 6,
+                    border: `1px solid ${C.gold}`,
+                    background: C.gold,
+                    color: C.ink,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                    fontFamily: "inherit"
+                  }}
+                >
+                  العودة للمتجر
+                </button>
+              </div>
+            </section>
+          )
+        )}
+
+        {view === "login" && (
+          <LoginPage
+            onLogin={login}
+            setView={setView}
+          />
+        )}
+
+        {view === "register" && (
+          <RegisterPage
+            onRegister={register}
+            setView={setView}
+          />
+        )}
+
+        {view === "account" &&
+          currentUser && (
+            <AccountDashboard
+              user={currentUser}
+              orders={orders}
+              ordersLoading={
+                ordersLoading
+              }
+              onUpdateProfile={
+                updateProfile
+              }
+            />
+          )}
+
+        {view === "admin" &&
+          currentUser?.role ===
+          "admin" && (
+            <AdminDashboard
+              products={products}
+              orders={orders}
+              ordersLoading={ordersLoading}
+              customers={customers}
+              onSaveProduct={saveProduct}
+              onDeleteProduct={deleteProduct}
+              reactivateProduct={reactivateProduct}
+              onNotify={notify}
+              onUpdateOrderStatus={updateOrderStatus}
+              onDeleteOrder={onDeleteOrder}
+              onOpenDeleteOrder={openDeleteOrderModal}
+            />
+          )}
+
+        <Footer />
+
+        <BackToTop />
+        <FloatingWhatsApp />
+
+
+        <CartDrawer
+          open={cartOpen}
+          onClose={() =>
+            setCartOpen(false)
+          }
+          cart={cart}
+          onInc={incItem}
+          onDec={decItem}
+          onRemove={removeItem}
+          onCheckout={checkout}
+          checkingOut={checkingOut}
+          currentUser={currentUser}
+          guestInfo={guestInfo}
+          setGuestInfo={setGuestInfo}
+        />
+
+
+
+        <Toast message={toast} />
+
+        {deleteOrderId && (
+          <div
+            onClick={() => {
+              if (!deletingOrder) {
+                setDeleteOrderId(null);
+              }
+            }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(0, 0, 0, 0.72)",
+              backdropFilter: "blur(5px)",
+              WebkitBackdropFilter: "blur(5px)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 20,
+              zIndex: 9999,
+            }}
+          >
             <div
+              onClick={(e) => e.stopPropagation()}
               style={{
-                display: "flex",
-                gap: 10,
-                justifyContent: "center",
+                width: "100%",
+                maxWidth: 420,
+                background: C.panel,
+                border: `1px solid ${C.line}`,
+                borderRadius: 12,
+                padding: 28,
+                textAlign: "center",
+                boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
               }}
             >
-              <button
-                type="button"
-                disabled={deletingOrder}
-                onClick={() => setDeleteOrderId(null)}
+              <div
                 style={{
-                  flex: 1,
-                  padding: "11px 16px",
-                  borderRadius: 7,
-                  border: `1px solid ${C.line}`,
-                  background: "transparent",
-                  color: C.ivory,
-                  cursor: deletingOrder
-                    ? "not-allowed"
-                    : "pointer",
-                  fontFamily: "inherit",
+                  width: 54,
+                  height: 54,
+                  margin: "0 auto 18px",
+                  borderRadius: "50%",
+                  background: "rgba(220, 80, 80, 0.10)",
+                  border: "1px solid rgba(220, 80, 80, 0.25)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                إلغاء
-              </button>
+                <Trash2
+                  size={24}
+                  style={{
+                    color: C.danger,
+                  }}
+                />
+              </div>
 
-              <button
-                type="button"
-                disabled={deletingOrder}
-                onClick={onDeleteOrder}
+              <h3
                 style={{
-                  flex: 1,
-                  padding: "11px 16px",
-                  borderRadius: 7,
-                  border: "none",
-                  background: C.danger,
-                  color: "#fff",
-                  cursor: deletingOrder
-                    ? "not-allowed"
-                    : "pointer",
-                  fontFamily: "inherit",
-                  fontWeight: 700,
-                  opacity: deletingOrder ? 0.7 : 1,
+                  color: C.ivory,
+                  margin: "0 0 10px",
+                  fontSize: "1.1rem",
                 }}
               >
-                {deletingOrder
-                  ? "جارِ الحذف..."
-                  : "حذف الطلب"}
-              </button>
+                حذف الطلب
+              </h3>
+
+              <p
+                style={{
+                  color: C.taupe,
+                  margin: "0 0 24px",
+                  fontSize: ".85rem",
+                  lineHeight: 1.7,
+                }}
+              >
+                هل أنت متأكد من حذف هذا الطلب؟
+                <br />
+                لا يمكن التراجع عن هذه العملية.
+              </p>
+
+              <div
+                style={{
+                  display: "flex",
+                  gap: 10,
+                  justifyContent: "center",
+                }}
+              >
+                <button
+                  type="button"
+                  disabled={deletingOrder}
+                  onClick={() => setDeleteOrderId(null)}
+                  style={{
+                    flex: 1,
+                    padding: "11px 16px",
+                    borderRadius: 7,
+                    border: `1px solid ${C.line}`,
+                    background: "transparent",
+                    color: C.ivory,
+                    cursor: deletingOrder
+                      ? "not-allowed"
+                      : "pointer",
+                    fontFamily: "inherit",
+                  }}
+                >
+                  إلغاء
+                </button>
+
+                <button
+                  type="button"
+                  disabled={deletingOrder}
+                  onClick={onDeleteOrder}
+                  style={{
+                    flex: 1,
+                    padding: "11px 16px",
+                    borderRadius: 7,
+                    border: "none",
+                    background: C.danger,
+                    color: "#fff",
+                    cursor: deletingOrder
+                      ? "not-allowed"
+                      : "pointer",
+                    fontFamily: "inherit",
+                    fontWeight: 700,
+                    opacity: deletingOrder ? 0.7 : 1,
+                  }}
+                >
+                  {deletingOrder
+                    ? "جارِ الحذف..."
+                    : "حذف الطلب"}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-    </div>
+      </div>
     </>
-   
+
   );
 }
 
