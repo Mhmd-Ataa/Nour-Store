@@ -1880,7 +1880,7 @@ function ProductDetails({ product, onAdd, onBack }) {
           {/* صورة المنتج */}
           <div
             style={{
-              aspectRatio: "4 /4 ",
+              aspectRatio: "3 /4 ",
               background: catGrad(product.cat),
               borderRadius: 8,
               overflow: "hidden",
