@@ -23,6 +23,7 @@ import { api } from "./api.js";
 import Cropper from "react-easy-crop";
 import LoadingScreen from "./LoadingScreen";
 
+
 /* ============================= THEME ============================= */
 
 
@@ -5123,6 +5124,7 @@ function AdminDashboard({
   reactivateProduct,
   onNotify,
   onUpdateOrderStatus,
+    adminDashboardLoading,
   onDeleteOrder,
   onOpenDeleteOrder
 }) {
@@ -5965,6 +5967,7 @@ function AdminDashboard({
 /* ============================= APP ROOT ============================= */
 
 export default function App() {
+  const [adminDashboardLoading, setAdminDashboardLoading] = useState(false);
 
   const [productPreviousCategory, setProductPreviousCategory] =
     useState("الكل");
@@ -6469,52 +6472,70 @@ export default function App() {
   /* ============================= DASHBOARD DATA ============================= */
 
   useEffect(() => {
-    if (
-      view === "account" &&
-      currentUser
-    ) {
-      setOrdersLoading(true);
-
-      api
-        .get("/orders/mine")
-        .then((d) =>
-          setOrders(d.orders)
-        )
-        .catch((e) =>
-          notify(e.message)
-        )
-        .finally(() =>
-          setOrdersLoading(false)
-        );
-    }
-
-    if (
-      view === "admin" &&
-      currentUser?.role === "admin"
-    ) {
-      setOrdersLoading(true);
-
-      Promise.all([
-        api.get("/orders/all"),
-        api.get("/users")
-      ])
-        .then(([o, u]) => {
-
-          setOrders(o.orders);
-          setCustomers(u.users);
-        })
-        .catch((e) =>
-          notify(e.message)
-        )
-        .finally(() =>
-          setOrdersLoading(false)
-        );
-    }
-  }, [
-    view,
+  if (
+    view === "account" &&
     currentUser
-  ]);
+  ) {
+    setOrdersLoading(true);
 
+    api
+      .get("/orders/mine")
+      .then((d) =>
+        setOrders(d.orders)
+      )
+      .catch((e) =>
+        notify(e.message)
+      )
+      .finally(() =>
+        setOrdersLoading(false)
+      );
+  }
+
+  if (
+    view === "admin" &&
+    currentUser?.role === "admin"
+  ) {
+    const loadAdminDashboard = async () => {
+      try {
+        setAdminDashboardLoading(true);
+        setOrdersLoading(true);
+        setProductsLoading(true);
+
+        const [
+          ordersData,
+          usersData,
+          productsData
+        ] = await Promise.all([
+          api.get("/orders/all"),
+          api.get("/users"),
+          api.get("/products/admin")
+        ]);
+
+        setOrders(ordersData.orders);
+        setCustomers(usersData.users);
+        setProducts(productsData.products);
+
+        setProductsPagination(null);
+      } catch (e) {
+        console.error(
+          "ADMIN DASHBOARD ERROR:",
+          e
+        );
+
+        notify(e.message);
+      } finally {
+        setOrdersLoading(false);
+        setProductsLoading(false);
+        setAdminDashboardLoading(false);
+      }
+    };
+
+    loadAdminDashboard();
+  }
+}, [
+  view,
+  currentUser
+]);
   /* ============================= CART FUNCTIONS ============================= */
 
 
@@ -7461,6 +7482,7 @@ export default function App() {
               products={products}
               orders={orders}
               ordersLoading={ordersLoading}
+                adminDashboardLoading={adminDashboardLoading}
               customers={customers}
               onSaveProduct={saveProduct}
               onDeleteProduct={deleteProduct}
