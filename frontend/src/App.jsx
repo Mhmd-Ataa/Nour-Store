@@ -1647,16 +1647,18 @@ function ProductCard({ p, onAdd, onOpen }) {
       }}
 
     >
-      <div
-        style={{
-          aspectRatio: "4/5",
-          background: catGrad(p.cat),
-          position: "relative",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
+     <div
+  style={{
+    aspectRatio: "4 / 5",
+    background: catGrad(p.cat),
+    position: "relative",
+    width: "100%",
+    overflow: "hidden",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  }}
+>
         {p.old && (
           <span
             style={{
@@ -1694,16 +1696,17 @@ function ProductCard({ p, onAdd, onOpen }) {
         )}
 
         {p.image ? (
-          <img
-            src={p.image}
-            alt={p.name}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              display: "block"
-            }}
-          />
+         <img
+  src={p.image}
+  alt={p.name}
+  style={{
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    display: "block",
+    verticalAlign: "middle"
+  }}
+/>
         ) : (
           <Icon
             size={54}
@@ -1880,7 +1883,7 @@ function ProductDetails({ product, onAdd, onBack }) {
           {/* صورة المنتج */}
           <div
             style={{
-              aspectRatio: "3 /4 ",
+              aspectRatio: "3/4",
               background: catGrad(product.cat),
               borderRadius: 8,
               overflow: "hidden",
@@ -1892,15 +1895,16 @@ function ProductDetails({ product, onAdd, onBack }) {
           >
             {product.image ? (
               <img
-                src={product.image}
-                alt={product.name}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  display: "block"
-                }}
-              />
+  src={product.image}
+  alt={product.name}
+  style={{
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    display: "block",
+    verticalAlign: "middle"
+  }}
+/>
             ) : (
               <Icon
                 size={80}
