@@ -4550,18 +4550,17 @@ const createCroppedImage = (imageSrc, pixelCrop) => {
         cropHeight
       );
 
-      canvas.toBlob(
-        (blob) => {
-          if (!blob) {
-            reject(new Error("تعذر تجهيز الصورة"));
-            return;
-          }
+    canvas.toBlob(
+  (blob) => {
+    if (!blob) {
+      reject(new Error("تعذر تجهيز الصورة"));
+      return;
+    }
 
-          resolve(blob);
-        },
-        "image/jpeg",
-        0.9
-      );
+    resolve(blob);
+  },
+  "image/png"
+);
     };
 
     image.onerror = reject;
@@ -4875,12 +4874,12 @@ function ProductFormModal({
                           );
 
                         const croppedFile = new File(
-                          [croppedBlob],
-                          "product-image.jpg",
-                          {
-                            type: "image/jpeg"
-                          }
-                        );
+  [croppedBlob],
+  "product-image.png",
+  {
+    type: "image/png"
+  }
+);
 
                         const croppedUrl =
                           URL.createObjectURL(croppedBlob);
