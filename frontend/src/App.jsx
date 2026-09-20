@@ -5245,121 +5245,131 @@ function AdminDashboard({
             لوحة تحكم المتجر
           </h2>
 
-          {/* ================= OVERVIEW ================= */}
-          {tab === "overview" && (
-            <>
-              <div
-                className="grid grid-cols-2 md:grid-cols-4 gap-4"
-                style={{
-                  marginBottom: 30
-                }}
-              >
-                <KpiCard
-                  icon={DollarSign}
-                  label="إجمالي المبيعات"
-                  value={fmt(totalSales)}
-                />
+  {/* ================= OVERVIEW ================= */}
+{tab === "overview" && (
+  adminDashboardLoading ? (
+    <div
+      style={{
+        padding: 40,
+        textAlign: "center",
+        color: C.taupe
+      }}
+    >
+      جارِ تحميل بيانات لوحة التحكم...
+    </div>
+  ) : (
+    <>
+      <div
+        className="grid grid-cols-2 md:grid-cols-4 gap-4"
+        style={{
+          marginBottom: 30
+        }}
+      >
+        <KpiCard
+          icon={DollarSign}
+          label="إجمالي المبيعات"
+          value={fmt(totalSales)}
+        />
 
-                <KpiCard
-                  icon={ClipboardList}
-                  label="عدد الطلبات"
-                  value={orders.length}
-                />
+        <KpiCard
+          icon={ClipboardList}
+          label="عدد الطلبات"
+          value={orders.length}
+        />
 
-                <KpiCard
-                  icon={UsersIcon}
-                  label="عدد العملاء"
-                  value={customers.length}
-                />
+        <KpiCard
+          icon={UsersIcon}
+          label="عدد العملاء"
+          value={customers.length}
+        />
 
-                <KpiCard
-                  icon={Package}
-                  label="عدد المنتجات"
-                  value={products.length}
-                />
-              </div>
+        <KpiCard
+          icon={Package}
+          label="عدد المنتجات"
+          value={products.length}
+        />
+      </div>
 
-              <div
-                style={{
-                  background: C.panel,
-                  border: `1px solid ${C.line}`,
-                  borderRadius: 8,
-                  padding: 20,
-                  overflow: "hidden"
-                }}
-              >
-                <div
-                  className="flex items-center gap-2"
-                  style={{
-                    marginBottom: 16
-                  }}
-                >
-                  <TrendingUp
-                    size={16}
-                    style={{
-                      color: C.gold
-                    }}
-                  />
+      <div
+        style={{
+          background: C.panel,
+          border: `1px solid ${C.line}`,
+          borderRadius: 8,
+          padding: 20,
+          overflow: "hidden"
+        }}
+      >
+        <div
+          className="flex items-center gap-2"
+          style={{
+            marginBottom: 16
+          }}
+        >
+          <TrendingUp
+            size={16}
+            style={{
+              color: C.gold
+            }}
+          />
 
-                  <span
-                    style={{
-                      color: C.ivory,
-                      fontWeight: 700,
-                      fontSize: ".92rem"
-                    }}
-                  >
-                    نظرة عامة على المبيعات
-                    (بيانات توضيحية لآخر ٧ أيام)
-                  </span>
-                </div>
+          <span
+            style={{
+              color: C.ivory,
+              fontWeight: 700,
+              fontSize: ".92rem"
+            }}
+          >
+            نظرة عامة على المبيعات
+            (بيانات توضيحية لآخر ٧ أيام)
+          </span>
+        </div>
 
-                <ResponsiveContainer
-                  width="100%"
-                  height={260}
-                >
-                  <LineChart
-                    data={salesChartData}
-                  >
-                    <CartesianGrid
-                      stroke={C.line}
-                      strokeDasharray="3 3"
-                    />
+        <ResponsiveContainer
+          width="100%"
+          height={260}
+        >
+          <LineChart data={salesChartData}>
+            <CartesianGrid
+              stroke={C.line}
+              strokeDasharray="3 3"
+            />
 
-                    <XAxis
-                      dataKey="day"
-                      stroke={C.taupe}
-                      fontSize={12}
-                    />
+            <XAxis
+              dataKey="day"
+              stroke={C.taupe}
+              fontSize={12}
+            />
 
-                    <YAxis
-                      stroke={C.taupe}
-                      fontSize={12}
-                    />
+            <YAxis
+              stroke={C.taupe}
+              fontSize={12}
+            />
 
-                    <Tooltip
-                      contentStyle={{
-                        background: C.panel2,
-                        border: `1px solid ${C.line}`,
-                        borderRadius: 8,
-                        color: C.ivory
-                      }}
-                    />
+            <Tooltip
+              contentStyle={{
+                background: C.panel2,
+                border: `1px solid ${C.line}`,
+                borderRadius: 8,
+                color: C.ivory
+              }}
+            />
 
-                    <Line
-                      type="monotone"
-                      dataKey="sales"
-                      stroke={C.gold}
-                      strokeWidth={2.5}
-                      dot={{
-                        fill: C.gold,
-                        r: 3
-                      }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </>
-          )}
+            <Line
+              type="monotone"
+              dataKey="sales"
+              stroke={C.gold}
+              strokeWidth={2.5}
+              dot={{
+                fill: C.gold,
+                r: 3
+              }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </>
+  )
+)}
 
           {/* ================= PRODUCTS ================= */}
           {tab === "products" && (
@@ -6387,17 +6397,26 @@ export default function App() {
     }
   };
 
-  useEffect(() => {
-    if (!authChecked) return;
+ useEffect(() => {
+  if (!authChecked) return;
 
-    loadProducts();
-  }, [
-    currentUser,
-    authChecked,
-    productsPage,
-    catFilter,
-    search,
-  ]);
+  // Admin Dashboard has its own unified loader
+  if (
+    view === "admin" &&
+    currentUser?.role === "admin"
+  ) {
+    return;
+  }
+
+  loadProducts();
+}, [
+  currentUser,
+  authChecked,
+  productsPage,
+  catFilter,
+  search,
+  view
+]);
 
   useEffect(() => {
     if (!authChecked || productsLoading) return;
