@@ -97,6 +97,11 @@ const CAT_META = {
     grad:
       "radial-gradient(circle at 30% 20%, rgba(232,199,102,.22), transparent 55%), linear-gradient(160deg,#2A2013,#15110B)"
   },
+   "العناية بالشعر": {
+    icon: Sparkles,
+    grad:
+      "radial-gradient(circle at 30% 20%, rgba(232,199,102,.22), transparent 55%), linear-gradient(160deg,#2A2013,#15110B)"
+  },
 
   "إكسسوارات": {
     icon: Gem,
