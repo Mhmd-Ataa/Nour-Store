@@ -4531,28 +4531,17 @@ const createCroppedImage = (imageSrc, pixelCrop) => {
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
 
-      if (!ctx) {
-        reject(new Error("تعذر إنشاء Canvas"));
-        return;
-      }
-
-      const cropX = Math.max(0, Math.floor(pixelCrop.x));
-      const cropY = Math.max(0, Math.floor(pixelCrop.y));
-
-      const cropWidth = Math.min(
-        Math.ceil(pixelCrop.width),
-        image.naturalWidth - cropX
-      );
-
-      const cropHeight = Math.min(
-        Math.ceil(pixelCrop.height),
-        image.naturalHeight - cropY
-      );
+      // استخدام أبعاد صحيحة لمنع ظهور خط أسود على الحواف
+      const cropWidth = Math.round(pixelCrop.width);
+      const cropHeight = Math.round(pixelCrop.height);
+      const cropX = Math.round(pixelCrop.x);
+      const cropY = Math.round(pixelCrop.y);
 
       canvas.width = cropWidth;
       canvas.height = cropHeight;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // منع أي خلفية سوداء للـcanvas
+      ctx.clearRect(0, 0, cropWidth, cropHeight);
 
       ctx.drawImage(
         image,
@@ -4566,26 +4555,24 @@ const createCroppedImage = (imageSrc, pixelCrop) => {
         cropHeight
       );
 
-      canvas.toBlob(
-        (blob) => {
-          if (!blob) {
-            reject(new Error("تعذر تجهيز الصورة"));
-            return;
-          }
+    canvas.toBlob(
+  (blob) => {
+    if (!blob) {
+      reject(new Error("تعذر تجهيز الصورة"));
+      return;
+    }
 
-          resolve(blob);
-        },
-        "image/png"
-      );
+    resolve(blob);
+  },
+  "image/png"
+);
     };
 
-    image.onerror = () => {
-      reject(new Error("تعذر تحميل الصورة"));
-    };
-
+    image.onerror = reject;
     image.src = imageSrc;
   });
 };
+
 function ProductFormModal({
   product,
   onSave,
