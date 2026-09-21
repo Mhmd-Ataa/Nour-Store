@@ -1884,14 +1884,15 @@ function ProductDetails({ product, onAdd, onBack }) {
           {/* صورة المنتج */}
           <div
             style={{
-              aspectRatio: "3/4",
-              background: catGrad(product.cat),
+              aspectRatio: "3/3.5",
               borderRadius: 8,
               overflow: "hidden",
               border: `1px solid ${C.line}`,
               display: "flex",
               alignItems: "center",
-              justifyContent: "center"
+              justifyContent: "center",
+                                padding:"10px"
+
             }}
           >
             {product.image ? (
@@ -1903,7 +1904,10 @@ function ProductDetails({ product, onAdd, onBack }) {
                   height: "100%",
                   objectFit: "cover",
                   display: "block",
-                  verticalAlign: "middle"
+                  verticalAlign: "middle",
+                      borderRadius: 10,
+
+                  
                 }}
               />
             ) : (
