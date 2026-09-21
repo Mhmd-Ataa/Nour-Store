@@ -4809,7 +4809,7 @@ function ProductFormModal({
                     image={imagePreview}
                     crop={crop}
                     zoom={zoom}
-                    aspect={4 / 5}
+                    aspect={3 /3}
                     onCropChange={setCrop}
                     onCropComplete={onCropComplete}
                     onZoomChange={setZoom}
@@ -4828,7 +4828,7 @@ function ProductFormModal({
 
                 <input
                   type="range"
-                  min={1}
+                  min={.8}
                   max={3}
                   step={0.1}
                   value={zoom}
