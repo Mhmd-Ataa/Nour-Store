@@ -4531,17 +4531,34 @@ const createCroppedImage = (imageSrc, pixelCrop) => {
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
 
-      // استخدام أبعاد صحيحة لمنع ظهور خط أسود على الحواف
-      const cropWidth = Math.round(pixelCrop.width);
-      const cropHeight = Math.round(pixelCrop.height);
-      const cropX = Math.round(pixelCrop.x);
-      const cropY = Math.round(pixelCrop.y);
+      if (!ctx) {
+        reject(new Error("تعذر إنشاء Canvas"));
+        return;
+      }
+
+      // نستخدم أبعاد صحيحة ونبتعد عن آخر بكسل من المصدر
+      const cropX = Math.max(0, Math.floor(pixelCrop.x));
+      const cropY = Math.max(0, Math.floor(pixelCrop.y));
+
+      const cropWidth = Math.min(
+        Math.floor(pixelCrop.width),
+        image.naturalWidth - cropX - 1
+      );
+
+      const cropHeight = Math.min(
+        Math.floor(pixelCrop.height),
+        image.naturalHeight - cropY - 1
+      );
+
+      if (cropWidth <= 0 || cropHeight <= 0) {
+        reject(new Error("أبعاد القص غير صحيحة"));
+        return;
+      }
 
       canvas.width = cropWidth;
       canvas.height = cropHeight;
 
-      // منع أي خلفية سوداء للـcanvas
-      ctx.clearRect(0, 0, cropWidth, cropHeight);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       ctx.drawImage(
         image,
@@ -4555,20 +4572,23 @@ const createCroppedImage = (imageSrc, pixelCrop) => {
         cropHeight
       );
 
-    canvas.toBlob(
-  (blob) => {
-    if (!blob) {
-      reject(new Error("تعذر تجهيز الصورة"));
-      return;
-    }
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) {
+            reject(new Error("تعذر تجهيز الصورة"));
+            return;
+          }
 
-    resolve(blob);
-  },
-  "image/png"
-);
+          resolve(blob);
+        },
+        "image/png"
+      );
     };
 
-    image.onerror = reject;
+    image.onerror = () => {
+      reject(new Error("تعذر تحميل الصورة"));
+    };
+
     image.src = imageSrc;
   });
 };
