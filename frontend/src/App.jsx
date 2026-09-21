@@ -4536,24 +4536,18 @@ const createCroppedImage = (imageSrc, pixelCrop) => {
         return;
       }
 
-      // نستخدم أبعاد صحيحة ونبتعد عن آخر بكسل من المصدر
       const cropX = Math.max(0, Math.floor(pixelCrop.x));
       const cropY = Math.max(0, Math.floor(pixelCrop.y));
 
       const cropWidth = Math.min(
-        Math.floor(pixelCrop.width),
-        image.naturalWidth - cropX - 1
+        Math.ceil(pixelCrop.width),
+        image.naturalWidth - cropX
       );
 
       const cropHeight = Math.min(
-        Math.floor(pixelCrop.height),
-        image.naturalHeight - cropY - 1
+        Math.ceil(pixelCrop.height),
+        image.naturalHeight - cropY
       );
-
-      if (cropWidth <= 0 || cropHeight <= 0) {
-        reject(new Error("أبعاد القص غير صحيحة"));
-        return;
-      }
 
       canvas.width = cropWidth;
       canvas.height = cropHeight;
@@ -4829,7 +4823,7 @@ function ProductFormModal({
                     image={imagePreview}
                     crop={crop}
                     zoom={zoom}
-                    aspect={3 /3}
+                    aspect={2 /3}
                     onCropChange={setCrop}
                     onCropComplete={onCropComplete}
                     onZoomChange={setZoom}
@@ -4848,7 +4842,7 @@ function ProductFormModal({
 
                 <input
                   type="range"
-                  min={.8}
+                  min={1}
                   max={3}
                   step={0.1}
                   value={zoom}
