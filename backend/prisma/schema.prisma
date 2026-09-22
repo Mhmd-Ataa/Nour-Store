@@ -29,6 +29,7 @@ model Product {
   image       String?
   description String?
   isActive    Boolean     @default(true)
+  featured    Boolean     @default(false)
   createdAt   DateTime    @default(now())
   cartItems   CartItem[]
   orderItems  OrderItem[]

@@ -43,6 +43,9 @@ router.get("/", async (req, res) => {
     const where = {
   isActive: true,
 };
+// فلترة المنتجات المميزة
+if (req.query.featured === "true") {
+  where.featured = true;}
 
 // فلترة حسب التصنيف
 // البحث عن المنتج - Global Search
@@ -161,14 +164,15 @@ router.post(
   async (req, res) => {
     console.log("UPLOAD FILE:", req.file);
     try {
- const {
+const {
   name,
   cat,
   price,
   old,
   stock,
   rating,
-  description
+  description,
+  featured
 } = req.body;
       if (
         !name?.trim() ||
@@ -260,17 +264,17 @@ if (req.file) {
   console.log("IMAGE URL:", imageUrl);
 }
       const product = await prisma.product.create({
-        data: {
-          name: cleanName,
-          cat: cleanCat,
-          price: cleanPrice,
-          old: cleanOld,
-          stock: cleanStock,
-          rating: cleanRating,
-                    description: description || null,
-
-          image: imageUrl,
-        },
+      data: {
+  name: cleanName,
+  cat: cleanCat,
+  price: cleanPrice,
+  old: cleanOld,
+  stock: cleanStock,
+  rating: cleanRating,
+  description: description || null,
+  image: imageUrl,
+  featured: featured === true || featured === "true",
+},
       });
 
       res.status(201).json({ product });
@@ -302,15 +306,16 @@ router.put(
       }
 
     const {
-      name,
-      cat,
-      price,
-      old,
-      stock,
-      rating,
-      description,
-      isActive,
-    } = req.body;
+  name,
+  cat,
+  price,
+  old,
+  stock,
+  rating,
+  description,
+  isActive,
+  featured,
+} = req.body;
 
       const data = {};
 
@@ -422,7 +427,11 @@ router.put(
 
         data.isActive = cleanIsActive;
       }
-
+if (featured !== undefined) {
+  data.featured =
+    featured === true ||
+    featured === "true";
+}
       // لو الأدمن اختار صورة جديدة
      if (req.file) {
   console.log("Starting Cloudinary upload...");

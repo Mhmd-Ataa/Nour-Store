@@ -97,7 +97,7 @@ const CAT_META = {
     grad:
       "radial-gradient(circle at 30% 20%, rgba(232,199,102,.22), transparent 55%), linear-gradient(160deg,#2A2013,#15110B)"
   },
-   "العناية بالشعر": {
+  "العناية بالشعر": {
     icon: Sparkles,
     grad:
       "radial-gradient(circle at 30% 20%, rgba(232,199,102,.22), transparent 55%), linear-gradient(160deg,#2A2013,#15110B)"
@@ -2178,7 +2178,7 @@ function FeaturedProductsSlider({
 
   const featured = products
     .filter((p) => p.isActive === true)
-    .slice(0, 8);
+    .slice(0, 7);
   return (
     <section
       style={{
@@ -2664,6 +2664,156 @@ function CategoryStrip({ setView, setCatFilter }) {
             );
           })}
         </div>
+      </div>
+    </section>
+  );
+}
+function FeaturedProductsSection({
+  products,
+  loading,
+  onAdd,
+  openProduct,
+  openShop
+}) {
+  const featured = products
+    .filter(
+      (p) =>
+        p.isActive === true &&
+        p.featured === true
+    )
+    .slice(0, 8);
+
+  // لو مفيش منتجات مميزة، القسم نفسه لا يظهر
+  if (!loading && featured.length === 0) {
+    return null;
+  }
+
+  return (
+    <section
+      style={{
+        padding: "70px 20px",
+        background: C.panel
+
+      }}
+    >
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto"
+        }}
+      >
+        {/* العنوان */}
+        <div
+          style={{
+            marginBottom: 35
+          }}
+        >
+          <div
+            style={{
+              color: C.gold,
+              fontSize: ".75rem",
+              fontWeight: 700,
+              letterSpacing: 1.5,
+              marginBottom: 10
+            }}
+          >
+            اختياراتنا لك
+          </div>
+
+          <h2
+            style={{
+              ...display,
+              color: C.ivory,
+              margin: 0,
+              fontSize: "clamp(1.7rem, 4vw, 2.4rem)"
+            }}
+          >
+            منتجات مميزة
+          </h2>
+        </div>
+
+        {/* المنتجات */}
+        {loading ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              padding: "40px 0"
+            }}
+          >
+            <Loader2
+              size={30}
+              style={{
+                color: C.gold,
+                animation: "spin 1s linear infinite"
+              }}
+            />
+          </div>
+        ) : (
+          <div
+            className="featured-products-grid"
+            style={{
+              display: "grid",
+
+              gap: 20
+            }}
+          >
+
+            {featured.map((p) => (
+              <div
+                key={p.id}
+                style={{
+                  minWidth: 0
+                }}
+              >
+                <ProductCard
+                  p={p}
+                  onAdd={onAdd}
+                  onOpen={openProduct}
+                />
+              </div>
+            ))}
+
+            {/* كارت عرض كل المنتجات */}
+            <div
+              onClick={openShop}
+              style={{
+                minHeight: 320,
+                border: `1px solid ${C.line}`,
+                borderRadius: 12,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                padding: 20,
+                cursor: "pointer",
+                background: C.ink
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    fontSize: "2rem",
+                    color: C.gold,
+                    marginBottom: 12
+                  }}
+                >
+                  →
+                </div>
+
+                <div
+                  style={{
+                    color: C.ivory,
+                    fontWeight: 700,
+                    fontSize: ".95rem"
+                  }}
+                >
+                  عرض جميع المنتجات
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
@@ -4598,7 +4748,8 @@ function ProductFormModal({
         stock: "",
         rating: 5,
         description: "",
-        image: null
+        image: null,
+        featured: false
       }
     );
 
@@ -4647,6 +4798,10 @@ function ProductFormModal({
       formData.append(
         "description",
         form.description || ""
+      );
+      formData.append(
+        "featured",
+        form.featured ? "true" : "false"
       );
 
       if (form.image instanceof File) {
@@ -5045,6 +5200,7 @@ function ProductFormModal({
           </select>
         </label>
 
+
         <div className="grid grid-cols-2 gap-3">
           <Input
             label="السعر"
@@ -5208,6 +5364,12 @@ function AdminDashboard({
       routes[nextTab]
     );
   };
+
+  const featuredCount = products.filter(
+    (product) =>
+      product.isActive === true &&
+      product.featured === true
+  ).length;
 
   return (
     <section
@@ -5462,6 +5624,9 @@ function AdminDashboard({
                       <th style={{ padding: 14 }}>
                         المخزون
                       </th>
+                      <th style={{ padding: 14 }}>
+                        ⭐ مميز
+                      </th>
 
                       <th style={{ padding: 14 }} />
                     </tr>
@@ -5531,6 +5696,68 @@ function AdminDashboard({
                           }}
                         >
                           {p.stock}
+                        </td>
+                        <td
+                          style={{
+                            padding: 14,
+                            textAlign: "center"
+                          }}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={!!p.featured}
+                            onChange={async (e) => {
+                              const isFeatured = e.target.checked;
+
+                              // منع إضافة المنتج رقم 8
+                              if (
+                                isFeatured &&
+                                featuredCount >= 7 &&
+                                !p.featured
+                              ) {
+                                onNotify(
+                                  "تم إضافة 7 منتجات مميزة بالفعل ⭐"
+                                );
+
+                                return;
+                              }
+
+                              const formData = new FormData();
+
+                              formData.append(
+                                "featured",
+                                isFeatured ? "true" : "false"
+                              );
+
+                              try {
+                                await onSaveProduct(
+                                  formData,
+                                  p.id
+                                );
+
+                                onNotify(
+                                  isFeatured
+                                    ? "تمت إضافة المنتج إلى المنتجات المميزة ⭐"
+                                    : "تمت إزالة المنتج من المنتجات المميزة"
+                                );
+                              } catch (err) {
+                                console.error(
+                                  "FEATURED UPDATE ERROR:",
+                                  err
+                                );
+
+                                onNotify(
+                                  "حدث خطأ أثناء تحديث المنتج"
+                                );
+                              }
+                            }}
+                            style={{
+                              width: 18,
+                              height: 18,
+                              accentColor: C.gold,
+                              cursor: "pointer"
+                            }}
+                          />
                         </td>
 
                         <td
@@ -6021,6 +6248,10 @@ export default function App() {
 
     return "home";
   });
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const [selectedProductLoading, setSelectedProductLoading] =
+    useState(false);
 
   const [selectedProductId, setSelectedProductId] = useState(() => {
     const match = window.location.pathname.match(
@@ -6034,6 +6265,36 @@ export default function App() {
       setSelectedProductId(null);
     }
   }, [view]);
+
+  useEffect(() => {
+    if (!selectedProductId) {
+      setSelectedProduct(null);
+      return;
+    }
+
+    const loadSelectedProduct = async () => {
+      try {
+        setSelectedProductLoading(true);
+
+        const d = await api.get(
+          `/products/${selectedProductId}`
+        );
+
+        setSelectedProduct(d.product);
+      } catch (err) {
+        console.error(
+          "SELECTED PRODUCT ERROR:",
+          err
+        );
+
+        setSelectedProduct(null);
+      } finally {
+        setSelectedProductLoading(false);
+      }
+    };
+
+    loadSelectedProduct();
+  }, [selectedProductId]);
 
   useEffect(() => {
     const handlePopState = () => {
@@ -6118,9 +6379,7 @@ export default function App() {
     useState(true);
   const [initialLoading, setInitialLoading] = useState(true);
 
-  const selectedProduct = products.find(
-    (p) => p.id === selectedProductId
-  );
+
 
   useEffect(() => {
     if (view === "product" && selectedProduct) {
@@ -6349,6 +6608,22 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+
+  const loadFeaturedProducts = async () => {
+    try {
+      const d = await api.get(
+        "/products?featured=true&limit=8"
+      );
+
+      setFeaturedProducts(d.products);
+    } catch (err) {
+      console.error(
+        "FEATURED PRODUCTS ERROR:",
+        err
+      );
+    }
+  };
   /* ============================= LOAD PRODUCTS ============================= */
 
   /* ============================= LOAD PRODUCTS ============================= */
@@ -6423,6 +6698,7 @@ export default function App() {
     }
 
     loadProducts();
+    loadFeaturedProducts();
   }, [
     currentUser,
     authChecked,
@@ -7328,6 +7604,26 @@ export default function App() {
               setView={setView}
               setCatFilter={setCatFilter}
             />
+            <FeaturedProductsSection
+              products={featuredProducts}
+              loading={productsLoading}
+              onAdd={addToCart}
+              openProduct={openProduct}
+              openShop={() => {
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth"
+                });
+
+                setView("shop");
+                window.history.pushState(
+                  {},
+                  "",
+                  "/shop"
+                );
+              }}
+            />
+
 
             <WhyNourStore />
           </>
@@ -7355,7 +7651,7 @@ export default function App() {
 
 
         {view === "product" && (
-          productsLoading ? (
+          selectedProductLoading ? (
             <section
               style={{
                 minHeight: "60vh",
