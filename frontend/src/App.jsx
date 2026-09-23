@@ -4975,7 +4975,7 @@ function ProductFormModal({
                     image={imagePreview}
                     crop={crop}
                     zoom={zoom}
-                    aspect={2 / 3}
+                    aspect={4/5}
                     onCropChange={setCrop}
                     onCropComplete={onCropComplete}
                     onZoomChange={setZoom}
