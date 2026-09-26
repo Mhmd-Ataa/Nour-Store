@@ -160,7 +160,7 @@ router.post(
   "/",
   auth,
   requireAdmin,
-  upload.single("image"),
+  upload.array("images", 10),
   async (req, res) => {
     console.log("UPLOAD FILE:", req.file);
     try {
@@ -249,19 +249,25 @@ const {
 
     // لو الأدمن اختار صورة، نرفعها إلى Cloudinary
 let imageUrl = null;
+let imageUrls = [];
 
-if (req.file) {
-  console.log("Starting Cloudinary upload...");
-
-  const result = await uploadToCloudinary(
-    req.file.buffer
+if (req.files?.length) {
+  console.log(
+    "Starting Cloudinary uploads:",
+    req.files.length
   );
 
-  console.log("CLOUDINARY RESULT:", result);
+  for (const file of req.files) {
+    const result = await uploadToCloudinary(
+      file.buffer
+    );
 
-  imageUrl = result.secure_url;
+    imageUrls.push(result.secure_url);
+  }
 
-  console.log("IMAGE URL:", imageUrl);
+  imageUrl = imageUrls[0] || null;
+
+  console.log("IMAGE URLS:", imageUrls);
 }
       const product = await prisma.product.create({
       data: {
@@ -273,6 +279,7 @@ if (req.file) {
   rating: cleanRating,
   description: description || null,
   image: imageUrl,
+  images: imageUrls,
   featured: featured === true || featured === "true",
 },
       });
@@ -294,8 +301,8 @@ router.put(
   "/:id",
   auth,
   requireAdmin,
-  upload.single("image"),
-  async (req, res) => {
+upload.array("images", 10), 
+ async (req, res) => {
     try {
       const id = Number(req.params.id);
 
@@ -318,7 +325,18 @@ router.put(
 } = req.body;
 
       const data = {};
+let galleryImages = [];
 
+if (req.body.galleryImages) {
+  try {
+    galleryImages = JSON.parse(req.body.galleryImages);
+  } catch {
+    return res.status(400).json({
+      message: "بيانات صور المنتج غير صحيحة",
+    });
+  }
+}
+console.log("GALLERY IMAGES FROM FRONTEND:", galleryImages);
       if (description !== undefined) {
   const cleanDescription = String(description).trim();
 
@@ -433,18 +451,36 @@ if (featured !== undefined) {
     featured === "true";
 }
       // لو الأدمن اختار صورة جديدة
-     if (req.file) {
-  console.log("Starting Cloudinary upload...");
-
-  const result = await uploadToCloudinary(
-    req.file.buffer
+if (req.files?.length) {
+  console.log(
+    "Starting Cloudinary uploads:",
+    req.files.length
   );
 
-  console.log("CLOUDINARY RESULT:", result);
+  const newImageUrls = [];
 
-  data.image = result.secure_url;
+  for (const file of req.files) {
+    const result = await uploadToCloudinary(
+      file.buffer
+    );
 
-  console.log("IMAGE URL:", data.image);
+    newImageUrls.push(result.secure_url);
+  }
+
+  galleryImages = [
+    ...galleryImages.filter(
+      (img) => !img.startsWith("blob:")
+    ),
+    ...newImageUrls
+  ];
+
+  data.images = galleryImages;
+  data.image = galleryImages[0] || null;
+
+  console.log("IMAGE URLS:", galleryImages);
+} else if (req.body.galleryImages) {
+  data.images = galleryImages;
+  data.image = galleryImages[0] || null;
 }
 
       if (Object.keys(data).length === 0) {

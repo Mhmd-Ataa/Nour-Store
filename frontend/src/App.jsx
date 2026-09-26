@@ -1851,7 +1851,12 @@ function ProductDetails({ product, onAdd, onBack }) {
   //   metaDescription.setAttribute("content", description);
   // }, [product]);
   const [qty, setQty] = useState(1);
-  const Icon = catIcon(product.cat);
+
+  const [selectedImage, setSelectedImage] = useState(
+    product.images?.length
+      ? product.images[0]
+      : product.image
+  ); const Icon = catIcon(product.cat);
 
   return (
     <section
@@ -1893,43 +1898,87 @@ function ProductDetails({ product, onAdd, onBack }) {
           }}
         >
           {/* صورة المنتج */}
-          <div
-            style={{
-              aspectRatio: "3/3.5",
-              borderRadius: 8,
-              overflow: "hidden",
-              border: `1px solid ${C.line}`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "10px"
+          {/* صورة المنتج */}
+          <div>
+            <div
+              style={{
+                aspectRatio: "3/3.5",
+                borderRadius: 8,
+                overflow: "hidden",
+                border: `1px solid ${C.line}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "10px"
+              }}
+            >
+              {selectedImage ? (
+                <img
+                  src={selectedImage}
+                  alt={product.name}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                    verticalAlign: "middle",
+                    borderRadius: 10,
+                  }}
+                />
+              ) : (
+                <Icon
+                  size={80}
+                  style={{
+                    color: C.gold,
+                    opacity: 0.9
+                  }}
+                />
+              )}
+            </div>
 
-            }}
-          >
-            {product.image ? (
-              <img
-                src={product.image}
-                alt={product.name}
+            {product.images?.length > 1 && (
+              <div
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  display: "block",
-                  verticalAlign: "middle",
-                  borderRadius: 10,
-
-
+                  display: "flex",
+                  gap: 8,
+                  marginTop: 10,
+                  flexWrap: "wrap"
                 }}
-              />
-            ) : (
-              <Icon
-                size={80}
-                style={{
-                  color: C.gold,
-                  opacity: 0.9
-                }}
-              />
+              >
+                {product.images.map((img, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => setSelectedImage(img)}
+                    style={{
+                      width: 70,
+                      height: 88,
+                      padding: 0,
+                      borderRadius: 8,
+                      overflow: "hidden",
+                      border:
+                        selectedImage === img
+                          ? `2px solid ${C.gold}`
+                          : `1px solid ${C.line}`,
+                      background: C.panel,
+                      cursor: "pointer"
+                    }}
+                  >
+                    <img
+                      src={img}
+                      alt={`${product.name} ${index + 1}`}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block"
+                      }}
+                    />
+                  </button>
+                ))}
+              </div>
             )}
+
           </div>
 
           {/* بيانات المنتج */}
@@ -2107,6 +2156,7 @@ function ProductDetails({ product, onAdd, onBack }) {
                 +
               </button>
             </div>
+
             <button
               disabled={product.stock <= 0}
               onClick={() => onAdd(product, qty)}
@@ -4767,6 +4817,27 @@ function ProductFormModal({
 
   const [imagePreview, setImagePreview] =
     useState(product?.image || "");
+
+  const [galleryImages, setGalleryImages] =
+    useState(
+      product?.images?.length
+        ? product.images
+        : product?.image
+          ? [product.image]
+          : []
+    );
+  const [croppedFiles, setCroppedFiles] =
+    useState([]);
+  const [selectedGalleryIndex, setSelectedGalleryIndex] = useState(0);
+
+  const [newImageFiles, setNewImageFiles] =
+    useState([]);
+
+  const [pendingFiles, setPendingFiles] =
+    useState([]);
+
+  const [cropIndex, setCropIndex] =
+    useState(0);
   const [saving, setSaving] =
     useState(false);
 
@@ -4816,10 +4887,13 @@ function ProductFormModal({
         form.featured ? "true" : "false"
       );
 
-      if (form.image instanceof File) {
-        formData.append("image", form.image);
-      }
-
+      croppedFiles.forEach((file) => {
+        formData.append("images", file);
+      });
+      formData.append(
+  "galleryImages",
+  JSON.stringify(galleryImages)
+);
 
       console.log("IMAGE:", form.image);
       console.log("FORM DATA IMAGE:", formData.get("image"));
@@ -4916,18 +4990,23 @@ function ProductFormModal({
           <input
             type="file"
             accept="image/*"
+            multiple
             onChange={(e) => {
-              const file = e.target.files?.[0];
+              const files = Array.from(e.target.files || []);
 
-              if (!file) return;
+              if (!files.length) return;
 
-              setForm({
-                ...form,
-                image: file
-              });
+              setPendingFiles(files);
+
+              const firstFile = files[0];
+
+              setForm((prev) => ({
+                ...prev,
+                image: firstFile
+              }));
 
               setImagePreview(
-                URL.createObjectURL(file)
+                URL.createObjectURL(firstFile)
               );
 
               setCrop({ x: 0, y: 0 });
@@ -5063,16 +5142,46 @@ function ProductFormModal({
                             type: "image/jpeg"
                           }
                         );
+
                         const croppedUrl =
                           URL.createObjectURL(croppedBlob);
 
-                        setForm((prev) => ({
+                        // حفظ الـ File المقصوص
+                        setCroppedFiles((prev) => [
                           ...prev,
-                          image: croppedFile
-                        }));
+                          croppedFile
+                        ]);
 
-                        setImagePreview(croppedUrl);
-                        setShowCrop(false);
+                        // حفظ المعاينة
+                        setGalleryImages((prev) => [
+                          ...prev,
+                          croppedUrl
+                        ]);
+
+                        // معرفة الصورة التالية
+                        const currentIndex = cropIndex;
+                        const nextIndex = currentIndex + 1;
+
+                        if (nextIndex < pendingFiles.length) {
+                          const nextFile = pendingFiles[nextIndex];
+
+                          setCropIndex(nextIndex);
+
+                          setForm((prev) => ({
+                            ...prev,
+                            image: nextFile
+                          }));
+
+                          setImagePreview(
+                            URL.createObjectURL(nextFile)
+                          );
+
+                          setCrop({ x: 0, y: 0 });
+                          setZoom(1);
+                          setShowCrop(true);
+                        } else {
+                          setShowCrop(false);
+                        }
                       } catch (err) {
                         setError(
                           "حدث خطأ أثناء قص الصورة"
@@ -5109,8 +5218,10 @@ function ProductFormModal({
               }}
             >
               <img
-                src={imagePreview}
-                alt="معاينة المنتج"
+                src={
+                  galleryImages[selectedGalleryIndex] ||
+                  imagePreview
+                } alt="معاينة المنتج"
                 style={{
                   width: "100%",
                   height: "100%",
@@ -5148,6 +5259,96 @@ function ProductFormModal({
               </button>
             </div>
           )}
+          {galleryImages.length > 0 && (
+            <div
+              style={{
+                display: "flex",
+                gap: 8,
+                flexWrap: "wrap",
+                marginTop: 10
+              }}
+            >
+              {galleryImages.map((img, index) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    setSelectedGalleryIndex(index);
+                    setImagePreview(img);
+                  }} style={{
+                    position: "relative",
+                    width: 70,
+                    height: 88,
+                    borderRadius: 8,
+                    overflow: "hidden",
+                    border: `1px solid ${C.line}`,
+                    background: C.ink
+                  }}
+                >
+                  <img
+                    src={img}
+                    alt={`صورة المنتج ${index + 1}`}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover"
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+
+                      setGalleryImages((prev) => {
+                        const updated = prev.filter((_, i) => i !== index);
+
+                        if (updated.length === 0) {
+                          setImagePreview("");
+                          setSelectedGalleryIndex(0);
+                          return updated;
+                        }
+
+                        if (index === selectedGalleryIndex) {
+                          const nextIndex = Math.min(
+                            index,
+                            updated.length - 1
+                          );
+
+                          setSelectedGalleryIndex(nextIndex);
+                          setImagePreview(updated[nextIndex]);
+                        } else if (index < selectedGalleryIndex) {
+                          const newSelectedIndex =
+                            selectedGalleryIndex - 1;
+
+                          setSelectedGalleryIndex(newSelectedIndex);
+                          setImagePreview(updated[newSelectedIndex]);
+                        }
+
+                        return updated;
+                      });
+                    }}
+                    style={{
+                      position: "absolute",
+                      top: 3,
+                      right: 3,
+                      width: 22,
+                      height: 22,
+                      borderRadius: "50%",
+                      border: "none",
+                      background: C.danger,
+                      color: "#fff",
+                      cursor: "pointer",
+                      fontSize: 14,
+                      lineHeight: 1,
+                      padding: 0
+                    }}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
         </div>
 
         <textarea
@@ -7245,7 +7446,7 @@ export default function App() {
       }
       setCartOpen(false);
 
-      notify( "تم إرسال طلبك بنجاح، شكرًا لتسوقك من 𝓝𝓸𝓾𝓻 𝑺𝒕𝒐𝒓𝒆 "
+      notify("تم إرسال طلبك بنجاح، شكرًا لتسوقك من 𝓝𝓸𝓾𝓻 𝑺𝒕𝒐𝒓𝒆 "
       );
 
       if (view === "account") {

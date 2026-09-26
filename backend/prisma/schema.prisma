@@ -27,6 +27,7 @@ model Product {
   stock       Int
   rating      Int         @default(5)
   image       String?
+  images      String[]
   description String?
   isActive    Boolean     @default(true)
   featured    Boolean     @default(false)
