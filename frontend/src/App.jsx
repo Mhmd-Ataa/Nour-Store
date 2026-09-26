@@ -16,6 +16,7 @@ import {
   RefreshCcw
 
 } from "lucide-react";
+import * as Unicons from "@iconscout/react-unicons";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from "recharts";
@@ -587,7 +588,7 @@ function Header({
               color: C.ivory
             }}
           >
-            <b style={{ color: C.gold }}>Nour</b> Store
+            <b style={{ color: C.gold }}>𝓝𝓸𝓾𝓻 </b> <br /> 𝑺𝒕𝒐𝒓𝒆
           </span>
         </button>
 
@@ -1174,7 +1175,6 @@ function MenuLink({ children, onClick, danger, setSearch }) {
     </button>
   );
 }
-
 function MobileNav({ open, onClose, setView, setSearch }) {
   if (!open) return null;
 
@@ -1200,7 +1200,8 @@ function MobileNav({ open, onClose, setView, setSearch }) {
             fontSize: "1.3rem"
           }}
         >
-          <b style={{ color: C.gold }}>Nour</b> Store
+          <b style={{ color: C.gold }}>𝓝𝓸𝓾𝓻
+          </b> 𝑺𝒕𝒐𝒓𝒆
         </span>
 
         <button
@@ -1428,11 +1429,17 @@ function Hero({ setView }) {
       }}
     >
       {/* Background */}
+      {/* Background */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           zIndex: 0,
+
+          background:
+            "radial-gradient(circle at 15% 20%, rgba(231,175,192,.35), transparent 40%)," +
+            "radial-gradient(circle at 85% 75%, rgba(217,143,163,.18), transparent 45%)," +
+            "linear-gradient(135deg, #FFFFFF 0%, #FFF9FA 45%, #FCECEF 100%)"
         }}
       />
 
@@ -1627,7 +1634,6 @@ function Hero({ setView }) {
     </section>
   );
 }
-
 function ProductCard({ p, onAdd, onOpen }) {
   const [hover, setHover] = useState(false);
   const Icon = catIcon(p.cat);
@@ -2394,6 +2400,7 @@ function Shop({
         >
           {["الكل", ...CATS].map((c) => {
             const active = catFilter === c;
+            const Icon = c === "الكل" ? null : catIcon(c);
 
             return (
               <button
@@ -2445,6 +2452,16 @@ function Shop({
                   }
                 }}
               >
+                {Icon && (
+                  <Icon
+                    size={18}
+                    style={{
+                      marginLeft: 7,
+                      flexShrink: 0
+                    }}
+                  />
+                )}
+
                 {c}
               </button>
             );
@@ -2875,7 +2892,7 @@ function WhyNourStore() {
             marginBottom: 42
           }}
         >
-          <Eyebrow>لماذا نور ستور؟</Eyebrow>
+          <Eyebrow>لماذا 𝑺𝒕𝒐𝒓𝒆 𝓝𝓸𝓾𝓻 ؟</Eyebrow>
 
           <h2
             style={{
@@ -2898,7 +2915,7 @@ function WhyNourStore() {
             }}
           >
             من اختيار المنتج لحد ما يوصل لباب بيتك، نهتم بكل تفصيلة
-            علشان تكون تجربتك مع Nour Store أسهل وأفضل.
+            علشان تكون تجربتك مع 𝓝𝓸𝓾𝓻 𝑺𝒕𝒐𝒓𝒆 أسهل وأفضل.
           </p>
         </div>
 
@@ -3100,7 +3117,7 @@ function Footer() {
             marginBottom: 10
           }}
         >
-          Nour Store
+          𝓝𝓸𝓾𝓻 𝑺𝒕𝒐𝒓𝒆
         </div>
 
         <p
@@ -3247,7 +3264,7 @@ function Footer() {
             fontSize: ".75rem"
           }}
         >
-          © 2026 Nour Store. جميع الحقوق محفوظة.
+          © 2026 𝓝𝓸𝓾𝓻 𝑺𝒕𝒐𝒓𝒆. جميع الحقوق محفوظة.
         </div>
 
         {/* Developer */}
@@ -3820,7 +3837,7 @@ function AuthShell({
               color: C.ivory
             }}
           >
-            <b style={{ color: C.gold }}>Nour</b> Store
+            <b style={{ color: C.gold }}>𝓝𝓸𝓾𝓻</b> 𝑺𝒕𝒐𝒓𝒆
           </span>
         </div>
 
@@ -4012,7 +4029,8 @@ function RegisterPage({
   return (
     <AuthShell
       title="إنشاء حساب جديد"
-      subtitle="انضمي لعائلة نور واستمتعي بعروض حصرية."
+      subtitle="انضمي لعائلة 𝓝𝓸𝓾𝓻
+𝑺𝒕𝒐𝒓𝒆 واستمتعي بعروض حصرية."
     >
       <form
         onSubmit={submit}
@@ -4233,9 +4251,6 @@ function DashSidebar({
     </div>
   );
 }
-
-
-
 function KpiCard({
   icon: Icon,
   label,
@@ -4475,9 +4490,6 @@ function AccountDashboard({
     </section>
   );
 }
-
-
-
 
 function OrdersTable({
   orders,
@@ -4975,7 +4987,7 @@ function ProductFormModal({
                     image={imagePreview}
                     crop={crop}
                     zoom={zoom}
-                    aspect={4/5}
+                    aspect={4 / 5}
                     onCropChange={setCrop}
                     onCropComplete={onCropComplete}
                     onZoomChange={setZoom}
@@ -5281,9 +5293,6 @@ function ProductFormModal({
     </div>
   );
 }
-
-
-
 function AdminDashboard({
   products,
   orders,
@@ -6383,9 +6392,9 @@ export default function App() {
 
   useEffect(() => {
     if (view === "product" && selectedProduct) {
-      document.title = `${selectedProduct.name} | Nour Store`;
+      document.title = `${selectedProduct.name} | 𝓝𝓸𝓾𝓻 𝑺𝒕𝒐𝒓𝒆`;
     } else {
-      document.title = "Nour Store";
+      document.title = "𝓝𝓸𝓾𝓻 𝑺𝒕𝒐𝒓𝒆";
     }
   }, [view, selectedProduct]);
 
@@ -7236,8 +7245,7 @@ export default function App() {
       }
       setCartOpen(false);
 
-      notify(
-        "تم إرسال طلبك بنجاح، شكرًا لتسوقك من نور! ✨"
+      notify( "تم إرسال طلبك بنجاح، شكرًا لتسوقك من 𝓝𝓸𝓾𝓻 𝑺𝒕𝒐𝒓𝒆 "
       );
 
       if (view === "account") {

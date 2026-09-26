@@ -7,7 +7,7 @@ export default function LoadingScreen() {
       <div className="loading-content">
 
         <div className="loading-brand">
-          NOUR STORE
+          𝓝𝓸𝓾𝓻 𝑺𝒕𝒐𝒓𝒆
         </div>
 
         <div className="loading-line">
