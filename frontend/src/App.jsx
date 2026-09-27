@@ -1644,20 +1644,26 @@ function ProductCard({ p, onAdd, onOpen }) {
       onMouseLeave={() => setHover(false)}
       style={{
         background: C.panel,
-        border: `1px solid ${hover
-          ? "rgba(232,199,102,.4)"
-          : C.line
-          }`,
-        borderRadius: 4,
+        border: `5px solid ${
+          hover
+            ? "rgba(217,143,163,.45)"
+            : C.line
+        }`,
+        borderRadius: 10,
         overflow: "hidden",
         transition:
-          "transform .25s ease, border-color .25s ease",
-        transform: hover ? "translateY(-5px)" : "none",
+          "transform .3s ease, box-shadow .3s ease, border-color .3s ease",
+        transform: hover
+          ? "translateY(-5px)"
+          : "translateY(0)",
+        boxShadow: hover
+          ? "0 12px 30px rgba(58,44,50,.10)"
+          : "0 4px 15px rgba(58,44,50,.04)",
         position: "relative",
         cursor: "pointer"
       }}
-
     >
+      {/* صورة المنتج */}
       <div
         style={{
           aspectRatio: "4 / 5",
@@ -1667,39 +1673,58 @@ function ProductCard({ p, onAdd, onOpen }) {
           overflow: "hidden",
           display: "flex",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
       >
+        {/* Overlay خفيف */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(to top, rgba(35,24,29,.08), transparent 35%)",
+            zIndex: 1,
+            pointerEvents: "none"
+          }}
+        />
+
+        {/* الخصم */}
         {p.old && (
           <span
             style={{
               position: "absolute",
               top: 12,
               right: 12,
+              zIndex: 3,
               background: C.danger,
-              color: C.ivory,
+              color: "#fff",
               fontSize: ".68rem",
               fontWeight: 800,
-              padding: "5px 12px",
-              borderRadius: 20
+              padding: "6px 12px",
+              borderRadius: 20,
+              boxShadow:
+                "0 4px 12px rgba(217,83,79,.22)"
             }}
           >
             خصم
           </span>
         )}
 
+        {/* كمية محدودة */}
         {p.stock <= 8 && !p.old && (
           <span
             style={{
               position: "absolute",
               top: 12,
               right: 12,
-              background: C.ivory,
-              color: C.ink,
-              fontSize: ".68rem",
+              zIndex: 3,
+              background: "rgba(58,44,50,.88)",
+              color: "#fff",
+              fontSize: ".65rem",
               fontWeight: 800,
-              padding: "5px 12px",
-              borderRadius: 20
+              padding: "6px 11px",
+              borderRadius: 20,
+              backdropFilter: "blur(5px)"
             }}
           >
             كمية محدودة
@@ -1715,7 +1740,11 @@ function ProductCard({ p, onAdd, onOpen }) {
               height: "100%",
               objectFit: "cover",
               display: "block",
-              verticalAlign: "middle"
+              transition:
+                "transform .5s ease",
+              transform: hover
+                ? "scale(1.05)"
+                : "scale(1)"
             }}
           />
         ) : (
@@ -1727,48 +1756,67 @@ function ProductCard({ p, onAdd, onOpen }) {
             }}
           />
         )}
-
-
       </div>
 
+      {/* بيانات المنتج */}
       <div
         style={{
-          padding: "16px 16px 18px"
+          padding: "15px 16px 16px"
         }}
       >
+        {/* التصنيف */}
         <div
           style={{
             color: C.taupe,
-            fontSize: ".7rem",
-            fontWeight: 600
+            fontSize: ".68rem",
+            fontWeight: 700,
+            marginBottom: 6
           }}
         >
           {p.cat}
         </div>
 
+        {/* اسم المنتج */}
         <div
           style={{
-            fontWeight: 700,
+            fontWeight: 800,
             fontSize: ".95rem",
-            margin: "6px 0 8px",
-            color: C.ivory
+            lineHeight: 1.5,
+            marginBottom: 7,
+            color: C.ivory,
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            minHeight: "2.85em"
           }}
         >
           {p.name}
         </div>
 
-        <Stars rating={p.rating} />
-
+        {/* التقييم */}
         <div
-          className="flex items-baseline gap-2"
           style={{
-            marginTop: 8
+            marginBottom: 8
+          }}
+        >
+          <Stars rating={p.rating} />
+        </div>
+
+        {/* السعر */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "baseline",
+            gap: 9,
+            minHeight: 25
           }}
         >
           <span
             style={{
-              fontWeight: 800,
-              color: C.goldLight
+              fontWeight: 900,
+              color: C.gold,
+              fontSize: "1rem"
             }}
           >
             {fmt(p.price)}
@@ -1779,45 +1827,50 @@ function ProductCard({ p, onAdd, onOpen }) {
               style={{
                 color: C.taupe,
                 textDecoration: "line-through",
-                fontSize: ".8rem"
+                fontSize: ".76rem"
               }}
             >
               {fmt(p.old)}
             </span>
           )}
-
-
         </div>
+
+        {/* إضافة للسلة */}
         <div
           className="product-card-add"
           style={{
-            marginTop: 12,
+            marginTop: 13,
             opacity: hover ? 1 : 0,
             transform: hover
               ? "translateY(0)"
-              : "translateY(10px)",
-            transition: ".2s"
+              : "translateY(7px)",
+            transition:
+              "opacity .25s ease, transform .25s ease"
           }}
         >
           <button
+            type="button"
             onClick={(e) => {
               e.stopPropagation();
               onAdd(p);
             }}
             style={{
               width: "100%",
-              background: C.ink,
-              color: C.ivory,
+              background: C.gold,
+              color: "#fff",
               border: `1px solid ${C.gold}`,
-              padding: 9,
-              borderRadius: 4,
-              fontWeight: 700,
-              fontSize: ".7rem",
+              padding: "10px 9px",
+              borderRadius: 6,
+              fontWeight: 800,
+              fontSize: ".72rem",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               gap: 8,
-              cursor: "pointer"
+              cursor: "pointer",
+              fontFamily: "inherit",
+              boxShadow:
+                "0 4px 12px rgba(217,143,163,.18)"
             }}
           >
             <ShoppingCart size={14} />
@@ -1908,7 +1961,6 @@ function ProductDetails({ product, onAdd, onBack }) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                padding: "10px"
               }}
             >
               {selectedImage ? (
@@ -2186,13 +2238,39 @@ function ProductDetails({ product, onAdd, onBack }) {
                 ? "أضيفي للسلة"
                 : "غير متوفر"}
             </button>
+            <a
+              href={`https://wa.me/201105720205?text=${encodeURIComponent(
+                `مرحبًا، أريد طلب المنتج:\n${product.name}\nالكمية: ${qty}\nالسعر: ${fmt(product.price)}`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "100%",
+                marginTop: 12,
+                padding: 14,
+                borderRadius: 6,
+                border: `1px solid ${C.gold}`,
+                background: "#fff",
+                color: C.gold,
+                fontWeight: 800,
+                fontSize: ".9rem",
+                textDecoration: "none",
+                cursor: "pointer",
+                fontFamily: "inherit",
+                boxSizing: "border-box"
+              }}
+            >
+              طلب عبر واتساب
+            </a>
           </div>
         </div>
       </div>
     </section>
   );
 }
-
 
 function FeaturedProductsSlider({
   products,
@@ -2216,7 +2294,10 @@ function FeaturedProductsSlider({
     return (
       <section
         style={{
-          padding: "60px 0"
+          padding: "75px 0",
+          background: C.panel2,
+          borderTop: `1px solid ${C.line}`,
+          borderBottom: `1px solid ${C.line}`
         }}
       >
         <div
@@ -2234,10 +2315,14 @@ function FeaturedProductsSlider({
   const featured = products
     .filter((p) => p.isActive === true)
     .slice(0, 7);
+
   return (
     <section
       style={{
-        padding: "60px 0"
+        padding: "75px 0",
+        borderTop: `1px solid ${C.line}`,
+        borderBottom: `1px solid ${C.line}`,
+        overflow: "hidden"
       }}
     >
       <div
@@ -2247,75 +2332,76 @@ function FeaturedProductsSlider({
           padding: "0 24px"
         }}
       >
-        <Eyebrow>مختارات المتجر</Eyebrow>
-
-        <h2
+        {/* Header */}
+        <div
           style={{
-            ...display,
-            fontSize: "clamp(1.6rem,2.6vw,2.2rem)",
-            marginBottom: 30,
-            color: C.ivory
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+            gap: 20,
+            marginBottom: 30
           }}
         >
-          أحدث الاضافات
-        </h2>
+          <div>
+            <Eyebrow>مختارات المتجر</Eyebrow>
 
+            <h2
+              style={{
+                ...display,
+                color: C.ivory,
+fontSize: "clamp(1.5rem, 4vw, 2.4rem)",
+                margin: "8px 0 8px",
+                lineHeight: 1.2
+              }}
+            >
+              أحدث الإضافات
+            </h2>
+
+           
+          </div>
+
+          {/* عرض الكل */}
+          <button
+            type="button"
+            onClick={openShop}
+            style={{
+              flexShrink: 0,
+              background: "transparent",
+              border: `1px solid ${C.line}`,
+              color: C.gold,
+              padding: "10px 16px",
+              borderRadius: 6,
+              fontFamily: "inherit",
+              fontSize: ".8rem",
+              fontWeight: 800,
+              cursor: "pointer",
+              transition:
+                "background .2s ease, border-color .2s ease"
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background =
+                C.goldDim;
+              e.currentTarget.style.borderColor =
+                C.gold;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background =
+                "transparent";
+              e.currentTarget.style.borderColor =
+                C.line;
+            }}
+          >
+            عرض كل المنتجات ←
+          </button>
+        </div>
+
+        {/* Slider wrapper */}
         <div
           style={{
             position: "relative"
           }}
         >
-          {/* زر اليمين */}
-          <button
-            onClick={() => scrollSlider("right")}
-            style={{
-              position: "absolute",
-              right: -18,
-              top: "45%",
-              transform: "translateY(-50%)",
-              zIndex: 5,
-              width: 42,
-              height: 42,
-              borderRadius: "50%",
-              border: `1px solid ${C.gold}`,
-              background: C.ink,
-              color: C.gold,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-              boxShadow: "0 4px 15px rgba(0,0,0,.3)"
-            }}
-          >
-            <ChevronRight size={20} />
-          </button>
-
-          {/* زر الشمال */}
-          <button
-            onClick={() => scrollSlider("left")}
-            style={{
-              position: "absolute",
-              left: -18,
-              top: "45%",
-              transform: "translateY(-50%)",
-              zIndex: 5,
-              width: 42,
-              height: 42,
-              borderRadius: "50%",
-              border: `1px solid ${C.gold}`,
-              background: C.ink,
-              color: C.gold,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-              boxShadow: "0 4px 15px rgba(0,0,0,.3)"
-            }}
-          >
-            <ChevronLeft size={20} />
-          </button>
-
-          {/* السلايدر */}
+          {/* Slider */}
           <div
             ref={sliderRef}
             style={{
@@ -2324,9 +2410,13 @@ function FeaturedProductsSlider({
               gap: 20,
               overflowX: "auto",
               overflowY: "hidden",
-              paddingBottom: 15,
+              padding:
+                "4px 4px 18px",
               scrollSnapType: "x mandatory",
+              scrollBehavior: "smooth",
               scrollbarWidth: "none",
+              msOverflowStyle: "none",
+              WebkitOverflowScrolling: "touch",
               width: "100%"
             }}
           >
@@ -2335,7 +2425,7 @@ function FeaturedProductsSlider({
                 key={p.id}
                 style={{
                   flex: "0 0 280px",
-                  width: "280px",
+                  width: 280,
                   scrollSnapAlign: "start"
                 }}
               >
@@ -2349,49 +2439,164 @@ function FeaturedProductsSlider({
               </div>
             ))}
 
-            {/* كارت كل المنتجات */}
+            {/* CTA Card */}
             <div
               style={{
+                position: "relative",
                 flex: "0 0 280px",
-                width: "280px",
+                width: 280,
                 minHeight: 420,
+                borderRadius: 10,
                 border: `1px solid ${C.gold}`,
-                borderRadius: 4,
-                background: C.panel,
+                background:
+                  "linear-gradient(145deg, #fff9fa 0%, #fcecef 100%)",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: 18,
+                textAlign: "center",
+                padding: 30,
+                boxSizing: "border-box",
+                overflow: "hidden",
                 scrollSnapAlign: "start"
               }}
             >
+              {/* Decorative circle */}
               <div
                 style={{
-                  color: C.gold,
-                  fontSize: "1.2rem",
-                  fontWeight: 800
+                  position: "absolute",
+                  width: 180,
+                  height: 180,
+                  borderRadius: "50%",
+                  background:
+                    "rgba(217,143,163,.10)",
+                  top: -70,
+                  right: -60
+                }}
+              />
+
+              <div
+                style={{
+                  position: "absolute",
+                  width: 130,
+                  height: 130,
+                  borderRadius: "50%",
+                  background:
+                    "rgba(217,143,163,.08)",
+                  bottom: -50,
+                  left: -40
+                }}
+              />
+
+            
+
+              <div
+                style={{
+                  position: "relative",
+                  zIndex: 2,
+                  color: C.ivory,
+                  fontSize: "1.15rem",
+                  fontWeight: 900,
+                  marginBottom: 10
                 }}
               >
                 اكتشفي كل منتجاتنا
               </div>
 
+              <p
+                style={{
+                  position: "relative",
+                  zIndex: 2,
+                  margin: "0 0 22px",
+                  color: C.ivoryDim,
+                  fontSize: ".82rem",
+                  lineHeight: 1.8,
+                  maxWidth: 210
+                }}
+              >
+                شوفي كل المنتجات والفئات المتوفرة
+                في المتجر
+              </p>
+
               <button
+                type="button"
                 onClick={openShop}
                 style={{
+                  position: "relative",
+                  zIndex: 2,
                   background: C.gold,
                   color: C.ink,
                   border: 0,
-                  padding: "12px 24px",
-                  borderRadius: 4,
+                  padding: "12px 22px",
+                  borderRadius: 6,
+                  fontFamily: "inherit",
                   fontWeight: 800,
-                  cursor: "pointer"
+                  fontSize: ".82rem",
+                  cursor: "pointer",
+                  boxShadow:
+                    "0 5px 16px rgba(217,143,163,.25)"
                 }}
               >
                 عرض جميع المنتجات →
               </button>
             </div>
           </div>
+
+          {/* Left Arrow */}
+          <button
+            type="button"
+            onClick={() => scrollSlider("left")}
+            aria-label="السابق"
+            style={{
+              position: "absolute",
+              left: -16,
+              top: "42%",
+              transform: "translateY(-50%)",
+              width: 40,
+              height: 40,
+              borderRadius: "50%",
+              border: `1px solid ${C.line}`,
+              background: C.panel,
+              color: C.ivory,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              boxShadow:
+                "0 5px 18px rgba(58,44,50,.12)",
+              zIndex: 5
+            }}
+          >
+            <ChevronLeft size={18} />
+          </button>
+
+          {/* Right Arrow */}
+          <button
+            type="button"
+            onClick={() => scrollSlider("right")}
+            aria-label="التالي"
+            style={{
+              position: "absolute",
+              right: -16,
+              top: "42%",
+              transform: "translateY(-50%)",
+              width: 40,
+              height: 40,
+              borderRadius: "50%",
+              border: `1px solid ${C.line}`,
+              background: C.panel,
+              color: C.ivory,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              boxShadow:
+                "0 5px 18px rgba(58,44,50,.12)",
+              zIndex: 5
+            }}
+          >
+            <ChevronRight size={18} />
+          </button>
         </div>
       </div>
     </section>
@@ -2411,7 +2616,46 @@ function Shop({
   setProductsPage,
   productsPagination
 }) {
-  const filtered = products.filter((p) => p.isActive === true); return (
+  const categoryImages = {
+    "العناية بالبشرة":
+      "../public/images/pngtree-gray-background-portrait-of-a-woman-posing-with-a-facial-scraper-for-skin-care-photo-image_44745012.jpg",
+
+    "العناية بالشعر":
+      "../public/images/Natural Ways To Get Soft and Shiny Hair.jpg",
+
+    "إكسسوارات":
+      "../public/images/3cace322-4190-43ae-92a9-d5c4d6d8955d-thumbnail-1000x1000-70.jpg",
+
+    "مستحضرات تجميل":
+      "../public/images/pakistani-makeup-brand.webp",
+
+    "شنط":
+      "../public/images/WhatsApp Image 2026-09-26 at 10.37.35 PM (1).jpeg",
+
+    "طرح":
+      "../public/images/WhatsApp Image 2026-09-23 at 9.16.41 PM.jpeg",
+
+    "رجالي":
+      "../public/images/8ab9781dfb87506c2623feba95f920b7.jpg",
+
+    "العاب":
+      "../public/images/1cab8ecaa2ee25f028704eb051dfbd0e.jfif",
+
+    "البرفانات والعطور":
+      "../public/images/jkkjkjk.jpg",
+
+    "منتجات اخري":
+      "../public/images/customizable-black-shopping-bag-mockup_989064-8542.jpg",
+
+    "الكل":
+      "../public/images/istockphoto-686519230-170667a.jpg"
+  };
+
+  const filtered = products.filter(
+    (p) => p.isActive === true
+  );
+
+  return (
     <section
       style={{
         padding: "60px 0"
@@ -2436,20 +2680,21 @@ function Shop({
         >
           منتجات المتجر
         </h2>
+
         {/* Categories */}
-        <div
+        <div className="category-scroll"
           style={{
             display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 10,
+            gap: 12,
             marginBottom: 35,
-            flexWrap: "wrap"
+            overflowX: "auto",
+            paddingBottom: 8,
           }}
         >
           {["الكل", ...CATS].map((c) => {
             const active = catFilter === c;
-            const Icon = c === "الكل" ? null : catIcon(c);
+
+            const image = categoryImages[c];
 
             return (
               <button
@@ -2460,58 +2705,155 @@ function Shop({
                   setProductsPage(1);
                 }}
                 style={{
-                  width: 150,
-                  height: 44,
+                  position: "relative",
+                  flex: "0 0 145px",
+                  width: 145,
+                  height: 90,
                   padding: 0,
-                  borderRadius: 999,
-                  border: `1px solid ${active ? C.gold : C.line
+                  borderRadius: 10,
+
+                  border: `2px solid ${active ? C.gold : C.line
                     }`,
-                  background: active
-                    ? C.gold
-                    : "rgba(255,255,255,0.025)",
-                  color: active
-                    ? C.ink
-                    : C.ivory,
-                  fontSize: ".86rem",
-                  fontWeight: active ? 700 : 500,
+
+                  background: image
+                    ? `url("${image}") center top / cover no-repeat`
+                    : active
+                      ? C.gold
+                      : C.panel,
+
+                  overflow: "hidden",
                   cursor: "pointer",
-                  transition: "all .25s ease",
-                  whiteSpace: "nowrap",
+
+                  transition:
+                    "transform .25s ease, border-color .25s ease, box-shadow .25s ease",
+
                   display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  alignItems: "flex-end",
+                  justifyContent: "stretch",
+
+                  textAlign: "right",
+
                   boxShadow: active
-                    ? "0 5px 18px rgba(0,0,0,.18)"
+                    ? "0 6px 18px rgba(217,143,163,.28)"
                     : "none"
                 }}
                 onMouseEnter={(e) => {
                   if (!active) {
-                    e.currentTarget.style.borderColor = C.gold;
-                    e.currentTarget.style.color = C.gold;
-                    e.currentTarget.style.background =
-                      "rgba(255,255,255,0.05)";
+                    e.currentTarget.style.transform =
+                      "translateY(-3px)";
+
+                    e.currentTarget.style.borderColor =
+                      C.gold;
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!active) {
-                    e.currentTarget.style.borderColor = C.line;
-                    e.currentTarget.style.color = C.ivory;
-                    e.currentTarget.style.background =
-                      "rgba(255,255,255,0.025)";
+                    e.currentTarget.style.transform =
+                      "translateY(0)";
+
+                    e.currentTarget.style.borderColor =
+                      C.line;
                   }
                 }}
               >
-                {Icon && (
-                  <Icon
-                    size={18}
+                {/* Background Image */}
+                {image && (
+                  <div
                     style={{
-                      marginLeft: 7,
-                      flexShrink: 0
+                      position: "absolute",
+                      inset: 0,
+                      backgroundImage:
+                        `url("${image}")`,
+                      backgroundPosition:
+                        "center 60%",
+                      backgroundSize: "cover",
+                      backgroundRepeat:
+                        "no-repeat"
                     }}
                   />
                 )}
 
-                {c}
+                {/* Normal Overlay */}
+                {image && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background:
+                        "linear-gradient(to top, rgba(35,24,29,.78), rgba(35,24,29,.15))",
+                      pointerEvents: "none",
+                      zIndex: 1
+                    }}
+                  />
+                )}
+
+                {/* Selected Overlay */}
+                {active && image && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background:
+                        "rgba(217,143,163,.18)",
+                      pointerEvents: "none",
+                      zIndex: 2
+                    }}
+                  />
+                )}
+
+                {/* Selected Check */}
+                {active && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 7,
+                      right: 7,
+                      width: 24,
+                      height: 24,
+                      borderRadius: "50%",
+                      background: C.gold,
+                      color: C.ink,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: ".8rem",
+                      fontWeight: 900,
+                      zIndex: 4,
+                      boxShadow:
+                        "0 3px 10px rgba(0,0,0,.25)"
+                    }}
+                  >
+                    ✓
+                  </div>
+                )}
+
+                {/* Category Name */}
+                <div
+                  style={{
+                    position: "relative",
+                    zIndex: 3,
+                    width: "100%",
+                    padding: "10px 12px",
+
+                    color: image
+                      ? "#fff"
+                      : active
+                        ? C.ink
+                        : C.ivory,
+
+                    fontSize: ".78rem",
+
+                    fontWeight: active
+                      ? 800
+                      : 700,
+
+                    textShadow: image
+                      ? "0 2px 6px rgba(0,0,0,.4)"
+                      : "none"
+                  }}
+                >
+                  {c}
+                </div>
               </button>
             );
           })}
@@ -2558,7 +2900,6 @@ function Shop({
             </div>
 
             {/* Pagination */}
-            {/* Pagination */}
             {productsPagination?.totalPages > 1 && (
               <div
                 style={{
@@ -2572,22 +2913,29 @@ function Shop({
               >
                 {/* السابق */}
                 <button
-                  disabled={!productsPagination.hasPreviousPage}
+                  disabled={
+                    !productsPagination.hasPreviousPage
+                  }
                   onClick={() =>
-                    setProductsPage((prev) => prev - 1)
+                    setProductsPage(
+                      (prev) => prev - 1
+                    )
                   }
                   style={{
                     padding: "9px 16px",
                     borderRadius: 999,
-                    border: `1px solid ${C.line}`,
+                    border:
+                      `1px solid ${C.line}`,
                     background: "transparent",
                     color: C.ivory,
-                    cursor: productsPagination.hasPreviousPage
-                      ? "pointer"
-                      : "not-allowed",
-                    opacity: productsPagination.hasPreviousPage
-                      ? 1
-                      : 0.5
+                    cursor:
+                      productsPagination.hasPreviousPage
+                        ? "pointer"
+                        : "not-allowed",
+                    opacity:
+                      productsPagination.hasPreviousPage
+                        ? 1
+                        : 0.5
                   }}
                 >
                   السابق
@@ -2596,29 +2944,38 @@ function Shop({
                 {/* أرقام الصفحات */}
                 {Array.from(
                   {
-                    length: productsPagination.totalPages
+                    length:
+                      productsPagination.totalPages
                   },
                   (_, index) => index + 1
                 ).map((page) => (
                   <button
                     key={page}
-                    onClick={() => setProductsPage(page)}
+                    onClick={() => {
+                      setProductsPage(page);
+                      window.scrollTo(0, 400);
+                    }}
                     style={{
                       width: 40,
                       height: 40,
                       borderRadius: "50%",
-                      border: `1px solid ${productsPage === page
-                        ? C.gold
-                        : C.line
+
+                      border:
+                        `1px solid ${productsPage === page
+                          ? C.gold
+                          : C.line
                         }`,
+
                       background:
                         productsPage === page
                           ? C.gold
                           : "transparent",
+
                       color:
                         productsPage === page
                           ? C.ink
                           : C.ivoryDim,
+
                       cursor: "pointer",
                       fontWeight: 600
                     }}
@@ -2629,22 +2986,29 @@ function Shop({
 
                 {/* التالي */}
                 <button
-                  disabled={!productsPagination.hasNextPage}
+                  disabled={
+                    !productsPagination.hasNextPage
+                  }
                   onClick={() =>
-                    setProductsPage((prev) => prev + 1)
+                    setProductsPage(
+                      (prev) => prev + 1
+                    )
                   }
                   style={{
                     padding: "9px 16px",
                     borderRadius: 999,
-                    border: `1px solid ${C.line}`,
+                    border:
+                      `1px solid ${C.line}`,
                     background: "transparent",
                     color: C.ivory,
-                    cursor: productsPagination.hasNextPage
-                      ? "pointer"
-                      : "not-allowed",
-                    opacity: productsPagination.hasNextPage
-                      ? 1
-                      : 0.5
+                    cursor:
+                      productsPagination.hasNextPage
+                        ? "pointer"
+                        : "not-allowed",
+                    opacity:
+                      productsPagination.hasNextPage
+                        ? 1
+                        : 0.5
                   }}
                 >
                   التالي
@@ -2657,14 +3021,28 @@ function Shop({
     </section>
   );
 }
-
 function CategoryStrip({ setView, setCatFilter }) {
+  const categoryImages = {
+    // حط لينك صورة كل فئة هنا
+    "العناية بالبشرة": "../public/images/pngtree-gray-background-portrait-of-a-woman-posing-with-a-facial-scraper-for-skin-care-photo-image_44745012.jpg",
+    "العناية بالشعر": "../public/images/Natural Ways To Get Soft and Shiny Hair.jpg",
+    "إكسسوارات": "../public/images/3cace322-4190-43ae-92a9-d5c4d6d8955d-thumbnail-1000x1000-70.jpg",
+    "مستحضرات تجميل": "../public/images/pakistani-makeup-brand.webp",
+    "شنط": "../public/images/WhatsApp Image 2026-09-26 at 10.37.35 PM (1).jpeg",
+    "طرح": "../public/images/WhatsApp Image 2026-09-23 at 9.16.41 PM.jpeg",
+    "رجالي": "../public/images/8ab9781dfb87506c2623feba95f920b7.jpg",
+    "العاب": "../public/images/1cab8ecaa2ee25f028704eb051dfbd0e.jfif",
+    "البرفانات والعطور": "../public/images/jkkjkjk.jpg",
+    "منتجات اخري": "../public/images/customizable-black-shopping-bag-mockup_989064-8542.jpg"
+  };
+
   return (
     <section
       style={{
+        padding: "75px 0",
         background: C.inkSoft,
-        borderBottom: `1px solid ${C.line}`,
-        padding: "50px 0"
+        borderTop: `1px solid ${C.line}`,
+        borderBottom: `1px solid ${C.line}`
       }}
     >
       <div
@@ -2674,11 +3052,21 @@ function CategoryStrip({ setView, setCatFilter }) {
           padding: "0 24px"
         }}
       >
-        <Eyebrow>تسوّقي حسب الفئة</Eyebrow>
+        {/* العنوان */}
+        <div
+          style={{
+            marginBottom: 42
+          }}
+        >
+          <Eyebrow>تسوّقي حسب الفئة</Eyebrow>
+        </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        {/* Categories */}
+        <div
+          className="grid grid-cols-2 md:grid-cols-5 gap-4"
+        >
           {CATS.map((cat) => {
-            const Icon = catIcon(cat);
+            const image = categoryImages[cat];
 
             return (
               <button
@@ -2693,39 +3081,134 @@ function CategoryStrip({ setView, setCatFilter }) {
                   });
                 }}
                 style={{
-                  background: C.panel,
+                  position: "relative",
+                  minHeight: 220,
+                  padding: 0,
+                  borderRadius: 14,
                   border: `1px solid ${C.line}`,
-                  borderRadius: 4,
-                  padding: "26px 16px",
-                  textAlign: "center",
+                  background: image
+                    ? `url("${image}") center center / cover no-repeat`
+                    : C.panel,
                   cursor: "pointer",
-                  transition: ".2s"
+                  overflow: "hidden",
+                  transition:
+                    "transform .3s ease, border-color .3s ease, box-shadow .3s ease",
+                  display: "flex",
+                  alignItems: "flex-end",
+                  justifyContent: "stretch",
+                  textAlign: "right"
                 }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.borderColor = C.gold)
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.borderColor = C.line)
-                }
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform =
+                    "translateY(-6px)";
+                  e.currentTarget.style.borderColor =
+                    C.gold;
+                  e.currentTarget.style.boxShadow =
+                    "0 18px 40px rgba(217,143,163,.22)";
+
+                  const bg =
+                    e.currentTarget.querySelector(
+                      ".category-bg"
+                    );
+
+                  if (bg) {
+                    bg.style.transform =
+                      "scale(1.08)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform =
+                    "translateY(0)";
+                  e.currentTarget.style.borderColor =
+                    C.line;
+                  e.currentTarget.style.boxShadow =
+                    "none";
+
+                  const bg =
+                    e.currentTarget.querySelector(
+                      ".category-bg"
+                    );
+
+                  if (bg) {
+                    bg.style.transform =
+                      "scale(1)";
+                  }
+                }}
               >
-                <Icon
-                  size={28}
+                {/* Background Image */}
+                {image && (
+                  <div
+                    className="category-bg"
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      backgroundImage: `url("${image}")`,
+                      backgroundPosition: "center top",
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                      transition:
+                        "transform .5s ease"
+                    }}
+                  />
+                )}
+
+                {/* Overlay */}
+                <div
                   style={{
-                    color: C.gold,
-                    margin: "0 auto 12px"
+                    position: "absolute",
+                    inset: 0,
+                    background:
+                      "linear-gradient(to top, rgba(35,24,29,.82) 0%, rgba(35,24,29,.35) 45%, rgba(35,24,29,.08) 100%)",
+                    pointerEvents: "none"
                   }}
                 />
 
-                <span
+                {/* Content */}
+                <div
                   style={{
-                    fontWeight: 700,
-                    fontSize: ".9rem",
-                    color: C.ivory,
-                    display: "block"
+                    position: "relative",
+                    zIndex: 2,
+                    width: "100%",
+                    padding: "20px 18px"
                   }}
                 >
-                  {cat}
-                </span>
+                  <div
+                    style={{
+                      color: "#fff",
+                      fontSize: "1.05rem",
+                      fontWeight: 800,
+                      marginBottom: 8,
+                      textShadow:
+                        "0 2px 8px rgba(0,0,0,.3)"
+                    }}
+                  >
+                    {cat}
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 6,
+                      color: "rgba(255,255,255,.82)",
+                      fontSize: ".72rem",
+                      fontWeight: 600
+                    }}
+                  >
+                    <span>
+                      استكشفي الفئة
+                    </span>
+
+                    <span
+                      style={{
+                        color: C.goldLight,
+                        fontSize: "1rem"
+                      }}
+                    >
+                      ←
+                    </span>
+                  </div>
+                </div>
               </button>
             );
           })}
@@ -2770,33 +3253,60 @@ function FeaturedProductsSection({
       >
         {/* العنوان */}
         <div
-          style={{
-            marginBottom: 35
-          }}
-        >
-          <div
-            style={{
-              color: C.gold,
-              fontSize: ".75rem",
-              fontWeight: 700,
-              letterSpacing: 1.5,
-              marginBottom: 10
-            }}
-          >
-            اختياراتنا لك
-          </div>
+  style={{
+    display: "flex",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+    gap: 20,
+    marginBottom: 35
+  }}
+>
+  {/* العنوان */}
+  <div>
+    <Eyebrow>اختياراتنا لك</Eyebrow>
 
-          <h2
-            style={{
-              ...display,
-              color: C.ivory,
-              margin: 0,
-              fontSize: "clamp(1.7rem, 4vw, 2.4rem)"
-            }}
-          >
-            منتجات مميزة
-          </h2>
-        </div>
+    <h2
+      style={{
+        ...display,
+        color: C.ivory,
+        margin: "6px 0 0",
+        fontSize: "clamp(1.7rem, 4vw, 2.4rem)"
+      }}
+    >
+      منتجات مميزة
+    </h2>
+  </div>
+
+  {/* عرض الكل */}
+  <button
+    type="button"
+    onClick={openShop}
+    style={{
+      flexShrink: 0,
+      background: "transparent",
+      border: `1px solid ${C.line}`,
+      color: C.gold,
+      padding: "10px 16px",
+      borderRadius: 6,
+      fontFamily: "inherit",
+      fontSize: ".8rem",
+      fontWeight: 800,
+      cursor: "pointer",
+      transition:
+        "background .2s ease, border-color .2s ease"
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.background = C.goldDim;
+      e.currentTarget.style.borderColor = C.gold;
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.background = "transparent";
+      e.currentTarget.style.borderColor = C.line;
+    }}
+  >
+    عرض كل المنتجات ←
+  </button>
+</div>
 
         {/* المنتجات */}
         {loading ? (
@@ -2941,7 +3451,7 @@ function WhyNourStore() {
             marginBottom: 42
           }}
         >
-          <Eyebrow>لماذا 𝑺𝒕𝒐𝒓𝒆 𝓝𝓸𝓾𝓻 ؟</Eyebrow>
+          <Eyebrow>لماذا 𝓝𝓸𝓾𝓻 𝑺𝒕𝒐𝒓𝒆  ؟</Eyebrow>
 
           <h2
             style={{
@@ -4890,9 +5400,9 @@ function ProductFormModal({
         formData.append("images", file);
       });
       formData.append(
-  "galleryImages",
-  JSON.stringify(galleryImages)
-);
+        "galleryImages",
+        JSON.stringify(galleryImages)
+      );
 
       console.log("IMAGE:", form.image);
       console.log("FORM DATA IMAGE:", formData.get("image"));
@@ -6578,7 +7088,7 @@ export default function App() {
 
   const [productsPagination, setProductsPagination] = useState({
     page: 1,
-    limit: 10,
+    limit: 12,
     total: 0,
     totalPages: 0,
     hasNextPage: false,
@@ -6864,7 +7374,7 @@ export default function App() {
       const params = new URLSearchParams();
 
       params.set("page", productsPage);
-      params.set("limit", 8);
+      params.set("limit", 12);
 
       // Category only when there is NO search
       if (

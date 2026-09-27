@@ -144,3 +144,20 @@ select {
     gap: 12px;
   }
 }
+.category-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.category-scroll::-webkit-scrollbar-track {
+  background: #ffffff;
+  border-radius: 10px;
+}
+
+.category-scroll::-webkit-scrollbar-thumb {
+  background: #e7afc0;
+  border-radius: 10px;
+}
+
+.category-scroll::-webkit-scrollbar-thumb:hover {
+  background: #d98fa3;
+}
