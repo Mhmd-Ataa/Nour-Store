@@ -2618,37 +2618,37 @@ function Shop({
 }) {
   const categoryImages = {
     "العناية بالبشرة":
-      "../public/images/pngtree-gray-background-portrait-of-a-woman-posing-with-a-facial-scraper-for-skin-care-photo-image_44745012.jpg",
+      "./images/pngtree-gray-background-portrait-of-a-woman-posing-with-a-facial-scraper-for-skin-care-photo-image_44745012.jpg",
 
     "العناية بالشعر":
-      "../public/images/Natural Ways To Get Soft and Shiny Hair.jpg",
+      "/images/Natural Ways To Get Soft and Shiny Hair.jpg",
 
     "إكسسوارات":
-      "../public/images/3cace322-4190-43ae-92a9-d5c4d6d8955d-thumbnail-1000x1000-70.jpg",
+      "/images/3cace322-4190-43ae-92a9-d5c4d6d8955d-thumbnail-1000x1000-70.jpg",
 
     "مستحضرات تجميل":
-      "../public/images/pakistani-makeup-brand.webp",
+      "/images/pakistani-makeup-brand.webp",
 
     "شنط":
-      "../public/images/WhatsApp Image 2026-09-26 at 10.37.35 PM (1).jpeg",
+      "/images/WhatsApp Image 2026-09-26 at 10.37.35 PM (1).jpeg",
 
     "طرح":
-      "../public/images/WhatsApp Image 2026-09-23 at 9.16.41 PM.jpeg",
+      "/images/WhatsApp Image 2026-09-23 at 9.16.41 PM.jpeg",
 
     "رجالي":
-      "../public/images/8ab9781dfb87506c2623feba95f920b7.jpg",
+      "/images/8ab9781dfb87506c2623feba95f920b7.jpg",
 
     "العاب":
-      "../public/images/1cab8ecaa2ee25f028704eb051dfbd0e.jfif",
+      "/images/1cab8ecaa2ee25f028704eb051dfbd0e.jfif",
 
     "البرفانات والعطور":
-      "../public/images/jkkjkjk.jpg",
+      "/images/jkkjkjk.jpg",
 
     "منتجات اخري":
-      "../public/images/customizable-black-shopping-bag-mockup_989064-8542.jpg",
+      "/images/customizable-black-shopping-bag-mockup_989064-8542.jpg",
 
     "الكل":
-      "../public/images/istockphoto-686519230-170667a.jpg"
+      "/images/istockphoto-686519230-170667a.jpg"
   };
 
   const filtered = products.filter(
@@ -3024,16 +3024,16 @@ function Shop({
 function CategoryStrip({ setView, setCatFilter }) {
   const categoryImages = {
     // حط لينك صورة كل فئة هنا
-    "العناية بالبشرة": "../public/images/pngtree-gray-background-portrait-of-a-woman-posing-with-a-facial-scraper-for-skin-care-photo-image_44745012.jpg",
-    "العناية بالشعر": "../public/images/Natural Ways To Get Soft and Shiny Hair.jpg",
-    "إكسسوارات": "../public/images/3cace322-4190-43ae-92a9-d5c4d6d8955d-thumbnail-1000x1000-70.jpg",
-    "مستحضرات تجميل": "../public/images/pakistani-makeup-brand.webp",
-    "شنط": "../public/images/WhatsApp Image 2026-09-26 at 10.37.35 PM (1).jpeg",
-    "طرح": "../public/images/WhatsApp Image 2026-09-23 at 9.16.41 PM.jpeg",
-    "رجالي": "../public/images/8ab9781dfb87506c2623feba95f920b7.jpg",
-    "العاب": "../public/images/1cab8ecaa2ee25f028704eb051dfbd0e.jfif",
-    "البرفانات والعطور": "../public/images/jkkjkjk.jpg",
-    "منتجات اخري": "../public/images/customizable-black-shopping-bag-mockup_989064-8542.jpg"
+    "العناية بالبشرة": "/images/pngtree-gray-background-portrait-of-a-woman-posing-with-a-facial-scraper-for-skin-care-photo-image_44745012.jpg",
+    "العناية بالشعر": "/images/Natural Ways To Get Soft and Shiny Hair.jpg",
+    "إكسسوارات": "/images/3cace322-4190-43ae-92a9-d5c4d6d8955d-thumbnail-1000x1000-70.jpg",
+    "مستحضرات تجميل": "/images/pakistani-makeup-brand.webp",
+    "شنط": "/images/WhatsApp Image 2026-09-26 at 10.37.35 PM (1).jpeg",
+    "طرح": "/images/WhatsApp Image 2026-09-23 at 9.16.41 PM.jpeg",
+    "رجالي": "/images/8ab9781dfb87506c2623feba95f920b7.jpg",
+    "العاب": "/images/1cab8ecaa2ee25f028704eb051dfbd0e.jfif",
+    "البرفانات والعطور": "/images/jkkjkjk.jpg",
+    "منتجات اخري": "/images/customizable-black-shopping-bag-mockup_989064-8542.jpg"
   };
 
   return (
