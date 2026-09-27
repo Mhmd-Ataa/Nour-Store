@@ -1644,11 +1644,10 @@ function ProductCard({ p, onAdd, onOpen }) {
       onMouseLeave={() => setHover(false)}
       style={{
         background: C.panel,
-        border: `5px solid ${
-          hover
+        border: `5px solid ${hover
             ? "rgba(217,143,163,.45)"
             : C.line
-        }`,
+          }`,
         borderRadius: 10,
         overflow: "hidden",
         transition:
@@ -2002,7 +2001,7 @@ function ProductDetails({ product, onAdd, onBack }) {
                     opacity: 0.75
                   }}
                 />
-              )}              
+              )}
             </div>
 
             {/* Thumbnails */}
@@ -2237,11 +2236,10 @@ function ProductDetails({ product, onAdd, onBack }) {
                       : C.danger,
                   boxShadow:
                     product.stock > 0
-                      ? `0 0 8px ${
-                          product.stock <= 8
-                            ? C.danger
-                            : "#6fbd78"
-                        }`
+                      ? `0 0 8px ${product.stock <= 8
+                        ? C.danger
+                        : "#6fbd78"
+                      }`
                       : "none"
                 }}
               />
@@ -2430,7 +2428,7 @@ function ProductDetails({ product, onAdd, onBack }) {
               طلب عبر واتساب
             </a>
 
-           
+
           </div>
         </div>
       </div>
@@ -2536,7 +2534,7 @@ function FeaturedProductsSlider({
               style={{
                 ...display,
                 color: C.ivory,
-fontSize: "clamp(1.5rem, 4vw, 2.4rem)",
+                fontSize: "clamp(1.5rem, 4vw, 2.4rem)",
                 margin: "8px 0 8px",
                 lineHeight: 1.2
               }}
@@ -2544,7 +2542,7 @@ fontSize: "clamp(1.5rem, 4vw, 2.4rem)",
               أحدث الإضافات
             </h2>
 
-           
+
           </div>
 
           {/* عرض الكل */}
@@ -2675,7 +2673,7 @@ fontSize: "clamp(1.5rem, 4vw, 2.4rem)",
                 }}
               />
 
-            
+
 
               <div
                 style={{
@@ -3440,60 +3438,60 @@ function FeaturedProductsSection({
       >
         {/* العنوان */}
         <div
-  style={{
-    display: "flex",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-    gap: 20,
-    marginBottom: 35
-  }}
->
-  {/* العنوان */}
-  <div>
-    <Eyebrow>اختياراتنا لك</Eyebrow>
+          style={{
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+            gap: 20,
+            marginBottom: 35
+          }}
+        >
+          {/* العنوان */}
+          <div>
+            <Eyebrow>اختياراتنا لك</Eyebrow>
 
-    <h2
-      style={{
-        ...display,
-        color: C.ivory,
-        margin: "6px 0 0",
-        fontSize: "clamp(1.7rem, 4vw, 2.4rem)"
-      }}
-    >
-      منتجات مميزة
-    </h2>
-  </div>
+            <h2
+              style={{
+                ...display,
+                color: C.ivory,
+                margin: "6px 0 0",
+                fontSize: "clamp(1.7rem, 4vw, 2.4rem)"
+              }}
+            >
+              منتجات مميزة
+            </h2>
+          </div>
 
-  {/* عرض الكل */}
-  <button
-    type="button"
-    onClick={openShop}
-    style={{
-      flexShrink: 0,
-      background: "transparent",
-      border: `1px solid ${C.line}`,
-      color: C.gold,
-      padding: "10px 16px",
-      borderRadius: 6,
-      fontFamily: "inherit",
-      fontSize: ".8rem",
-      fontWeight: 800,
-      cursor: "pointer",
-      transition:
-        "background .2s ease, border-color .2s ease"
-    }}
-    onMouseEnter={(e) => {
-      e.currentTarget.style.background = C.goldDim;
-      e.currentTarget.style.borderColor = C.gold;
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.background = "transparent";
-      e.currentTarget.style.borderColor = C.line;
-    }}
-  >
-    عرض كل المنتجات ←
-  </button>
-</div>
+          {/* عرض الكل */}
+          <button
+            type="button"
+            onClick={openShop}
+            style={{
+              flexShrink: 0,
+              background: "transparent",
+              border: `1px solid ${C.line}`,
+              color: C.gold,
+              padding: "10px 16px",
+              borderRadius: 6,
+              fontFamily: "inherit",
+              fontSize: ".8rem",
+              fontWeight: 800,
+              cursor: "pointer",
+              transition:
+                "background .2s ease, border-color .2s ease"
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = C.goldDim;
+              e.currentTarget.style.borderColor = C.gold;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.borderColor = C.line;
+            }}
+          >
+            عرض كل المنتجات ←
+          </button>
+        </div>
 
         {/* المنتجات */}
         {loading ? (
@@ -4158,7 +4156,7 @@ function CartDrawer({
                 سلة المشتريات
               </h3>
 
-            
+
             </div>
 
             {cart.length > 0 && (
@@ -4741,36 +4739,27 @@ function CartDrawer({
                   </button>
 
                   {/* CARD */}
+                  {/* CARD */}
                   <button
                     type="button"
-                    onClick={() =>
-                      setMethod("card")
-                    }
+                    disabled
                     style={{
                       padding: "13px 10px",
                       borderRadius: 9,
-                      border:
-                        method === "card"
-                          ? `1px solid ${C.gold}`
-                          : `1px solid ${C.line}`,
-                      background:
-                        method === "card"
-                          ? C.goldDim
-                          : C.panel,
-                      color:
-                        method === "card"
-                          ? C.gold
-                          : C.ivoryDim,
-                      cursor: "pointer",
+                      border: `1px solid ${C.line}`,
+                      background: C.panel,
+                      color: C.ivoryDim,
+                      cursor: "not-allowed",
                       fontFamily: "inherit",
                       textAlign: "right",
-                      transition: "all .2s ease"
+                      transition: "all .2s ease",
+                      opacity: 0.65,
                     }}
                   >
                     <div
                       style={{
                         fontSize: ".76rem",
-                        fontWeight: 800
+                        fontWeight: 800,
                       }}
                     >
                       بطاقة ائتمان / خصم
@@ -4780,10 +4769,11 @@ function CartDrawer({
                       style={{
                         marginTop: 4,
                         fontSize: ".63rem",
-                        opacity: 0.7
+                        color: C.taupe,
+                        opacity: 1,
                       }}
                     >
-                      ادفع باستخدام البطاقة
+                      الدفع بالبطاقة غير متاح حاليًا
                     </div>
                   </button>
                 </div>
@@ -4812,7 +4802,7 @@ function CartDrawer({
                 marginBottom: 15
               }}
             >
-              
+
 
               <div
                 style={{
@@ -7185,17 +7175,23 @@ function AdminDashboard({
                   </thead>
 
                   <tbody>
-                    {orders.map((o) => (
-                      <tr
+{orders.map((o, index) => (
+                        <tr
                         key={o.id}
                         style={{
                           borderTop: `1px solid ${C.line}`,
                           color: C.ivory
                         }}
                       >
-                        <td style={{ padding: 14 }}>
-                          #{o.id}
-                        </td>
+                        <td
+  style={{
+    padding: 14,
+    color: C.gold,
+    fontWeight: 800
+  }}
+>
+  #{index + 1}
+</td>
 
                         <td
                           style={{
