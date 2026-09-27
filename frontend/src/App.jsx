@@ -4064,42 +4064,54 @@ function CartDrawer({
     0
   );
 
+  const totalItems = cart.reduce(
+    (s, i) => s + i.qty,
+    0
+  );
+
   const [method, setMethod] = useState("cod");
+
   const inputStyle = {
     width: "100%",
-    padding: "13px 15px",
-    border: "1px solid #ddd",
-    borderRadius: "10px",
-    background: "#fff",
-    color: "#000",
-    fontSize: "14px",
+    padding: "12px 14px",
+    border: `1px solid ${C.line}`,
+    borderRadius: 8,
+    background: C.panel2,
+    color: "black",
+    fontSize: "13px",
     outline: "none",
     boxSizing: "border-box",
+    fontFamily: "inherit",
+    transition: "border .2s ease",
   };
 
   return (
     <>
+      {/* ================= OVERLAY ================= */}
       <div
         onClick={onClose}
         style={{
           position: "fixed",
           inset: 0,
-          background: "rgba(0,0,0,.55)",
+          background: "rgba(0,0,0,.62)",
+          backdropFilter: "blur(3px)",
+          WebkitBackdropFilter: "blur(3px)",
           zIndex: 90,
           opacity: open ? 1 : 0,
           pointerEvents: open ? "auto" : "none",
-          transition: ".3s"
+          transition: "opacity .3s ease"
         }}
       />
 
+      {/* ================= DRAWER ================= */}
       <aside
         style={{
           position: "fixed",
           top: 0,
           bottom: 0,
           left: 0,
-          width: 400,
-          maxWidth: "92vw",
+          width: 430,
+          maxWidth: "94vw",
           background: C.inkSoft,
           borderRight: `1px solid ${C.line}`,
           zIndex: 91,
@@ -4107,434 +4119,766 @@ function CartDrawer({
             ? "translateX(0)"
             : "translateX(-100%)",
           transition:
-            "transform .35s cubic-bezier(.4,0,.2,1)",
+            "transform .38s cubic-bezier(.4,0,.2,1)",
           display: "flex",
-          flexDirection: "column"
+          flexDirection: "column",
+          boxShadow: open
+            ? "20px 0 60px rgba(0,0,0,.28)"
+            : "none"
         }}
       >
+        {/* ================= HEADER ================= */}
         <div
-          className="flex justify-between items-center"
           style={{
-            padding: "22px 24px",
-            borderBottom: `1px solid ${C.line}`
+            padding: "20px 22px",
+            borderBottom: `1px solid ${C.line}`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexShrink: 0
           }}
         >
-          <h3
-            style={{
-              ...display,
-              fontSize: "1.15rem",
-              color: C.ivory
-            }}
-          >
-            سلة المشتريات
-          </h3>
+          <div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 9
+              }}
+            >
+              <h3
+                style={{
+                  ...display,
+                  margin: 0,
+                  fontSize: "1.12rem",
+                  color: C.ivory,
+                  fontWeight: 800
+                }}
+              >
+                سلة المشتريات
+              </h3>
+
+            
+            </div>
+
+            {cart.length > 0 && (
+              <div
+                style={{
+                  marginTop: 4,
+                  color: C.taupe,
+                  fontSize: ".7rem"
+                }}
+              >
+                {cart.length} منتج في السلة
+              </div>
+            )}
+          </div>
 
           <button
             onClick={onClose}
+            type="button"
+            aria-label="إغلاق السلة"
             style={{
-              background: "none",
-              border: 0,
-              color: C.ivory
+              width: 36,
+              height: 36,
+              borderRadius: 8,
+              border: `1px solid ${C.line}`,
+              background: "transparent",
+              color: C.ivoryDim,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              transition: "all .2s ease"
             }}
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
+        {/* ================= SCROLLABLE CONTENT ================= */}
         <div
           style={{
             flex: 1,
             overflowY: "auto",
-            padding: "18px 24px",
+            padding: "18px 20px 20px",
             display: "flex",
             flexDirection: "column",
-            gap: 18
+            gap: 18,
+            scrollbarWidth: "thin"
           }}
         >
+          {/* ================= EMPTY CART ================= */}
           {cart.length === 0 ? (
             <div
               style={{
+                flex: 1,
+                minHeight: 420,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
                 textAlign: "center",
                 color: C.taupe,
-                padding: "60px 20px"
+                padding: "40px 20px"
               }}
             >
-              <ShoppingCart
-                size={44}
+              <div
                 style={{
-                  margin: "0 auto 16px",
-                  opacity: 0.5
+                  width: 76,
+                  height: 76,
+                  borderRadius: "50%",
+                  background: C.panel2,
+                  border: `1px solid ${C.line}`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 18
                 }}
-              />
+              >
+                <ShoppingCart
+                  size={30}
+                  style={{
+                    color: C.gold,
+                    opacity: 0.75
+                  }}
+                />
+              </div>
 
-              السلة فاضية دلوقتي.
-              <br />
-              استكشفي المنتجات وابدئي التسوق.
+              <div
+                style={{
+                  color: C.ivory,
+                  fontWeight: 800,
+                  fontSize: ".95rem",
+                  marginBottom: 7
+                }}
+              >
+                سلة المشتريات فارغة
+              </div>
+
+              <div
+                style={{
+                  color: C.taupe,
+                  fontSize: ".78rem",
+                  lineHeight: 1.8,
+                  maxWidth: 240
+                }}
+              >
+                استكشفي المنتجات وأضيفي المنتجات التي
+                ترغبين في شرائها إلى السلة.
+              </div>
             </div>
           ) : (
-            cart.map((i) => {
-              const Icon = catIcon(i.cat);
-
-              return (
+            <>
+              {/* ================= PRODUCTS ================= */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 10
+                }}
+              >
                 <div
-                  key={i.id}
-                  className="flex gap-3"
                   style={{
-                    paddingBottom: 18,
-                    borderBottom: `1px solid ${C.line}`
+                    color: C.taupe,
+                    fontSize: ".7rem",
+                    fontWeight: 800,
+                    marginBottom: 2
                   }}
                 >
+                  المنتجات
+                </div>
 
-                  <div
-                    style={{
-                      width: 66,
-                      height: 82,
-                      borderRadius: 4,
-                      flexShrink: 0,
-                      background: catGrad(i.cat),
-                      overflow: "hidden",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center"
-                    }}
-                  >
-                    {i.image ? (
-                      <img
-                        src={i.image}
-                        alt={i.name}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                          display: "block"
-                        }}
-                      />
-                    ) : (
-                      <Icon
-                        size={26}
-                        style={{
-                          color: C.gold
-                        }}
-                      />
-                    )}
-                  </div>
+                {cart.map((i) => {
+                  const Icon = catIcon(i.cat);
 
-                  <div
-                    style={{
-                      flex: 1
-                    }}
-                  >
-                    <b
+                  return (
+                    <div
+                      key={i.id}
                       style={{
-                        fontSize: ".88rem",
-                        color: C.ivory
+                        display: "flex",
+                        gap: 12,
+                        padding: 11,
+                        borderRadius: 10,
+                        background: C.panel,
+                        border: `1px solid ${C.line}`,
+                        position: "relative"
                       }}
                     >
-                      {i.name}
-                    </b>
+                      {/* Product Image */}
+                      <div
+                        style={{
+                          width: 70,
+                          height: 82,
+                          borderRadius: 8,
+                          flexShrink: 0,
+                          background: catGrad(i.cat),
+                          overflow: "hidden",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          border: `1px solid ${C.line}`
+                        }}
+                      >
+                        {i.image ? (
+                          <img
+                            src={i.image}
+                            alt={i.name}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                              display: "block"
+                            }}
+                          />
+                        ) : (
+                          <Icon
+                            size={27}
+                            style={{
+                              color: C.gold
+                            }}
+                          />
+                        )}
+                      </div>
+
+                      {/* Product Info */}
+                      <div
+                        style={{
+                          flex: 1,
+                          minWidth: 0,
+                          display: "flex",
+                          flexDirection: "column"
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            gap: 8
+                          }}
+                        >
+                          <b
+                            style={{
+                              color: C.ivory,
+                              fontSize: ".82rem",
+                              lineHeight: 1.45,
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap"
+                            }}
+                          >
+                            {i.name}
+                          </b>
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              onRemove(i.id)
+                            }
+                            aria-label="حذف المنتج"
+                            style={{
+                              width: 27,
+                              height: 27,
+                              flexShrink: 0,
+                              borderRadius: 6,
+                              border: "none",
+                              background:
+                                "rgba(255,255,255,.035)",
+                              color: C.taupe,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              cursor: "pointer"
+                            }}
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+
+                        <div
+                          style={{
+                            color: C.goldLight,
+                            fontSize: ".78rem",
+                            fontWeight: 800,
+                            marginTop: 5
+                          }}
+                        >
+                          {fmt(i.price)}
+                        </div>
+
+                        {/* Quantity */}
+                        <div
+                          style={{
+                            marginTop: "auto",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 8
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              border: `1px solid ${C.line}`,
+                              borderRadius: 6,
+                              overflow: "hidden",
+                              background: C.panel2
+                            }}
+                          >
+                            <button
+                              type="button"
+                              onClick={() =>
+                                onDec(i.id)
+                              }
+                              style={{
+                                width: 28,
+                                height: 27,
+                                border: "none",
+                                background:
+                                  "transparent",
+                                color: C.ivory,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                cursor: "pointer"
+                              }}
+                            >
+                              <Minus size={11} />
+                            </button>
+
+                            <span
+                              style={{
+                                minWidth: 28,
+                                textAlign: "center",
+                                color: C.ivory,
+                                fontSize: ".76rem",
+                                fontWeight: 800
+                              }}
+                            >
+                              {i.qty}
+                            </span>
+
+                            <button
+                              type="button"
+                              onClick={() =>
+                                onInc(i.id)
+                              }
+                              style={{
+                                width: 28,
+                                height: 27,
+                                border: "none",
+                                background:
+                                  "transparent",
+                                color: C.ivory,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                cursor: "pointer"
+                              }}
+                            >
+                              <Plus size={11} />
+                            </button>
+                          </div>
+
+                          <span
+                            style={{
+                              marginRight: "auto",
+                              color: C.taupe,
+                              fontSize: ".68rem"
+                            }}
+                          >
+                            {fmt(i.price * i.qty)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* ================= DELIVERY ================= */}
+              <div
+                style={{
+                  paddingTop: 5
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 9,
+                    marginBottom: 11
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 28,
+                      height: 28,
+                      borderRadius: 7,
+                      background: C.goldDim,
+                      color: C.gold,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: ".75rem",
+                      fontWeight: 900
+                    }}
+                  >
+                    1
+                  </div>
+
+                  <div>
+                    <div
+                      style={{
+                        color: C.ivory,
+                        fontSize: ".82rem",
+                        fontWeight: 800
+                      }}
+                    >
+                      بيانات التوصيل
+                    </div>
 
                     <div
                       style={{
-                        color: C.goldLight,
-                        fontSize: ".85rem",
-                        margin: "4px 0 8px"
+                        color: C.taupe,
+                        fontSize: ".66rem",
+                        marginTop: 2
                       }}
                     >
-                      {fmt(i.price)}
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() =>
-                          onDec(i.id)
-                        }
-                        style={{
-                          width: 24,
-                          height: 24,
-                          borderRadius: "50%",
-                          border: `1px solid ${C.line}`,
-                          background: "transparent",
-                          color: C.ivory,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center"
-                        }}
-                      >
-                        <Minus size={12} />
-                      </button>
-
-                      <span
-                        style={{
-                          fontSize: ".85rem"
-                        }}
-                      >
-                        {i.qty}
-                      </span>
-
-                      <button
-                        onClick={() =>
-                          onInc(i.id)
-                        }
-                        style={{
-                          width: 24,
-                          height: 24,
-                          borderRadius: "50%",
-                          border: `1px solid ${C.line}`,
-                          background: "transparent",
-                          color: C.ivory,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center"
-                        }}
-                      >
-                        <Plus size={12} />
-                      </button>
-
-                      <button
-                        onClick={() =>
-                          onRemove(i.id)
-                        }
-                        style={{
-                          marginRight: "auto",
-                          background: "none",
-                          border: 0,
-                          color: C.taupe
-                        }}
-                      >
-                        <Trash2 size={15} />
-                      </button>
+                      أدخل بيانات استلام الطلب
                     </div>
                   </div>
                 </div>
-              );
-            })
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 9,
+                  }}
+                >
+                  <input
+                    type="text"
+                    placeholder="الاسم بالكامل"
+                    value={
+                      currentUser
+                        ? currentUser.name
+                        : guestInfo.customerName
+                    }
+                    onChange={(e) => {
+                      const value =
+                        e.target.value.replace(
+                          /[^ء-يa-zA-Z\s]/g,
+                          ""
+                        );
+
+                      setGuestInfo({
+                        ...guestInfo,
+                        customerName: value
+                      });
+                    }}
+                    disabled={!!currentUser}
+                    maxLength={80}
+                    style={{
+                      ...inputStyle,
+                      opacity: currentUser
+                        ? 0.7
+                        : 1
+                    }}
+                  />
+
+                  <input
+                    type="tel"
+                    placeholder="رقم الموبايل"
+                    value={guestInfo.phone}
+                    maxLength={11}
+                    inputMode="numeric"
+                    pattern="01[0125][0-9]{8}"
+                    onChange={(e) => {
+                      const value =
+                        e.target.value.replace(
+                          /\D/g,
+                          ""
+                        );
+
+                      setGuestInfo({
+                        ...guestInfo,
+                        phone: value
+                      });
+                    }}
+                    style={inputStyle}
+                  />
+
+                  <input
+                    type="text"
+                    placeholder="العنوان بالتفصيل"
+                    value={guestInfo.address}
+                    maxLength={300}
+                    onChange={(e) => {
+                      const value =
+                        e.target.value.slice(
+                          0,
+                          300
+                        );
+
+                      setGuestInfo({
+                        ...guestInfo,
+                        address: value
+                      });
+                    }}
+                    style={inputStyle}
+                  />
+                </div>
+              </div>
+
+              {/* ================= PAYMENT ================= */}
+              <div
+                style={{
+                  paddingTop: 2
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 9,
+                    marginBottom: 11
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 28,
+                      height: 28,
+                      borderRadius: 7,
+                      background: C.goldDim,
+                      color: C.gold,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: ".75rem",
+                      fontWeight: 900
+                    }}
+                  >
+                    2
+                  </div>
+
+                  <div>
+                    <div
+                      style={{
+                        color: C.ivory,
+                        fontSize: ".82rem",
+                        fontWeight: 800
+                      }}
+                    >
+                      طريقة الدفع
+                    </div>
+
+                    <div
+                      style={{
+                        color: C.taupe,
+                        fontSize: ".66rem",
+                        marginTop: 2
+                      }}
+                    >
+                      اختر طريقة الدفع المناسبة
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns:
+                      "1fr 1fr",
+                    gap: 9
+                  }}
+                >
+                  {/* COD */}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setMethod("cod")
+                    }
+                    style={{
+                      padding: "13px 10px",
+                      borderRadius: 9,
+                      border:
+                        method === "cod"
+                          ? `1px solid ${C.gold}`
+                          : `1px solid ${C.line}`,
+                      background:
+                        method === "cod"
+                          ? C.goldDim
+                          : C.panel,
+                      color:
+                        method === "cod"
+                          ? C.gold
+                          : C.ivoryDim,
+                      cursor: "pointer",
+                      fontFamily: "inherit",
+                      textAlign: "right",
+                      transition: "all .2s ease"
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: ".76rem",
+                        fontWeight: 800
+                      }}
+                    >
+                      الدفع عند الاستلام
+                    </div>
+
+                    <div
+                      style={{
+                        marginTop: 4,
+                        fontSize: ".63rem",
+                        opacity: 0.7
+                      }}
+                    >
+                      ادفع عند وصول الطلب
+                    </div>
+                  </button>
+
+                  {/* CARD */}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setMethod("card")
+                    }
+                    style={{
+                      padding: "13px 10px",
+                      borderRadius: 9,
+                      border:
+                        method === "card"
+                          ? `1px solid ${C.gold}`
+                          : `1px solid ${C.line}`,
+                      background:
+                        method === "card"
+                          ? C.goldDim
+                          : C.panel,
+                      color:
+                        method === "card"
+                          ? C.gold
+                          : C.ivoryDim,
+                      cursor: "pointer",
+                      fontFamily: "inherit",
+                      textAlign: "right",
+                      transition: "all .2s ease"
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: ".76rem",
+                        fontWeight: 800
+                      }}
+                    >
+                      بطاقة ائتمان / خصم
+                    </div>
+
+                    <div
+                      style={{
+                        marginTop: 4,
+                        fontSize: ".63rem",
+                        opacity: 0.7
+                      }}
+                    >
+                      ادفع باستخدام البطاقة
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </>
           )}
         </div>
+
+        {/* ================= FOOTER ================= */}
         {cart.length > 0 && (
           <div
             style={{
-              padding: "0 24px 18px",
-              display: "flex",
-              flexDirection: "column",
-              gap: 10
+              padding: "16px 20px 20px",
+              borderTop: `1px solid ${C.line}`,
+              background: C.inkSoft,
+              flexShrink: 0,
+              boxShadow: "0 -10px 30px rgba(0,0,0,.12)"
             }}
           >
+            {/* Summary */}
             <div
               style={{
-                color: C.taupe,
-                fontSize: ".78rem",
-                marginBottom: 2
+                display: "flex",
+                flexDirection: "column",
+                gap: 8,
+                marginBottom: 15
               }}
             >
-              بيانات التوصيل
+              
+
+              <div
+                style={{
+                  height: 1,
+                  background: C.line,
+                  margin: "2px 0"
+                }}
+              />
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}
+              >
+                <span
+                  style={{
+                    color: C.ivory,
+                    fontWeight: 800,
+                    fontSize: ".9rem"
+                  }}
+                >
+                  الإجمالي
+                </span>
+
+                <span
+                  style={{
+                    color: C.goldLight,
+                    fontWeight: 900,
+                    fontSize: "1.18rem"
+                  }}
+                >
+                  {fmt(subtotal)}
+                </span>
+              </div>
             </div>
-            <input
-              type="text"
-              placeholder="الاسم بالكامل"
-              value={currentUser ? currentUser.name : guestInfo.customerName}
-              onChange={(e) => {
-                const value = e.target.value.replace(/[^ء-يa-zA-Z\s]/g, "");
 
-                setGuestInfo({
-                  ...guestInfo,
-                  customerName: value
-                });
-              }}
-              disabled={!!currentUser}
-              maxLength={80}
-              style={inputStyle}
-            />
-
-            <input
-              type="tel"
-              placeholder="رقم الموبايل"
-              value={guestInfo.phone}
-              maxLength={11}
-              inputMode="numeric"
-              pattern="01[0125][0-9]{8}"
-              onChange={(e) => {
-                const value = e.target.value.replace(/\D/g, "");
-
-                setGuestInfo({
-                  ...guestInfo,
-                  phone: value
-                });
-              }}
-              style={inputStyle}
-            />
-            <input
-              type="text"
-              placeholder="العنوان بالتفصيل"
-              value={guestInfo.address}
-              maxLength={300}
-              onChange={(e) => {
-                const value = e.target.value.slice(0, 300);
-
-                setGuestInfo({
-                  ...guestInfo,
-                  address: value
-                });
-              }}
-              style={inputStyle}
-            />
-
-            {/* <input
-              type="text"
-              placeholder="المدينة"
-              value={guestInfo.city}
-              maxLength={100}
-              onChange={(e) => {
-                const value = e.target.value.slice(0, 100);
-
-                setGuestInfo({
-                  ...guestInfo,
-                  city: value
-                });
-              }}
-              style={inputStyle}
-            /> */}
-            {/* 
-            <input
-              type="text"
-              placeholder="المحافظة"
-              value={guestInfo.governorate}
-              maxLength={100}
-              onChange={(e) => {
-                const value = e.target.value.slice(0, 100);
-
-                setGuestInfo({
-                  ...guestInfo,
-                  governorate: value
-                });
-              }}
-              style={inputStyle}
-            /> */}
-            {/* 
-           <textarea
-  placeholder="ملاحظات إضافية (اختياري)"
-  value={guestInfo.notes}
-  maxLength={500}
-  onChange={(e) => {
-    const value = e.target.value.slice(0, 500);
-
-    setGuestInfo({
-      ...guestInfo,
-      notes: value
-    });
-  }}
-  style={{
-    ...inputStyle,
-    minHeight: "90px",
-    resize: "vertical"
-  }}
-/> */}
-          </div>
-        )}
-
-
-        {cart.length > 0 && (
-          <div
-            style={{
-              padding: "0 24px 18px"
-            }}
-          >
-            <div
-              style={{
-                color: C.taupe,
-                fontSize: ".78rem",
-                marginBottom: 10
-              }}
+            {/* Checkout */}
+            <Btn
+              full
+              onClick={() => onCheckout(method)}
+              loading={checkingOut}
             >
-              طريقة الدفع
-            </div>
-
-            <div className="flex gap-2">
-              <button
-                onClick={() => setMethod("cod")}
-                style={{
-                  flex: 1,
-                  padding: "12px 10px",
-                  borderRadius: 8,
-                  border: `1px solid ${method === "cod"
-                    ? C.gold
-                    : C.line
-                    }`,
-                  background:
-                    method === "cod"
-                      ? C.goldDim
-                      : "transparent",
-                  color:
-                    method === "cod"
-                      ? C.gold
-                      : C.ivoryDim,
-                  fontSize: ".82rem",
-                  fontWeight: 700,
-                  cursor: "pointer"
-                }}
-              >
-                الدفع عند الاستلام
-              </button>
-
-              <button
-                onClick={() => setMethod("card")}
-                style={{
-                  flex: 1,
-                  padding: "12px 10px",
-                  borderRadius: 8,
-                  border: `1px solid ${method === "card"
-                    ? C.gold
-                    : C.line
-                    }`,
-                  background:
-                    method === "card"
-                      ? C.goldDim
-                      : "transparent",
-                  color:
-                    method === "card"
-                      ? C.gold
-                      : C.ivoryDim,
-                  fontSize: ".82rem",
-                  fontWeight: 700,
-                  cursor: "pointer"
-                }}
-              >
-                بطاقة ائتمان / خصم
-              </button>
-            </div>
+              إتمام الشراء
+            </Btn>
           </div>
         )}
-
-        <div
-          style={{
-            padding: "22px 24px",
-            borderTop: `1px solid ${C.line}`
-          }}
-        >
-          <div
-            className="flex justify-between"
-            style={{
-              fontWeight: 700,
-              fontSize: "1.05rem",
-              marginBottom: 16,
-              color: C.ivory
-            }}
-          >
-            <span>الإجمالي</span>
-            <span>{fmt(subtotal)}</span>
-          </div>
-
-          <Btn
-            full
-            onClick={() => onCheckout(method)}
-            loading={checkingOut}
-          >
-            إتمام الشراء
-          </Btn>
-        </div>
       </aside>
+
+      {/* ================= RESPONSIVE ================= */}
+      <style>
+        {`
+          @media (max-width: 480px) {
+            aside {
+              width: 100% !important;
+              max-width: 100vw !important;
+            }
+          }
+        `}
+      </style>
     </>
   );
 }
+
+
 
 /* ============================= AUTH PAGES ============================= */
 
