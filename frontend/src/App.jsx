@@ -1882,85 +1882,105 @@ function ProductCard({ p, onAdd, onOpen }) {
   );
 }
 
+
 function ProductDetails({ product, onAdd, onBack }) {
-  //    useEffect(() => {
-  //   document.title = `${product.name} | Nour Store`;
-
-  //   const description =
-  //     product.description ||
-  //     `اشتري ${product.name} من Nour Store بأفضل سعر.`;
-
-  //   let metaDescription = document.querySelector(
-  //     'meta[name="description"]'
-  //   );
-
-  //   if (!metaDescription) {
-  //     metaDescription = document.createElement("meta");
-  //     metaDescription.setAttribute("name", "description");
-  //     document.head.appendChild(metaDescription);
-  //   }
-
-  //   metaDescription.setAttribute("content", description);
-  // }, [product]);
   const [qty, setQty] = useState(1);
 
   const [selectedImage, setSelectedImage] = useState(
     product.images?.length
       ? product.images[0]
       : product.image
-  ); const Icon = catIcon(product.cat);
+  );
+
+  const Icon = catIcon(product.cat);
 
   return (
     <section
       style={{
-        padding: "60px 0"
+        padding: "35px 0 80px",
+        minHeight: "70vh"
       }}
     >
       <div
         style={{
-          maxWidth: 1100,
+          maxWidth: 1180,
           margin: "0 auto",
-          padding: "0 24px"
+          padding: "0 20px"
         }}
       >
-        {/* زر الرجوع */}
-        <button
-          onClick={onBack}
+        {/* Breadcrumb / Back */}
+        <div
           style={{
-            background: "transparent",
-            border: `1px solid ${C.line}`,
-            color: C.ivoryDim,
-            padding: "9px 16px",
-            borderRadius: 6,
-            cursor: "pointer",
-            marginBottom: 30,
-            fontFamily: "inherit"
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            marginBottom: 28,
+            color: C.taupe,
+            fontSize: ".82rem"
           }}
         >
-          ← العودة للمنتجات
-        </button>
+          <button
+            onClick={onBack}
+            type="button"
+            style={{
+              background: "transparent",
+              border: "none",
+              color: C.ivoryDim,
+              padding: 0,
+              cursor: "pointer",
+              fontFamily: "inherit",
+              fontSize: ".85rem",
+              display: "flex",
+              alignItems: "center",
+              gap: 7
+            }}
+          >
+            <span style={{ fontSize: "1rem" }}>←</span>
+            العودة للمنتجات
+          </button>
 
+          <span style={{ opacity: 0.35 }}>/</span>
+
+          <span
+            style={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap"
+            }}
+          >
+            {product.name}
+          </span>
+        </div>
+
+        {/* Main Product Card */}
         <div
           className="product-details-grid"
           style={{
             display: "grid",
-            gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
-            gap: 40,
-            alignItems: "start"
+            gridTemplateColumns: "minmax(0, 1.05fr) minmax(0, .95fr)",
+            gap: 55,
+            alignItems: "start",
+            background: C.panel,
+            border: `1px solid ${C.line}`,
+            borderRadius: 14,
+            padding: "30px",
+            boxShadow: "0 20px 60px rgba(0,0,0,.16)"
           }}
         >
-          {/* صورة المنتج */}
-          {/* صورة المنتج */}
+          {/* ================= IMAGE SIDE ================= */}
           <div>
+            {/* Main Image */}
             <div
               style={{
-                aspectRatio: "3/3.5",
-                borderRadius: 8,
+                position: "relative",
+                aspectRatio: "1 / 1.08",
+                borderRadius: 12,
                 overflow: "hidden",
                 border: `1px solid ${C.line}`,
+                background: C.panel2,
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "center"
               }}
             >
               {selectedImage ? (
@@ -1971,111 +1991,158 @@ function ProductDetails({ product, onAdd, onBack }) {
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
-                    display: "block",
-                    verticalAlign: "middle",
-                    borderRadius: 10,
+                    display: "block"
                   }}
                 />
               ) : (
                 <Icon
-                  size={80}
+                  size={90}
                   style={{
                     color: C.gold,
-                    opacity: 0.9
+                    opacity: 0.75
                   }}
                 />
-              )}
+              )}              
             </div>
 
+            {/* Thumbnails */}
             {product.images?.length > 1 && (
               <div
                 style={{
                   display: "flex",
-                  gap: 8,
-                  marginTop: 10,
+                  gap: 10,
+                  marginTop: 14,
                   flexWrap: "wrap"
                 }}
               >
-                {product.images.map((img, index) => (
-                  <button
-                    key={index}
-                    type="button"
-                    onClick={() => setSelectedImage(img)}
-                    style={{
-                      width: 70,
-                      height: 88,
-                      padding: 0,
-                      borderRadius: 8,
-                      overflow: "hidden",
-                      border:
-                        selectedImage === img
+                {product.images.map((img, index) => {
+                  const active = selectedImage === img;
+
+                  return (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => setSelectedImage(img)}
+                      aria-label={`صورة ${index + 1}`}
+                      style={{
+                        width: 72,
+                        height: 82,
+                        padding: 0,
+                        borderRadius: 9,
+                        overflow: "hidden",
+                        border: active
                           ? `2px solid ${C.gold}`
                           : `1px solid ${C.line}`,
-                      background: C.panel,
-                      cursor: "pointer"
-                    }}
-                  >
-                    <img
-                      src={img}
-                      alt={`${product.name} ${index + 1}`}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        display: "block"
+                        background: C.panel2,
+                        cursor: "pointer",
+                        opacity: active ? 1 : 0.65,
+                        transition: "all .2s ease",
+                        boxSizing: "border-box"
                       }}
-                    />
-                  </button>
-                ))}
+                    >
+                      <img
+                        src={img}
+                        alt={`${product.name} ${index + 1}`}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          display: "block"
+                        }}
+                      />
+                    </button>
+                  );
+                })}
               </div>
             )}
-
           </div>
 
-          {/* بيانات المنتج */}
+          {/* ================= PRODUCT INFO ================= */}
           <div
             style={{
-              paddingTop: 10
+              paddingTop: 5
             }}
           >
+            {/* Category */}
             <div
               style={{
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "6px 11px",
+                borderRadius: 20,
+                background: "rgba(255,255,255,.035)",
+                border: `1px solid ${C.line}`,
                 color: C.taupe,
-                fontSize: ".8rem",
-                fontWeight: 600,
-                marginBottom: 10
+                fontSize: ".72rem",
+                fontWeight: 700,
+                marginBottom: 14
               }}
             >
               {product.cat}
             </div>
 
+            {/* Product Name */}
             <h1
               style={{
                 ...display,
                 color: C.ivory,
-                fontSize: "clamp(1.7rem, 3vw, 2.5rem)",
-                margin: "0 0 14px"
+                fontSize: "clamp(1.8rem, 3vw, 2.65rem)",
+                lineHeight: 1.2,
+                margin: "0 0 14px",
+                letterSpacing: "-.02em"
               }}
             >
               {product.name}
             </h1>
 
-            <Stars rating={product.rating} />
-
-            {/* السعر */}
+            {/* Rating */}
             <div
               style={{
                 display: "flex",
-                alignItems: "baseline",
-                gap: 12,
-                marginTop: 20
+                alignItems: "center",
+                gap: 10,
+                marginBottom: 22
+              }}
+            >
+              <Stars rating={product.rating} />
+
+              {product.rating && (
+                <span
+                  style={{
+                    color: C.taupe,
+                    fontSize: ".78rem"
+                  }}
+                >
+                  {product.rating}
+                </span>
+              )}
+            </div>
+
+            {/* Divider */}
+            <div
+              style={{
+                height: 1,
+                background: C.line,
+                marginBottom: 22
+              }}
+            />
+
+            {/* Price */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexWrap: "wrap",
+                gap: 13,
+                marginBottom: 22
               }}
             >
               <span
                 style={{
                   color: C.goldLight,
-                  fontSize: "1.4rem",
-                  fontWeight: 800
+                  fontSize: "1.8rem",
+                  fontWeight: 900,
+                  letterSpacing: "-.02em"
                 }}
               >
                 {fmt(product.price)}
@@ -2092,32 +2159,46 @@ function ProductDetails({ product, onAdd, onBack }) {
                   {fmt(product.old)}
                 </span>
               )}
+
+              {product.old && (
+                <span
+                  style={{
+                    padding: "4px 8px",
+                    borderRadius: 5,
+                    background: "rgba(255,255,255,.05)",
+                    color: C.gold,
+                    fontSize: ".68rem",
+                    fontWeight: 800
+                  }}
+                >
+                  عرض خاص
+                </span>
+              )}
             </div>
 
-            {/* الوصف */}
+            {/* Description */}
             {product.description && (
               <div
                 style={{
-                  marginTop: 25,
-                  paddingTop: 20,
-                  borderTop: `1px solid ${C.line}`
+                  marginBottom: 23
                 }}
               >
                 <div
                   style={{
                     color: C.ivory,
-                    fontWeight: 700,
-                    marginBottom: 10
+                    fontWeight: 800,
+                    fontSize: ".9rem",
+                    marginBottom: 9
                   }}
                 >
-                  وصف المنتج
+                  تفاصيل المنتج
                 </div>
 
                 <p
                   style={{
                     color: C.ivoryDim,
                     lineHeight: 1.9,
-                    fontSize: ".9rem",
+                    fontSize: ".88rem",
                     margin: 0,
                     whiteSpace: "pre-wrap"
                   }}
@@ -2127,95 +2208,170 @@ function ProductDetails({ product, onAdd, onBack }) {
               </div>
             )}
 
-            {/* المخزون */}
-            <div
-              style={{
-                marginTop: 22,
-                color:
-                  product.stock <= 8
-                    ? C.danger
-                    : C.ivoryDim,
-                fontSize: ".85rem"
-              }}
-            >
-              {product.stock > 0
-                ? `متوفر في المخزون: ${product.stock}`
-                : "غير متوفر حاليًا"}
-            </div>
-
-            {/* إضافة للسلة */}
+            {/* Stock */}
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: 10,
-                marginTop: 22
+                gap: 8,
+                marginBottom: 18,
+                padding: "11px 13px",
+                borderRadius: 8,
+                background:
+                  product.stock > 0
+                    ? "rgba(255,255,255,.025)"
+                    : "rgba(180,50,50,.08)",
+                border: `1px solid ${C.line}`
               }}
             >
-              <button
-                type="button"
-                onClick={() => setQty((q) => Math.max(1, q - 1))}
-                disabled={qty <= 1}
+              <span
                 style={{
-                  width: 42,
-                  height: 42,
-                  borderRadius: 6,
-                  border: `1px solid ${C.line}`,
-                  background: C.panel,
-                  color: C.ivory,
-                  cursor: qty > 1 ? "pointer" : "not-allowed",
-                  fontSize: "1.2rem",
-                  fontFamily: "inherit"
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
+                  background:
+                    product.stock > 0
+                      ? product.stock <= 8
+                        ? C.danger
+                        : "#6fbd78"
+                      : C.danger,
+                  boxShadow:
+                    product.stock > 0
+                      ? `0 0 8px ${
+                          product.stock <= 8
+                            ? C.danger
+                            : "#6fbd78"
+                        }`
+                      : "none"
                 }}
-              >
-                −
-              </button>
+              />
 
-              <div
+              <span
                 style={{
-                  minWidth: 45,
-                  textAlign: "center",
-                  color: C.ivory,
-                  fontWeight: 800,
-                  fontSize: "1rem"
+                  color:
+                    product.stock > 0
+                      ? product.stock <= 8
+                        ? C.danger
+                        : C.ivoryDim
+                      : C.danger,
+                  fontSize: ".8rem",
+                  fontWeight: 700
                 }}
               >
-                {qty}
-              </div>
-
-              <button
-                type="button"
-                onClick={() =>
-                  setQty((q) => Math.min(product.stock, q + 1))
-                }
-                disabled={qty >= product.stock}
-                style={{
-                  width: 42,
-                  height: 42,
-                  borderRadius: 6,
-                  border: `1px solid ${C.line}`,
-                  background: C.panel,
-                  color: C.ivory,
-                  cursor:
-                    qty < product.stock
-                      ? "pointer"
-                      : "not-allowed",
-                  fontSize: "1.2rem",
-                  fontFamily: "inherit"
-                }}
-              >
-                +
-              </button>
+                {product.stock > 0
+                  ? product.stock <= 8
+                    ? `متبقي ${product.stock} فقط في المخزون`
+                    : `متوفر في المخزون (${product.stock})`
+                  : "غير متوفر حاليًا"}
+              </span>
             </div>
 
+            {/* Quantity */}
+            {product.stock > 0 && (
+              <div
+                style={{
+                  marginBottom: 18
+                }}
+              >
+                <div
+                  style={{
+                    color: C.ivory,
+                    fontSize: ".78rem",
+                    fontWeight: 800,
+                    marginBottom: 9
+                  }}
+                >
+                  الكمية
+                </div>
+
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    border: `1px solid ${C.line}`,
+                    borderRadius: 8,
+                    overflow: "hidden",
+                    background: C.panel2
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setQty((q) => Math.max(1, q - 1))
+                    }
+                    disabled={qty <= 1}
+                    style={{
+                      width: 43,
+                      height: 43,
+                      border: "none",
+                      borderLeft: `1px solid ${C.line}`,
+                      background: "transparent",
+                      color:
+                        qty > 1 ? C.ivory : C.taupe,
+                      cursor:
+                        qty > 1
+                          ? "pointer"
+                          : "not-allowed",
+                      fontSize: "1.15rem",
+                      fontFamily: "inherit"
+                    }}
+                  >
+                    −
+                  </button>
+
+                  <div
+                    style={{
+                      minWidth: 52,
+                      textAlign: "center",
+                      color: C.ivory,
+                      fontWeight: 900,
+                      fontSize: ".95rem"
+                    }}
+                  >
+                    {qty}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setQty((q) =>
+                        Math.min(product.stock, q + 1)
+                      )
+                    }
+                    disabled={qty >= product.stock}
+                    style={{
+                      width: 43,
+                      height: 43,
+                      border: "none",
+                      borderRight: `1px solid ${C.line}`,
+                      background: "transparent",
+                      color:
+                        qty < product.stock
+                          ? C.ivory
+                          : C.taupe,
+                      cursor:
+                        qty < product.stock
+                          ? "pointer"
+                          : "not-allowed",
+                      fontSize: "1.15rem",
+                      fontFamily: "inherit"
+                    }}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Add To Cart */}
             <button
+              type="button"
               disabled={product.stock <= 0}
               onClick={() => onAdd(product, qty)}
               style={{
                 width: "100%",
-                marginTop: 25,
-                padding: 14,
-                borderRadius: 6,
+                padding: "15px 18px",
+                borderRadius: 8,
                 border: `1px solid ${C.gold}`,
                 background:
                   product.stock > 0
@@ -2225,19 +2381,26 @@ function ProductDetails({ product, onAdd, onBack }) {
                   product.stock > 0
                     ? C.ink
                     : C.taupe,
-                fontWeight: 800,
+                fontWeight: 900,
                 fontSize: ".9rem",
                 cursor:
                   product.stock > 0
                     ? "pointer"
                     : "not-allowed",
-                fontFamily: "inherit"
+                fontFamily: "inherit",
+                transition: "all .2s ease",
+                boxShadow:
+                  product.stock > 0
+                    ? "0 8px 25px rgba(0,0,0,.15)"
+                    : "none"
               }}
             >
               {product.stock > 0
                 ? "أضيفي للسلة"
                 : "غير متوفر"}
             </button>
+
+            {/* WhatsApp */}
             <a
               href={`https://wa.me/201105720205?text=${encodeURIComponent(
                 `مرحبًا، أريد طلب المنتج:\n${product.name}\nالكمية: ${qty}\nالسعر: ${fmt(product.price)}`
@@ -2249,28 +2412,52 @@ function ProductDetails({ product, onAdd, onBack }) {
                 alignItems: "center",
                 justifyContent: "center",
                 width: "100%",
-                marginTop: 12,
-                padding: 14,
-                borderRadius: 6,
-                border: `1px solid ${C.gold}`,
-                background: "#fff",
-                color: C.gold,
+                marginTop: 10,
+                padding: "14px 18px",
+                borderRadius: 8,
+                border: `1px solid ${C.line}`,
+                background: "transparent",
+                color: C.ivory,
                 fontWeight: 800,
-                fontSize: ".9rem",
+                fontSize: ".86rem",
                 textDecoration: "none",
                 cursor: "pointer",
                 fontFamily: "inherit",
-                boxSizing: "border-box"
+                boxSizing: "border-box",
+                transition: "all .2s ease"
               }}
             >
               طلب عبر واتساب
             </a>
+
+           
           </div>
         </div>
       </div>
+
+      {/* Responsive */}
+      <style>
+        {`
+          @media (max-width: 850px) {
+            .product-details-grid {
+              grid-template-columns: 1fr !important;
+              gap: 30px !important;
+              padding: 20px !important;
+            }
+          }
+
+          @media (max-width: 520px) {
+            .product-details-grid {
+              border-radius: 10px !important;
+            }
+          }
+        `}
+      </style>
     </section>
   );
 }
+
+
 
 function FeaturedProductsSlider({
   products,
