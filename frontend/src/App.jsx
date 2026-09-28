@@ -7856,33 +7856,52 @@ export default function App() {
 
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [featuredProductsLoading, setFeaturedProductsLoading] = useState(true);
+const [latestProducts, setLatestProducts] = useState([]);
+const [latestProductsLoading, setLatestProductsLoading] = useState(true);
+const loadFeaturedProducts = async () => {
+  try {
+    setFeaturedProductsLoading(true);
 
-  const loadFeaturedProducts = async () => {
-    try {
-      setFeaturedProductsLoading(true);
+    const d = await api.get(
+      "/products?featured=true&limit=8"
+    );
 
-      const d = await api.get(
-        "/products?limit=100"
-      );
+    setFeaturedProducts(d.products);
+  } catch (err) {
+    console.error(
+      "FEATURED PRODUCTS ERROR:",
+      err
+    );
+  } finally {
+    setFeaturedProductsLoading(false);
+  }
+};
+const loadLatestProducts = async () => {
+  try {
+    setLatestProductsLoading(true);
 
-      const latest = [...d.products]
-        .sort(
-          (a, b) =>
-            new Date(b.createdAt) -
-            new Date(a.createdAt)
-        )
-        .slice(0, 7);
+    const d = await api.get(
+      "/products?limit=100"
+    );
 
-      setFeaturedProducts(latest);
-    } catch (err) {
-      console.error(
-        "LATEST PRODUCTS ERROR:",
-        err
-      );
-    } finally {
-      setFeaturedProductsLoading(false);
-    }
-  };
+    const latest = [...d.products]
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt) -
+          new Date(a.createdAt)
+      )
+      .slice(0, 7);
+
+    setLatestProducts(latest);
+  } catch (err) {
+    console.error(
+      "LATEST PRODUCTS ERROR:",
+      err
+    );
+  } finally {
+    setLatestProductsLoading(false);
+  }
+};
   /* ============================= LOAD PRODUCTS ============================= */
 
   /* ============================= LOAD PRODUCTS ============================= */
@@ -7955,9 +7974,9 @@ export default function App() {
     ) {
       return;
     }
-
-    loadProducts();
-    loadFeaturedProducts();
+ loadProducts();
+  loadFeaturedProducts();
+  loadLatestProducts();
   }, [
     currentUser,
     authChecked,
@@ -8841,8 +8860,8 @@ export default function App() {
             />
 
             <FeaturedProductsSlider
-              products={featuredProducts}
-              loading={featuredProductsLoading}
+             products={latestProducts}
+loading={latestProductsLoading}
               onAdd={addToCart}
               openProduct={openProduct}
               openShop={() => {
@@ -8861,8 +8880,8 @@ export default function App() {
               setCatFilter={setCatFilter}
             />
             <FeaturedProductsSection
-              products={featuredProducts}
-              loading={productsLoading}
+  products={featuredProducts}
+  loading={featuredProductsLoading}
               onAdd={addToCart}
               openProduct={openProduct}
               openShop={() => {
