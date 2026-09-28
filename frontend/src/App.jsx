@@ -2538,7 +2538,7 @@ function FeaturedProductsSlider({
           <div>
             <Eyebrow>مختارات المتجر</Eyebrow>
 
-            <h2
+            {/* <h2
               style={{
                 ...display,
                 color: C.ivory,
@@ -2548,7 +2548,7 @@ function FeaturedProductsSlider({
               }}
             >
               أحدث الإضافات
-            </h2>
+            </h2> */}
 
 
           </div>
@@ -2874,9 +2874,9 @@ function Shop({
           padding: "0 24px"
         }}
       >
-        <Eyebrow>مختارات المتجر</Eyebrow>
+        <Eyebrow>  منتجات المتجر</Eyebrow>
 
-        <h2
+        {/* <h2
           style={{
             ...display,
             fontSize: "clamp(1.6rem,2.6vw,2.2rem)",
@@ -2885,7 +2885,7 @@ function Shop({
           }}
         >
           منتجات المتجر
-        </h2>
+        </h2> */}
 
         {/* Categories */}
         <div className="category-scroll"
@@ -3474,7 +3474,7 @@ function FeaturedProductsSection({
           <div>
             <Eyebrow>اختياراتنا لك</Eyebrow>
 
-            <h2
+            {/* <h2
               style={{
                 ...display,
                 color: C.ivory,
@@ -3483,7 +3483,7 @@ function FeaturedProductsSection({
               }}
             >
               منتجات مميزة
-            </h2>
+            </h2> */}
           </div>
 
           {/* عرض الكل */}
