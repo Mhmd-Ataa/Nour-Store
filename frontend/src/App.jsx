@@ -2592,7 +2592,7 @@ function FeaturedProductsSlider({
             style={{
               display: "flex",
               flexDirection: "row",
-              gap: 20,
+              gap: 15,
               overflowX: "auto",
               overflowY: "hidden",
               padding:
@@ -3067,7 +3067,7 @@ function Shop({
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
               {filtered.map((p) => (
                 <ProductCard
                   key={p.id}
@@ -3516,7 +3516,7 @@ function FeaturedProductsSection({
             style={{
               display: "grid",
 
-              gap: 20
+              gap: 10
             }}
           >
 
