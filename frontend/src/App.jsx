@@ -2536,7 +2536,7 @@ function FeaturedProductsSlider({
           }}
         >
           <div>
-            <Eyebrow>مختارات المتجر</Eyebrow>
+            <Eyebrow>أحدث الإضافات</Eyebrow>
 
             {/* <h2
               style={{
