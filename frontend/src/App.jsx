@@ -538,7 +538,7 @@ function Header({
       <div
         className="flex items-center justify-between"
         style={{
-          maxWidth: 1240,
+          maxWidth: 1450,
           margin: "0 auto",
           padding: "0 24px",
           height: 76
@@ -1301,7 +1301,7 @@ function MobileNav({ open, onClose, setView, setSearch }) {
 //         style={{
 //           position: "relative",
 //           zIndex: 1,
-//           maxWidth: 1240,
+//           maxWidth: 1450,
 //           margin: "0 auto",
 //           padding: "70px 24px",
 
@@ -1449,7 +1449,7 @@ function Hero({ setView }) {
         style={{
           position: "relative",
           zIndex: 2,
-          maxWidth: 1240,
+          maxWidth: 1450,
           minHeight: 560,
           margin: "0 auto",
           padding: "55px 24px",
@@ -2512,7 +2512,7 @@ function FeaturedProductsSlider({
     >
       <div
         style={{
-          maxWidth: 1240,
+          maxWidth: 1450,
           margin: "0 auto",
           padding: "0 24px"
         }}
@@ -2848,7 +2848,7 @@ function Shop({
     >
       <div
         style={{
-          maxWidth: 1240,
+          maxWidth: 1450,
           margin: "0 auto",
           padding: "0 24px"
         }}
@@ -3232,7 +3232,7 @@ function CategoryStrip({ setView, setCatFilter }) {
     >
       <div
         style={{
-          maxWidth: 1240,
+          maxWidth: 1450,
           margin: "0 auto",
           padding: "0 24px"
         }}
@@ -3432,7 +3432,7 @@ function FeaturedProductsSection({
     >
       <div
         style={{
-          maxWidth: 1200,
+          maxWidth: 1450,
           margin: "0 auto"
         }}
       >
@@ -3625,7 +3625,7 @@ function WhyNourStore() {
     >
       <div
         style={{
-          maxWidth: 1240,
+          maxWidth: 1450,
           margin: "0 auto",
           padding: "0 24px"
         }}
@@ -3848,7 +3848,7 @@ function Footer() {
     >
       <div
         style={{
-          maxWidth: 1240,
+          maxWidth: 1450,
           margin: "0 auto"
         }}
       >
@@ -5438,7 +5438,7 @@ function AccountDashboard({
       <div
         className="account-dashboard-layout"
         style={{
-          maxWidth: 1240,
+          maxWidth: 1450,
           margin: "0 auto",
           padding: "25px 24px",
           display: "flex",
@@ -6620,7 +6620,7 @@ function AdminDashboard({
       <div
         className="admin-dashboard-layout"
         style={{
-          maxWidth: 1240,
+          maxWidth: 1450,
           margin: "0 auto",
           padding: "0 24px",
           display: "flex",
