@@ -1231,6 +1231,14 @@ function MobileNav({ open, onClose, setView, setSearch }) {
 
             if (k === "shop") {
               window.history.pushState({}, "", "/shop");
+
+              setTimeout(() => {
+                window.scrollTo({
+                  top: 0,
+                  left: 0,
+                  behavior: "smooth"
+                });
+              }, 50);
             }
 
             onClose();
@@ -7856,52 +7864,52 @@ export default function App() {
 
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [featuredProductsLoading, setFeaturedProductsLoading] = useState(true);
-const [latestProducts, setLatestProducts] = useState([]);
-const [latestProductsLoading, setLatestProductsLoading] = useState(true);
-const loadFeaturedProducts = async () => {
-  try {
-    setFeaturedProductsLoading(true);
+  const [latestProducts, setLatestProducts] = useState([]);
+  const [latestProductsLoading, setLatestProductsLoading] = useState(true);
+  const loadFeaturedProducts = async () => {
+    try {
+      setFeaturedProductsLoading(true);
 
-    const d = await api.get(
-      "/products?featured=true&limit=8"
-    );
+      const d = await api.get(
+        "/products?featured=true&limit=8"
+      );
 
-    setFeaturedProducts(d.products);
-  } catch (err) {
-    console.error(
-      "FEATURED PRODUCTS ERROR:",
-      err
-    );
-  } finally {
-    setFeaturedProductsLoading(false);
-  }
-};
-const loadLatestProducts = async () => {
-  try {
-    setLatestProductsLoading(true);
+      setFeaturedProducts(d.products);
+    } catch (err) {
+      console.error(
+        "FEATURED PRODUCTS ERROR:",
+        err
+      );
+    } finally {
+      setFeaturedProductsLoading(false);
+    }
+  };
+  const loadLatestProducts = async () => {
+    try {
+      setLatestProductsLoading(true);
 
-    const d = await api.get(
-      "/products?limit=100"
-    );
+      const d = await api.get(
+        "/products?limit=100"
+      );
 
-    const latest = [...d.products]
-      .sort(
-        (a, b) =>
-          new Date(b.createdAt) -
-          new Date(a.createdAt)
-      )
-      .slice(0, 7);
+      const latest = [...d.products]
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt) -
+            new Date(a.createdAt)
+        )
+        .slice(0, 7);
 
-    setLatestProducts(latest);
-  } catch (err) {
-    console.error(
-      "LATEST PRODUCTS ERROR:",
-      err
-    );
-  } finally {
-    setLatestProductsLoading(false);
-  }
-};
+      setLatestProducts(latest);
+    } catch (err) {
+      console.error(
+        "LATEST PRODUCTS ERROR:",
+        err
+      );
+    } finally {
+      setLatestProductsLoading(false);
+    }
+  };
   /* ============================= LOAD PRODUCTS ============================= */
 
   /* ============================= LOAD PRODUCTS ============================= */
@@ -7974,9 +7982,9 @@ const loadLatestProducts = async () => {
     ) {
       return;
     }
- loadProducts();
-  loadFeaturedProducts();
-  loadLatestProducts();
+    loadProducts();
+    loadFeaturedProducts();
+    loadLatestProducts();
   }, [
     currentUser,
     authChecked,
@@ -8860,8 +8868,8 @@ const loadLatestProducts = async () => {
             />
 
             <FeaturedProductsSlider
-             products={latestProducts}
-loading={latestProductsLoading}
+              products={latestProducts}
+              loading={latestProductsLoading}
               onAdd={addToCart}
               openProduct={openProduct}
               openShop={() => {
@@ -8880,8 +8888,8 @@ loading={latestProductsLoading}
               setCatFilter={setCatFilter}
             />
             <FeaturedProductsSection
-  products={featuredProducts}
-  loading={featuredProductsLoading}
+              products={featuredProducts}
+              loading={featuredProductsLoading}
               onAdd={addToCart}
               openProduct={openProduct}
               openShop={() => {
