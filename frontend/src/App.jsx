@@ -1645,8 +1645,8 @@ function ProductCard({ p, onAdd, onOpen }) {
       style={{
         background: C.panel,
         border: `5px solid ${hover
-            ? "rgba(217,143,163,.45)"
-            : C.line
+          ? "rgba(217,143,163,.45)"
+          : C.line
           }`,
         borderRadius: 10,
         overflow: "hidden",
@@ -7175,8 +7175,8 @@ function AdminDashboard({
                   </thead>
 
                   <tbody>
-{orders.map((o, index) => (
-                        <tr
+                    {orders.map((o, index) => (
+                      <tr
                         key={o.id}
                         style={{
                           borderTop: `1px solid ${C.line}`,
@@ -7184,14 +7184,14 @@ function AdminDashboard({
                         }}
                       >
                         <td
-  style={{
-    padding: 14,
-    color: C.gold,
-    fontWeight: 800
-  }}
->
-  #{index + 1}
-</td>
+                          style={{
+                            padding: 14,
+                            color: C.gold,
+                            fontWeight: 800
+                          }}
+                        >
+                          #{index + 1}
+                        </td>
 
                         <td
                           style={{
@@ -7855,19 +7855,32 @@ export default function App() {
   }, []);
 
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [featuredProductsLoading, setFeaturedProductsLoading] = useState(true);
 
   const loadFeaturedProducts = async () => {
     try {
+      setFeaturedProductsLoading(true);
+
       const d = await api.get(
-        "/products?featured=true&limit=8"
+        "/products?limit=100"
       );
 
-      setFeaturedProducts(d.products);
+      const latest = [...d.products]
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt) -
+            new Date(a.createdAt)
+        )
+        .slice(0, 7);
+
+      setFeaturedProducts(latest);
     } catch (err) {
       console.error(
-        "FEATURED PRODUCTS ERROR:",
+        "LATEST PRODUCTS ERROR:",
         err
       );
+    } finally {
+      setFeaturedProductsLoading(false);
     }
   };
   /* ============================= LOAD PRODUCTS ============================= */
@@ -8828,8 +8841,8 @@ export default function App() {
             />
 
             <FeaturedProductsSlider
-              products={products}
-              loading={productsLoading}
+              products={featuredProducts}
+              loading={featuredProductsLoading}
               onAdd={addToCart}
               openProduct={openProduct}
               openShop={() => {
@@ -8839,10 +8852,8 @@ export default function App() {
                 });
 
                 setView("shop");
+
                 window.history.pushState({}, "", "/shop");
-
-
-
               }}
             />
             <CategoryStrip
