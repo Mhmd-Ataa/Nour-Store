@@ -2847,7 +2847,20 @@ function Shop({
   const filtered = products.filter(
     (p) => p.isActive === true
   );
+  const categoryRefs = useRef({});
+  useEffect(() => {
+    if (!catFilter) return;
 
+    const element = categoryRefs.current[catFilter];
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center"
+      });
+    }
+  }, [catFilter]);
   return (
     <section
       style={{
@@ -2892,6 +2905,9 @@ function Shop({
             return (
               <button
                 key={c}
+                ref={(el) => {
+                  categoryRefs.current[c] = el;
+                }}
                 onClick={() => {
                   setSearch("");
                   setCatFilter(c);
