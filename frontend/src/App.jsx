@@ -1386,7 +1386,7 @@ imageScaleMobile: 1,     },
       description:
         "اكتشفي تشكيلتنا من مستحضرات التجميل واختاري كل ما يناسب إطلالتك.",
 imageScaleDesktop: 1.1,
-imageScaleMobile: 1.5,    },
+imageScaleMobile: 1.3,    },
     {
       image: "/images/euAZ8RBBo40S0GZItXPU77jo6zo_xHxMG7SN8BXAX39TT0DUDuk-DYK08qkrHwP-IdztesnciUHvFsJ8pXf71RSCZjsPcdyWjzzzQ3QO-wW2neyMU2SgdNEG8ZghEKmv7qYk1j4Spszt3XI6xEvGbRsRjH64o9z197IcZ_bQEpFsOyl3gTsurVlEGnzwOv4N-removeb.png",
       eyebrow: "عطرك يعبر عنك",
@@ -1417,7 +1417,7 @@ imageScaleMobile: 1.1,
       description:
         "شنط وإكسسوارات مختارة تضيف لمسة مميزة لكل إطلالة.",
      imageScaleDesktop: .85,
-imageScaleMobile: .98,    },
+imageScaleMobile: .9,    },
   ];
 
   const [current, setCurrent] = useState(0);
