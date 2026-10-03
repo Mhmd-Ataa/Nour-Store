@@ -1368,50 +1368,56 @@ function MobileNav({ open, onClose, setView, setSearch }) {
 function Hero({ setView }) {
   const slides = [
     {
-      image: "/images/Untitled design (1).png",
+      image: "/images/595885079_891088616816731_6891525580904720580_n-removebg-preview.png",
       eyebrow: "اختياراتك تبدأ من هنا",
       title: "كل اللي",
       highlight: "بتحبيه",
       title2: "في مكان واحد",
       description:
         "تشكيلة مختارة بعناية من الأزياء والإكسسوارات ومستحضرات التجميل ومنتجات العناية بالبشرة.",
-    },
+imageScaleDesktop: 1,
+imageScaleMobile: 1,     },
     {
-      image: "/images/pngtree-cosmetics-make-up-scene-photography-advertising-background-image_2216431-removebg-preview.png",
+      image: "/images/mackup.png",
       eyebrow: "جمالك يبدأ من هنا",
       title: "اختاري",
       highlight: "مستحضراتك المفضلة",
       title2: "لإطلالة متكاملة",
       description:
         "اكتشفي تشكيلتنا من مستحضرات التجميل واختاري كل ما يناسب إطلالتك.",
-    },
+imageScaleDesktop: 1.1,
+imageScaleMobile: 1.5,    },
     {
-      image: "/images/pngtree-various-perfume-luxury-glamour-perfume-photo-image_4088236-removebg-preview.png",
+      image: "/images/euAZ8RBBo40S0GZItXPU77jo6zo_xHxMG7SN8BXAX39TT0DUDuk-DYK08qkrHwP-IdztesnciUHvFsJ8pXf71RSCZjsPcdyWjzzzQ3QO-wW2neyMU2SgdNEG8ZghEKmv7qYk1j4Spszt3XI6xEvGbRsRjH64o9z197IcZ_bQEpFsOyl3gTsurVlEGnzwOv4N-removeb.png",
       eyebrow: "عطرك يعبر عنك",
       title: "اختاري",
       highlight: "عطرك المفضل",
       title2: "بلمسة مختلفة",
       description:
         "اكتشفي تشكيلتنا من البرفانات والعطور واختاري الرائحة المناسبة لكِ.",
-    },
+imageScaleDesktop: .9,
+imageScaleMobile: 1,    },
     {
-      image: "/images/1887d260e8c42642e11e254a14b9dfe0-removebg-preview.png",
-      eyebrow: "كمّلي إطلالتك",
+      image: "/images/e2faP5UQi0LJ-rpQ_UePALph5bJAaRpbmaRfGmUMS5PUf8xo1fpO8vwtqQ6OYUwe6kxUgRnhlotk93oTzT4UMp6bLV2liyFJItsIzEBNyDT1aAak3TOPoLpoCT9iHcINm8HWVYcNwXEq0LNUOaNhsI_Z5qmX72Tld-removebg-preview.png",
+      eyebrow: "لإطلالة أكثر أناقة",
       title: "اختاري",
       highlight: "طرحتك المفضلة",
       title2: "بلمسة أنيقة",
       description:
         "اكتشفي تشكيلتنا من الطرح بألوان وتصاميم متنوعة تناسب كل إطلالة.",
+        imageScaleDesktop: 1,
+imageScaleMobile: 1.1,
     },
     {
-      image: "/images/mimi-so-rings_de95c1ea-c247-4d36-aa2a-9568dd5fb80d_1000x1000-removebg-preview.png",
+      image: "/images/I-6b5ya8d4WKRwN5TtIVTnH3aKSJnTlo4t08ha1vOu8XMjdG5iM2_VDsG1bhXYemmyecc9w6o3RuKPcZPbSejTlYSmscIS2sbhv7w1fwbBXcLmpOh502LYaIxzdw4i_W9pSEw4vuBI2u9Kz8qcwaRLBQKa5Yk-c2a6V970TN1MY8AkXJC9X0Wne49R_Pn5wk-removeb.png",
       eyebrow: "كمّلي إطلالتك",
       title: "تفاصيل",
       highlight: "صغيرة",
       title2: "تصنع فرقًا كبيرًا",
       description:
         "شنط وإكسسوارات مختارة تضيف لمسة مميزة لكل إطلالة.",
-    },
+     imageScaleDesktop: .85,
+imageScaleMobile: .98,    },
   ];
 
   const [current, setCurrent] = useState(0);
@@ -1419,13 +1425,14 @@ function Hero({ setView }) {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 1000000);
 
     return () => clearInterval(timer);
   }, []);
 
   const slide = slides[current];
 
+  
   return (
     <section
       style={{
@@ -1435,7 +1442,6 @@ function Hero({ setView }) {
         minHeight: 560,
       }}
     >
-      {/* Background */}
       {/* Background */}
       <div
         style={{
@@ -1507,38 +1513,48 @@ function Hero({ setView }) {
 
         </div>
 
-        {/* الصورة */}
-        <div
-          key={`image-${current}`}
-          className="hero-image"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "15px"
-          }}
-        >
-          <img
-            src={slide.image}
-            alt=""
-            style={{
-              width: "90%",
-              maxWidth: 570,
-              height: "280px",
-              objectFit: "contain",
-              display: "block",
-              marginTop: "15px"
-            }}
-          />
+       {/* الصورة */}
+<div
+  key={`image-${current}`}
+  className="hero-image"
+  style={{
+    position: "relative",
+    
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
 
-        </div>
-        <div
+    // animation: "heroImageFloat 4s ease-in-out infinite",
+  }}
+>
+ <img
+  src={slide.image}
+  alt=""
+  className="hero-slide-image"
+  style={{
+    "--desktop-scale": slide.imageScaleDesktop,
+    "--mobile-scale": slide.imageScaleMobile,
+
+    width: "100%",
+    maxWidth: 520,
+    height: 400,
+    objectFit: "contain",
+    objectPosition: "center",
+    display: "block",
+    position: "relative",
+    zIndex: 3,
+
+    }}
+/>
+</div>
+
+        <div className="heroBtn"
           style={{
             gridColumn: "1 / -1",
             width: "100%",
             display: "flex",
             justifyContent: "flex-start",
-            marginTop: "10px",
           }}
         >
           <Btn onClick={() => setView("shop")}>
@@ -1602,11 +1618,14 @@ function Hero({ setView }) {
               flex-direction: column;
               justify-content: flex-start;
               min-height: 600px !important;
-              padding: 38px 20px 55px !important;
+  padding: 25px 0 45px !important;
+
               gap: 0 !important;
             }
 
             .hero-text {
+                          padding: 0px 20px  !important;
+
               width: 100%;
               position: relative;
               z-index: 3;
@@ -1620,14 +1639,12 @@ function Hero({ setView }) {
             .hero-text p {
               font-size: .9rem;
               line-height: 1.8 !important;
-              margin-top: 16px !important;
-              margin-bottom: 22px !important;
+              margin-top: 10px !important;
+              margin-bottom: 10px !important;
             }
 
             .hero-image {
-              width: 115% !important;
-              margin-top: -35px !important;
-              margin-right: -7% !important;
+              width: 100% !important;
               position: relative;
               z-index: 1;
             }
@@ -1635,12 +1652,662 @@ function Hero({ setView }) {
             .hero-image img {
               max-width: 520px !important;
             }
+
+              .heroBtn{
+                                        padding: 0px 20px  !important;
+
+              }
           }
         `}
       </style>
     </section>
   );
 }
+
+// function CategoryShowcase({
+//   setView,
+//   setCatFilter,
+//   setProductsPage
+// }) {
+//   const categories = [
+//     {
+//       name: "مستحضرات تجميل",
+//       image: "/images/pakistani-makeup-brand.webp",
+//       description:
+//         "اكتشفي تشكيلتنا من مستحضرات التجميل لإطلالة متكاملة.",
+//     },
+//     {
+//       name: "العناية بالبشرة",
+//       image:
+//         "./images/pngtree-gray-background-portrait-of-a-woman-posing-with-a-facial-scraper-for-skin-care-photo-image_44745012.jpg",
+//       description:
+//         "منتجات مختارة للعناية ببشرتك والحفاظ على إشراقتها.",
+//     },
+//     {
+//       name: "العناية بالشعر",
+//       image:
+//         "/images/Natural Ways To Get Soft and Shiny Hair.jpg",
+//       description:
+//         "كل ما تحتاجينه لشعر أكثر نعومة ولمعانًا.",
+//     },
+//     {
+//       name: "البرفانات والعطور",
+//       image: "/images/jkkjkjk.jpg",
+//       description:
+//         "اختاري عطرك المفضل واكتشفي روائح تناسب ذوقك.",
+//     },
+//   ];
+
+//   const [active, setActive] = useState(0);
+
+//   const openCategory = (category) => {
+//     setCatFilter(category.name);
+//     setProductsPage(1);
+//     setView("shop");
+
+//     window.history.pushState(
+//       {},
+//       "",
+//       "/shop"
+//     );
+
+//     window.scrollTo({
+//       top: 0,
+//       behavior: "smooth",
+//     });
+//   };
+
+//   return (
+//     <section
+//       style={{
+//         padding: "75px 0",
+//         background: C.ink,
+//         borderTop: `1px solid ${C.line}`,
+//         borderBottom: `1px solid ${C.line}`,
+//         overflow: "visible",
+//       }}
+//     >
+//       <div
+//         style={{
+//           maxWidth: 1450,
+//           margin: "0 auto",
+//           padding: "0 24px",
+//         }}
+//       >
+//         <Eyebrow>    كل الجمال في مكان واحد</Eyebrow>
+
+//         {/* Cards */}
+//         <div
+//           className="category-showcase"
+//           style={{
+//             display: "flex",
+//             gap: 10,
+//             width: "100%",
+//             height: window.innerWidth <= 767 ? "auto" : 480,
+//             flexDirection: window.innerWidth <= 767 ? "column" : "row",
+//           }}
+//         >
+//           {categories.map((category, index) => {
+//             const isActive = active === index;
+
+//             return (
+//               <div
+//                 key={category.name}
+//                 className={`category-showcase-card ${isActive ? "active" : ""
+//                   }`}
+//                 onMouseEnter={() => {
+//                   if (window.innerWidth > 767) {
+//                     setActive(index);
+//                   }
+//                 }}
+//                 onClick={() => {
+//                   if (window.innerWidth <= 767) {
+//                     setActive(index);
+//                   }
+//                 }}
+//                 style={{
+//                   position: "relative",
+
+//                   flex:
+//                     window.innerWidth <= 767
+//                       ? "0 0 auto"
+//                       : isActive
+//                         ? "4 1 0"
+//                         : "1 1 0",
+
+//                   height:
+//                     window.innerWidth <= 767
+//                       ? isActive
+//                         ? 350
+//                         : 150
+//                       : 480,
+
+//                   minWidth: 0,
+
+//                   borderRadius: 14,
+//                   overflow: "hidden",
+//                   cursor: "pointer",
+
+//                   border: `1px solid ${isActive
+//                       ? C.gold
+//                       : "rgba(255,255,255,.10)"
+//                     }`,
+
+//                   transition:
+//                     "height .55s cubic-bezier(.22,.61,.36,1), flex .55s cubic-bezier(.22,.61,.36,1), border-color .3s ease",
+
+//                   background: C.panel,
+//                 }}
+//               >
+//                 {/* Image */}
+//                 <img
+//                   src={category.image}
+//                   alt={category.name}
+//                   style={{
+//                     position: "absolute",
+//                     inset: 0,
+//                     width: "100%",
+//                     height: "100%",
+//                     objectFit: "cover",
+//                     transition:
+//                       "transform .7s ease",
+//                     transform: isActive
+//                       ? "scale(1.04)"
+//                       : "scale(1)",
+//                   }}
+//                 />
+
+//                 {/* Overlay */}
+//                 <div
+//                   style={{
+//                     position: "absolute",
+//                     inset: 0,
+//                     background: isActive
+//                       ? "linear-gradient(to top, rgba(20,14,18,.95) 0%, rgba(20,14,18,.42) 48%, rgba(20,14,18,.05) 100%)"
+//                       : "linear-gradient(to top, rgba(20,14,18,.82), rgba(20,14,18,.15))",
+//                     transition:
+//                       "background .4s ease",
+//                   }}
+//                 />
+//                 {/* Expanded content */}
+//                 {isActive && (
+//                   <div
+//                     className="category-showcase-content"
+//                     style={{
+//                       position: "absolute",
+//                       right: 0,
+//                       left: 0,
+//                       bottom: 0,
+//                       zIndex: 4,
+//                       padding: "30px 32px",
+//                       animation:
+//                         "categoryContentIn .45s ease both",
+//                     }}
+//                   >
+//                     <div
+//                       style={{
+//                         color: C.gold,
+//                         fontSize: ".72rem",
+//                         fontWeight: 800,
+//                         letterSpacing: 1,
+//                         marginBottom: 8,
+//                       }}
+//                     >
+//                       𝓝𝓸𝓾𝓻 𝑺𝒕𝒐𝒓𝒆
+//                     </div>
+
+//                     <h3
+//                       style={{
+//                         ...display,
+//                         color: "#fff",
+//                         fontSize:
+//                           "clamp(1.5rem,3vw,2.4rem)",
+//                         margin: "0 0 10px",
+//                       }}
+//                     >
+//                       {category.name}
+//                     </h3>
+
+//                     <p
+//                       style={{
+//                         color:
+//                           "rgba(255,255,255,.75)",
+//                         maxWidth: 520,
+//                         lineHeight: 1.8,
+//                         fontSize: ".88rem",
+//                         margin: "0 0 20px",
+//                       }}
+//                     >
+//                       {category.description}
+//                     </p>
+
+//                     <button
+//                       onClick={(e) => {
+//                         e.stopPropagation();
+//                         openCategory(
+//                           category
+//                         );
+//                       }}
+//                       style={{
+//                         display: "inline-flex",
+//                         alignItems: "center",
+//                         gap: 10,
+//                         border: 0,
+//                         background: C.gold,
+//                         color: C.ink,
+//                         padding:
+//                           "11px 20px",
+//                         borderRadius: 999,
+//                         fontWeight: 800,
+//                         fontSize: ".8rem",
+//                         cursor: "pointer",
+//                       }}
+//                     >
+//                       تسوّقي المجموعة
+//                       <span
+//                         style={{
+//                           fontSize:
+//                             "1rem",
+//                         }}
+//                       >
+//                         ←
+//                       </span>
+//                     </button>
+//                   </div>
+//                 )}
+//               </div>
+//             );
+//           })}
+//         </div>
+//       </div>
+
+//       <style>
+//         {`
+//           @keyframes categoryContentIn {
+//             from {
+//               opacity: 0;
+//               transform: translateY(18px);
+//             }
+
+//             to {
+//               opacity: 1;
+//               transform: translateY(0);
+//             }
+//           }
+
+//           @media (max-width: 767px) {
+//             .category-showcase-hint {
+//               display: none;
+//             }
+
+//             .category-showcase {
+// height: auto !important;
+//               gap: 7px !important;
+//             }
+
+//             .category-showcase-card {
+//               border-radius: 10px !important;
+//             }
+
+//             .category-showcase-content {
+//               padding: 20px 18px !important;
+//             }
+
+//             .category-showcase-content h3 {
+//               font-size: 1.35rem !important;
+//             }
+
+//             .category-showcase-content p {
+//               font-size: .78rem !important;
+//               line-height: 1.7 !important;
+//             }
+//           }
+//         `}
+//       </style>
+//     </section>
+//   );
+// }
+
+
+function NourEditorialSection() {
+  const editorials = [
+    {
+      number: "0",
+      eyebrow: "MADE FOR YOU",
+      title: "تفاصيل صغيرة...",
+      highlight: "فرق كبير.",
+      description:
+        "اختيارات بسيطة تضيف لمسة مختلفة لإطلالتك وتخلي كل تفصيلة محسوبة.",
+      image: "/images/UEAYrthVTaEdr1I8rKBVfFLT9im3krHXFFNs9juewcx7Mmeq1BAtHx1DcAu3o2fy2PvqX9J3N60hF2LZNbf1XR8lunZDUQcjY3OU_HiAal8hJ5MKsw8m88alXvdo0AYYeIBha8Mgki5SN2JpLizUQtWDDAG7Q.jfif",
+    },
+    {
+      number: "02",
+      eyebrow: "EVERYDAY ESSENTIALS",
+      title: "لأن الجمال",
+      highlight: "في التفاصيل.",
+      description:
+        "اكتشفي القطع والمنتجات اللي ممكن تبقى جزء من روتينك اليومي.",
+      image:
+        "/images/f2b976c3-d93f-4a0d-bcbf-d37715550aa1.png",
+    },
+    {
+      number: "03",
+      eyebrow: "LITTLE LUXURIES",
+      title: "دلّلي نفسك",
+      highlight: "كل يوم.",
+      description:
+        "مش لازم مناسبة علشان تختاري حاجة تحبيها. خلي لنفسك دايمًا لحظة خاصة.",
+      image: "/images/bmZXWIMwdcV2XT9Rc6OyuCv7Iar3TkAunyxDkd2QQiX4orh046xCwGE6HGLA7YOfsXyfkCXOTLkooO4mYnxhkuKu3A39x7wzMhgJ3-bAHAfbuta7adiIRAnR7BBPX1K8A3GnXV8XGTjY-jsgTNVvNd-sTpaLh5xbGqvYsYfaURE.jfif",
+    },
+    {
+      number: "04",
+      eyebrow: "MADE FOR YOU",
+      title: "اختيارات",
+      highlight: "تشبهك.",
+      description:
+        "اكتشفي تفاصيل مختلفة تناسب ذوقك وتضيف لمستك الخاصة.",
+      image:
+        "/images/xky-P8AD4uOcz7Z1cos09aKNct9xeusCa9-I0NuVcEULMLr8XMaZlniVSGfMjpyj9K9vXy_uHGk-HZbEL7rDCHRMjUzTxozw-M1JbZEMesnhm-f7_qPCzZU6lu8hsKlRPNBNK3mk_LQfozxSgRf8oWAv8_7xNqfKL.jfif",
+    },
+  ];
+
+  const [active, setActive] = useState(0);
+
+  return (
+    <section
+      className="nour-editorial-section"
+      style={{
+        padding: "90px 0",
+        background: C.ink,
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: 1450,
+          margin: "0 auto",
+          padding: "0 24px",
+        }}
+      >
+        {/* HEADER */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            gap: 25,
+            marginBottom: 38,
+          }}
+          className="nour-editorial-header"
+        >
+          <div>
+            <Eyebrow>𝓝𝓸𝓾𝓻 𝑺𝒕𝒐𝒓𝒆</Eyebrow>
+
+            <p
+              style={{
+                margin: 0,
+                color: C.ivoryDim,
+                fontSize: "1rem",
+                lineHeight: 1.8,
+              }}
+            >
+              لمسات تكمل إطلالتك
+            </p>
+          </div>
+
+         
+        </div>
+
+        {/* CARDS */}
+        <div
+          className="nour-editorial-grid"
+          style={{
+            display: "flex",
+            gap: 10,
+            width: "100%",
+            height: 500,
+          }}
+        >
+          {editorials.map((item, index) => {
+            const isActive = active === index;
+
+            return (
+              <article
+                key={item.number}
+                className={`nour-editorial-card ${
+                  isActive ? "active" : ""
+                }`}
+                onMouseEnter={() => {
+                  if (window.innerWidth > 767) {
+                    setActive(index);
+                  }
+                }}
+                onClick={() => {
+                  if (window.innerWidth <= 767) {
+                    setActive(index);
+                  }
+                }}
+                style={{
+                  position: "relative",
+                  flex: isActive
+                    ? "4 1 0"
+                    : "1 1 0",
+                  minWidth: 0,
+                  height: "100%",
+                  overflow: "hidden",
+                  borderRadius: 16,
+                  cursor: "pointer",
+                  background: C.panel,
+                  border: `1px solid ${
+                    isActive
+                      ? C.gold
+                      : "rgba(255,255,255,.09)"
+                  }`,
+                  transition:
+                    "flex .65s cubic-bezier(.22,.61,.36,1), border-color .35s ease",
+                }}
+              >
+                {/* IMAGE */}
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    transition:
+                      "transform .8s cubic-bezier(.22,.61,.36,1)",
+                    transform: isActive
+                      ? "scale(1.04)"
+                      : "scale(1)",
+                  }}
+                />
+
+                {/* OVERLAY */}
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: isActive
+                      ? "linear-gradient(180deg, rgba(0,0,0,.05) 15%, rgba(0,0,0,.20) 42%, rgba(0,0,0,.90) 100%)"
+                      : "linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.72))",
+                    transition: "all .45s ease",
+                  }}
+                />
+                {/* ACTIVE CONTENT */}
+                {isActive && (
+                  <div
+                    className="nour-editorial-content"
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      padding: 32,
+                    }}
+                  >
+                    {/* <div
+                      style={{
+                        color: C.gold,
+                        fontSize: ".67rem",
+                        fontWeight: 900,
+                        letterSpacing: ".18em",
+                        marginBottom: 10,
+                      }}
+                    >
+                      {item.eyebrow}
+                    </div> */}
+
+                    <h3
+                      style={{
+                        margin: 0,
+                        color: C.ivory,
+                        fontSize:
+                          "clamp(1.8rem, 3.2vw, 3rem)",
+                        lineHeight: 1.15,
+                        fontWeight: 950,
+                        letterSpacing: "-.03em",
+                      }}
+                    >
+                      {item.title}
+                      <br />
+
+                      <span
+                        style={{
+                          color: C.goldLight,
+                        }}
+                      >
+                        {item.highlight}
+                      </span>
+                    </h3>
+
+                    <p
+                      style={{
+                        maxWidth: 520,
+                        margin: "14px 0 0",
+                        color: "rgba(255,255,255,.75)",
+                        fontSize: ".9rem",
+                        lineHeight: 1.9,
+                      }}
+                    >
+                      {item.description}
+                    </p>
+
+                    <div
+                      style={{
+                        width: 45,
+                        height: 1,
+                        background: C.gold,
+                        marginTop: 22,
+                      }}
+                    />
+                  </div>
+                )}
+
+                {/* GOLD CORNER */}
+                {isActive && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      right: 0,
+                      width: 90,
+                      height: 90,
+                      background:
+                        "radial-gradient(circle at top right, rgba(212,175,55,.28), transparent 70%)",
+                      pointerEvents: "none",
+                    }}
+                  />
+                )}
+              </article>
+            );
+          })}
+        </div>
+
+        {/* FOOTER */}
+        <div
+          style={{
+            marginTop: 18,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            color: "rgba(255,255,255,.35)",
+            fontSize: ".72rem",
+          }}
+          className="nour-editorial-footer"
+        >
+          <span>
+            تفاصيل مختارة بعناية من Nour Store
+          </span>
+
+          
+        </div>
+      </div>
+
+      <style>{`
+        @media (max-width: 767px) {
+          .nour-editorial-section {
+            padding: 65px 0 !important;
+          }
+
+          .nour-editorial-header {
+            align-items: flex-start !important;
+            margin-bottom: 25px !important;
+          }
+
+          .nour-editorial-counter {
+            display: none;
+          }
+
+          .nour-editorial-grid {
+            height: auto !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+          }
+
+          .nour-editorial-card {
+            flex: 0 0 auto !important;
+            height: 180px !important;
+            border-radius: 12px !important;
+            transition:
+              height .55s cubic-bezier(.22,.61,.36,1),
+              border-color .35s ease !important;
+          }
+
+          .nour-editorial-card.active {
+            height: 400px !important;
+          }
+
+          .nour-editorial-content {
+            padding: 22px 18px !important;
+          }
+
+          .nour-editorial-content h3 {
+            font-size: 1.8rem !important;
+          }
+
+          .nour-editorial-content p {
+            font-size: .8rem !important;
+            line-height: 1.75 !important;
+          }
+
+          .nour-editorial-footer {
+            display: none !important;
+          }
+
+          .nour-editorial-vertical span {
+            writing-mode: horizontal-tb !important;
+            transform: none !important;
+            font-size: .9rem !important;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}
+
 function ProductCard({ p, onAdd, onOpen }) {
   const [hover, setHover] = useState(false);
   const Icon = catIcon(p.cat);
@@ -2216,7 +2883,7 @@ function ProductDetails({ product, onAdd, onBack }) {
             )}
 
             {/* Stock */}
-            <div
+            {/* <div
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -2270,7 +2937,7 @@ function ProductDetails({ product, onAdd, onBack }) {
                     : `متوفر في المخزون (${product.stock})`
                   : "غير متوفر حاليًا"}
               </span>
-            </div>
+            </div> */}
 
             {/* Quantity */}
             {product.stock > 0 && (
@@ -4091,7 +4758,19 @@ function CartDrawer({
     0
   );
 
+  
   const [method, setMethod] = useState("cod");
+  useEffect(() => {
+  if (open) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+  }
+
+  return () => {
+    document.body.style.overflow = "";
+  };
+}, [open]);
 
   const inputStyle = {
     width: "100%",
@@ -4220,16 +4899,18 @@ function CartDrawer({
 
         {/* ================= SCROLLABLE CONTENT ================= */}
         <div
-          style={{
-            flex: 1,
-            overflowY: "auto",
-            padding: "18px 20px 20px",
-            display: "flex",
-            flexDirection: "column",
-            gap: 18,
-            scrollbarWidth: "thin"
-          }}
-        >
+  style={{
+    flex: 1,
+    minHeight: 0,
+    overflowY: "auto",
+    overscrollBehavior: "contain",
+    padding: "18px 20px 20px",
+    display: "flex",
+    flexDirection: "column",
+    gap: 18,
+    scrollbarWidth: "thin"
+  }}
+>
           {/* ================= EMPTY CART ================= */}
           {cart.length === 0 ? (
             <div
@@ -7620,6 +8301,7 @@ export default function App() {
 
   const [cartOpen, setCartOpen] =
     useState(false);
+ 
 
   const [search, setSearch] =
     useState("");
@@ -8883,6 +9565,11 @@ export default function App() {
               setView={setView}
             />
 
+            {/* <CategoryShowcase
+              setView={setView}
+              setCatFilter={setCatFilter}
+              setProductsPage={setProductsPage}
+            /> */}
             <FeaturedProductsSlider
               products={latestProducts}
               loading={latestProductsLoading}
@@ -8923,6 +9610,7 @@ export default function App() {
               }}
             />
 
+<NourEditorialSection />
 
             <WhyNourStore />
           </>
