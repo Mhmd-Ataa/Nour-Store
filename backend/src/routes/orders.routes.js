@@ -3,6 +3,35 @@ const prisma = require("../prisma");
 const { auth, optionalAuth, requireAdmin } = require("../middleware/auth");
 const ORDER_STATUSES = ["بانتظار الدفع", "قيد المعالجة", "تم الشحن", "تم التسليم", "ملغي"];
 const ORDER_LIMIT = 3;
+const SHIPPING_RATES = {
+  "القاهرة": 50,
+  "الجيزة": 50,
+  "القليوبية": 55,
+  "الإسكندرية": 60,
+  "الدقهلية": 50,
+  "الشرقية": 55,
+  "الغربية": 55,
+  "المنوفية": 55,
+  "البحيرة": 60,
+  "كفر الشيخ": 60,
+  "دمياط": 60,
+  "بورسعيد": 60,
+  "الإسماعيلية": 60,
+  "السويس": 60,
+  "الفيوم": 65,
+  "بني سويف": 65,
+  "المنيا": 70,
+  "أسيوط": 70,
+  "سوهاج": 75,
+  "قنا": 75,
+  "الأقصر": 80,
+  "أسوان": 80,
+  "البحر الأحمر": 80,
+  "الوادي الجديد": 85,
+  "مطروح": 80,
+  "شمال سيناء": 85,
+  "جنوب سيناء": 85,
+};
 const ORDER_WINDOW_MS = 30 * 60 * 1000;
 function getClientIp(req) {
   return (
@@ -103,6 +132,11 @@ router.post("/", optionalAuth, async (req, res) => {
     const cleanAddress = address?.trim() || "";
     const cleanCity = city?.trim() || "";
     const cleanGovernorate = governorate?.trim() || "";
+    const shippingFee = SHIPPING_RATES[cleanGovernorate];
+
+if (shippingFee === undefined) {
+  throw new Error("من فضلك اختر محافظة صحيحة");
+}
     const cleanNotes = notes?.trim() || "";
 
     if (!cleanName) {
@@ -202,6 +236,7 @@ router.post("/", optionalAuth, async (req, res) => {
     if (orderItemsData.length === 0) {
       throw new Error("لا توجد منتجات في الطلب");
     }
+    total += shippingFee;
 
     return tx.order.create({
       data: {
@@ -219,7 +254,7 @@ router.post("/", optionalAuth, async (req, res) => {
         notes: cleanNotes,
 
         total,
-
+shippingFee,
         status:
           paymentMethod === "card"
             ? "بانتظار الدفع"

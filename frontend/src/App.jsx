@@ -1375,8 +1375,9 @@ function Hero({ setView }) {
       title2: "في مكان واحد",
       description:
         "تشكيلة مختارة بعناية من الأزياء والإكسسوارات ومستحضرات التجميل ومنتجات العناية بالبشرة.",
-imageScaleDesktop: 1,
-imageScaleMobile: 1,     },
+      imageScaleDesktop: 1,
+      imageScaleMobile: 1,
+    },
     {
       image: "/images/mackup.png",
       eyebrow: "جمالك يبدأ من هنا",
@@ -1385,8 +1386,9 @@ imageScaleMobile: 1,     },
       title2: "لإطلالة متكاملة",
       description:
         "اكتشفي تشكيلتنا من مستحضرات التجميل واختاري كل ما يناسب إطلالتك.",
-imageScaleDesktop: 1.1,
-imageScaleMobile: 1.3,    },
+      imageScaleDesktop: 1.1,
+      imageScaleMobile: 1.3,
+    },
     {
       image: "/images/euAZ8RBBo40S0GZItXPU77jo6zo_xHxMG7SN8BXAX39TT0DUDuk-DYK08qkrHwP-IdztesnciUHvFsJ8pXf71RSCZjsPcdyWjzzzQ3QO-wW2neyMU2SgdNEG8ZghEKmv7qYk1j4Spszt3XI6xEvGbRsRjH64o9z197IcZ_bQEpFsOyl3gTsurVlEGnzwOv4N-removeb.png",
       eyebrow: "عطرك يعبر عنك",
@@ -1395,8 +1397,9 @@ imageScaleMobile: 1.3,    },
       title2: "بلمسة مختلفة",
       description:
         "اكتشفي تشكيلتنا من البرفانات والعطور واختاري الرائحة المناسبة لكِ.",
-imageScaleDesktop: .9,
-imageScaleMobile: 1,    },
+      imageScaleDesktop: .9,
+      imageScaleMobile: 1,
+    },
     {
       image: "/images/e2faP5UQi0LJ-rpQ_UePALph5bJAaRpbmaRfGmUMS5PUf8xo1fpO8vwtqQ6OYUwe6kxUgRnhlotk93oTzT4UMp6bLV2liyFJItsIzEBNyDT1aAak3TOPoLpoCT9iHcINm8HWVYcNwXEq0LNUOaNhsI_Z5qmX72Tld-removebg-preview.png",
       eyebrow: "لإطلالة أكثر أناقة",
@@ -1405,8 +1408,8 @@ imageScaleMobile: 1,    },
       title2: "بلمسة أنيقة",
       description:
         "اكتشفي تشكيلتنا من الطرح بألوان وتصاميم متنوعة تناسب كل إطلالة.",
-        imageScaleDesktop: 1,
-imageScaleMobile: 1.1,
+      imageScaleDesktop: 1,
+      imageScaleMobile: 1.1,
     },
     {
       image: "/images/I-6b5ya8d4WKRwN5TtIVTnH3aKSJnTlo4t08ha1vOu8XMjdG5iM2_VDsG1bhXYemmyecc9w6o3RuKPcZPbSejTlYSmscIS2sbhv7w1fwbBXcLmpOh502LYaIxzdw4i_W9pSEw4vuBI2u9Kz8qcwaRLBQKa5Yk-c2a6V970TN1MY8AkXJC9X0Wne49R_Pn5wk-removeb.png",
@@ -1416,8 +1419,9 @@ imageScaleMobile: 1.1,
       title2: "تصنع فرقًا كبيرًا",
       description:
         "شنط وإكسسوارات مختارة تضيف لمسة مميزة لكل إطلالة.",
-     imageScaleDesktop: .85,
-imageScaleMobile: .9,    },
+      imageScaleDesktop: .85,
+      imageScaleMobile: .9,
+    },
   ];
 
   const [current, setCurrent] = useState(0);
@@ -1432,7 +1436,7 @@ imageScaleMobile: .9,    },
 
   const slide = slides[current];
 
-  
+
   return (
     <section
       style={{
@@ -1513,41 +1517,41 @@ imageScaleMobile: .9,    },
 
         </div>
 
-       {/* الصورة */}
-<div
-  key={`image-${current}`}
-  className="hero-image"
-  style={{
-    position: "relative",
-    
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
+        {/* الصورة */}
+        <div
+          key={`image-${current}`}
+          className="hero-image"
+          style={{
+            position: "relative",
 
-    // animation: "heroImageFloat 4s ease-in-out infinite",
-  }}
->
- <img
-  src={slide.image}
-  alt=""
-  className="hero-slide-image"
-  style={{
-    "--desktop-scale": slide.imageScaleDesktop,
-    "--mobile-scale": slide.imageScaleMobile,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            overflow: "hidden",
 
-    width: "100%",
-    maxWidth: 520,
-    height: 400,
-    objectFit: "contain",
-    objectPosition: "center",
-    display: "block",
-    position: "relative",
-    zIndex: 3,
+            // animation: "heroImageFloat 4s ease-in-out infinite",
+          }}
+        >
+          <img
+            src={slide.image}
+            alt=""
+            className="hero-slide-image"
+            style={{
+              "--desktop-scale": slide.imageScaleDesktop,
+              "--mobile-scale": slide.imageScaleMobile,
 
-    }}
-/>
-</div>
+              width: "100%",
+              maxWidth: 520,
+              height: 400,
+              objectFit: "contain",
+              objectPosition: "center",
+              display: "block",
+              position: "relative",
+              zIndex: 3,
+
+            }}
+          />
+        </div>
 
         <div className="heroBtn"
           style={{
@@ -2055,7 +2059,7 @@ function NourEditorialSection() {
             </p>
           </div>
 
-         
+
         </div>
 
         {/* CARDS */}
@@ -2074,9 +2078,8 @@ function NourEditorialSection() {
             return (
               <article
                 key={item.number}
-                className={`nour-editorial-card ${
-                  isActive ? "active" : ""
-                }`}
+                className={`nour-editorial-card ${isActive ? "active" : ""
+                  }`}
                 onMouseEnter={() => {
                   if (window.innerWidth > 767) {
                     setActive(index);
@@ -2098,11 +2101,10 @@ function NourEditorialSection() {
                   borderRadius: 16,
                   cursor: "pointer",
                   background: C.panel,
-                  border: `1px solid ${
-                    isActive
-                      ? C.gold
-                      : "rgba(255,255,255,.09)"
-                  }`,
+                  border: `1px solid ${isActive
+                    ? C.gold
+                    : "rgba(255,255,255,.09)"
+                    }`,
                   transition:
                     "flex .65s cubic-bezier(.22,.61,.36,1), border-color .35s ease",
                 }}
@@ -2242,7 +2244,7 @@ function NourEditorialSection() {
             تفاصيل مختارة بعناية من Nour Store
           </span>
 
-          
+
         </div>
       </div>
 
@@ -4733,7 +4735,35 @@ function Footer() {
   );
 }
 /* ============================= CART DRAWER ============================= */
-
+const SHIPPING_RATES = {
+  "القاهرة": 50,
+  "الجيزة": 50,
+  "القليوبية": 55,
+  "الإسكندرية": 60,
+  "الدقهلية": 50,
+  "الشرقية": 55,
+  "الغربية": 55,
+  "المنوفية": 55,
+  "البحيرة": 60,
+  "كفر الشيخ": 60,
+  "دمياط": 60,
+  "بورسعيد": 60,
+  "الإسماعيلية": 60,
+  "السويس": 60,
+  "الفيوم": 65,
+  "بني سويف": 65,
+  "المنيا": 70,
+  "أسيوط": 70,
+  "سوهاج": 75,
+  "قنا": 75,
+  "الأقصر": 80,
+  "أسوان": 80,
+  "البحر الأحمر": 80,
+  "الوادي الجديد": 85,
+  "مطروح": 80,
+  "شمال سيناء": 85,
+  "جنوب سيناء": 85,
+};
 
 function CartDrawer({
   open,
@@ -4752,25 +4782,29 @@ function CartDrawer({
     (s, i) => s + i.price * i.qty,
     0
   );
+  const shippingFee =
+  SHIPPING_RATES[guestInfo.governorate] ?? 0;
+
+const total = subtotal + shippingFee;
 
   const totalItems = cart.reduce(
     (s, i) => s + i.qty,
     0
   );
 
-  
+
   const [method, setMethod] = useState("cod");
   useEffect(() => {
-  if (open) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "";
-  }
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
 
-  return () => {
-    document.body.style.overflow = "";
-  };
-}, [open]);
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   const inputStyle = {
     width: "100%",
@@ -4899,18 +4933,18 @@ function CartDrawer({
 
         {/* ================= SCROLLABLE CONTENT ================= */}
         <div
-  style={{
-    flex: 1,
-    minHeight: 0,
-    overflowY: "auto",
-    overscrollBehavior: "contain",
-    padding: "18px 20px 20px",
-    display: "flex",
-    flexDirection: "column",
-    gap: 18,
-    scrollbarWidth: "thin"
-  }}
->
+          style={{
+            flex: 1,
+            minHeight: 0,
+            overflowY: "auto",
+            overscrollBehavior: "contain",
+            padding: "18px 20px 20px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 18,
+            scrollbarWidth: "thin"
+          }}
+        >
           {/* ================= EMPTY CART ================= */}
           {cart.length === 0 ? (
             <div
@@ -5312,6 +5346,36 @@ function CartDrawer({
                     style={inputStyle}
                   />
 
+                  <select
+  value={guestInfo.governorate}
+  onChange={(e) => {
+    setGuestInfo({
+      ...guestInfo,
+      governorate: e.target.value
+    });
+  }}
+  style={{
+    ...inputStyle,
+    color: guestInfo.governorate
+      ? "black"
+      : "#777",
+    cursor: "pointer"
+  }}
+>
+  <option value="">
+    اختر المحافظة
+  </option>
+
+  {Object.keys(SHIPPING_RATES).map((governorate) => (
+    <option
+      key={governorate}
+      value={governorate}
+    >
+      {governorate}
+    </option>
+  ))}
+</select>
+
                   <input
                     type="text"
                     placeholder="العنوان بالتفصيل"
@@ -5331,6 +5395,31 @@ function CartDrawer({
                     }}
                     style={inputStyle}
                   />
+
+                  <textarea
+  placeholder="ملاحظات على الطلب (اختياري)"
+  value={guestInfo.notes}
+  maxLength={500}
+  rows={3}
+  onChange={(e) => {
+    const value =
+      e.target.value.slice(
+        0,
+        500
+      );
+
+    setGuestInfo({
+      ...guestInfo,
+      notes: value
+    });
+  }}
+  style={{
+    ...inputStyle,
+    resize: "vertical",
+    minHeight: 80,
+    lineHeight: 1.6,
+  }}
+/>
                 </div>
               </div>
 
@@ -5508,7 +5597,63 @@ function CartDrawer({
               }}
             >
 
+<div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between"
+  }}
+>
+  <span
+    style={{
+      color: C.taupe,
+      fontSize: ".78rem"
+    }}
+  >
+    المنتجات
+  </span>
 
+  <span
+    style={{
+      color: C.ivory,
+      fontSize: ".78rem",
+      fontWeight: 700
+    }}
+  >
+    {fmt(subtotal)}
+  </span>
+</div>
+
+<div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between"
+  }}
+>
+  <span
+    style={{
+      color: C.taupe,
+      fontSize: ".78rem"
+    }}
+  >
+    الشحن
+  </span>
+
+  <span
+    style={{
+      color: shippingFee
+        ? C.ivory
+        : C.taupe,
+      fontSize: ".78rem",
+      fontWeight: 700
+    }}
+  >
+    {shippingFee
+      ? fmt(shippingFee)
+      : "اختر المحافظة"}
+  </span>
+</div>
               <div
                 style={{
                   height: 1,
@@ -5541,7 +5686,7 @@ function CartDrawer({
                     fontSize: "1.18rem"
                   }}
                 >
-                  {fmt(subtotal)}
+    {fmt(total)}
                 </span>
               </div>
             </div>
@@ -6441,15 +6586,39 @@ function OrdersTable({
                 </td>
 
                 <td
-                  style={{
-                    padding: 14,
-                    color: C.goldLight,
-                    fontWeight: 700,
-                    whiteSpace: "nowrap"
-                  }}
-                >
-                  {fmt(o.total)}
-                </td>
+  style={{
+    padding: 14,
+    color: C.goldLight,
+    fontWeight: 700,
+    whiteSpace: "nowrap"
+  }}
+>
+  <div>
+    {fmt(
+      o.total - (o.shippingFee || 0)
+    )}
+  </div>
+
+  <div
+    style={{
+      color: C.taupe,
+      fontSize: ".72rem",
+      fontWeight: 400,
+      marginTop: 4
+    }}
+  >
+    الشحن: {fmt(o.shippingFee || 0)}
+  </div>
+
+  <div
+    style={{
+      color: C.goldLight,
+      marginTop: 3
+    }}
+  >
+    الإجمالي: {fmt(o.total)}
+  </div>
+</td>
 
                 <td style={{ padding: 14 }}>
                   <span
@@ -7857,6 +8026,10 @@ function AdminDashboard({
                       </th>
 
                       <th style={{ padding: 14 }}>
+                        ملاحظات الطلب
+                      </th>
+
+                      <th style={{ padding: 14 }}>
                         المنتجات
                       </th>
 
@@ -7937,6 +8110,36 @@ function AdminDashboard({
                                 ? ` - ${o.governorate}`
                                 : ""}
                             </div>
+                          )}
+                        </td>
+                        <td
+                          style={{
+                            padding: 14,
+                            maxWidth: 220,
+                            verticalAlign: "top",
+                          }}
+                        >
+                          {o.notes ? (
+                            <div
+                              style={{
+                                color: C.ivoryDim,
+                                lineHeight: 1.7,
+                                whiteSpace: "pre-wrap",
+                                wordBreak: "break-word",
+                              }}
+                              title={o.notes}
+                            >
+                              {o.notes}
+                            </div>
+                          ) : (
+                            <span
+                              style={{
+                                color: C.taupe,
+                                opacity: 0.6,
+                              }}
+                            >
+                              لا توجد ملاحظات
+                            </span>
                           )}
                         </td>
 
@@ -8022,14 +8225,44 @@ function AdminDashboard({
                         </td>
 
                         <td
-                          style={{
-                            padding: 14,
-                            color: C.goldLight,
-                            fontWeight: 700
-                          }}
-                        >
-                          {fmt(o.total)}
-                        </td>
+  style={{
+    padding: 14,
+    whiteSpace: "nowrap"
+  }}
+>
+  <div
+    style={{
+      color: C.ivoryDim,
+      fontSize: ".78rem",
+      marginBottom: 4
+    }}
+  >
+    المنتجات:{" "}
+    {fmt(
+      o.total - (o.shippingFee || 0)
+    )}
+  </div>
+
+  <div
+    style={{
+      color: C.taupe,
+      fontSize: ".78rem",
+      marginBottom: 5
+    }}
+  >
+    الشحن:{" "}
+    {fmt(o.shippingFee || 0)}
+  </div>
+
+  <div
+    style={{
+      color: C.goldLight,
+      fontWeight: 700
+    }}
+  >
+    الإجمالي: {fmt(o.total)}
+  </div>
+</td>
 
                         <td style={{ padding: 14 }}>
                           <select
@@ -8301,7 +8534,7 @@ export default function App() {
 
   const [cartOpen, setCartOpen] =
     useState(false);
- 
+
 
   const [search, setSearch] =
     useState("");
@@ -9126,11 +9359,14 @@ export default function App() {
 
     const phone = guestInfo.phone.trim();
 
-    if (!phone || !guestInfo.address.trim()) {
-      notify("من فضلك املئي رقم الموبايل والعنوان");
-      return;
-    }
-
+    if (
+  !phone ||
+  !guestInfo.address.trim() ||
+  !guestInfo.governorate.trim()
+) {
+  notify("من فضلك املئي رقم الموبايل والعنوان واختاري المحافظة");
+  return;
+}
     if (!/^01[0125][0-9]{8}$/.test(phone)) {
       notify("من فضلك أدخل رقم موبايل مصري صحيح");
       return;
@@ -9610,7 +9846,7 @@ export default function App() {
               }}
             />
 
-<NourEditorialSection />
+            <NourEditorialSection />
 
             <WhyNourStore />
           </>
