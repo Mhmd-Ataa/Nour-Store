@@ -9714,6 +9714,12 @@ export default function App() {
               setCatFilter={setCatFilter}
               setProductsPage={setProductsPage}
             /> */}
+
+            <CategoryStrip
+              setView={setView}
+              setCatFilter={setCatFilter}
+            /> 
+            
             <FeaturedProductsSlider
               products={latestProducts}
               loading={latestProductsLoading}
@@ -9730,10 +9736,7 @@ export default function App() {
                 window.history.pushState({}, "", "/shop");
               }}
             />
-            <CategoryStrip
-              setView={setView}
-              setCatFilter={setCatFilter}
-            />
+            
             <FeaturedProductsSection
               products={featuredProducts}
               loading={featuredProductsLoading}
