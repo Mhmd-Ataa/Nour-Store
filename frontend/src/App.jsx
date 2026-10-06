@@ -400,6 +400,7 @@ function Toast({ message }) {
 
   return (
     <div
+      className="notification-toast"
       style={{
         position: "fixed",
         bottom: 26,
@@ -582,12 +583,10 @@ function Header({
           <span
             style={{
               ...display,
-              fontSize: "1.4rem",
-              lineHeight: 1,
-              color: C.ivory
+            width:"100px"
             }}
           >
-            <b style={{ color: C.gold }}>𝓝𝓸𝓾𝓻 </b> <br /> 𝑺𝒕𝒐𝒓𝒆
+            <img src="./images/595885079_891088616816731_6891525580904720580_n-removebg-preview.png"/>
           </span>
         </button>
 
@@ -1271,98 +1270,6 @@ function MobileNav({ open, onClose, setView, setSearch }) {
 /* ============================= STORE PAGES ============================= */
 
 
-
-
-// function Hero({ setView }) {
-//   return (
-//     <section
-//       style={{
-//         position: "relative",
-//         overflow: "hidden",
-//         // minHeight:"600px",
-//         borderBottom: "1px solid ${C.line}",
-//         // backgroundImage:`
-//         // url("/images/nour-store.png")`,
-//         // backgroundSize: "contain",
-//         // backgroundRepeat: "no-repeat",
-//         // backgroundPosition: "center",
-
-//       }}
-//     >
-//       <div
-//         style={{
-//           position: "absolute",
-//           width: 560,
-//           height: 560,
-//           borderRadius: "50%",
-//           // background:
-//           //   "radial-gradient(circle, rgba(201,162,39,.32), rgba(201,162,39,0) 70%)",
-//           filter: "blur(10px)",
-//           top: -140,
-//           right: -100,
-//           zIndex: 0,
-//         }}
-//       />
-
-//       <div
-//         className="grid md:grid-cols-2 items-center gap-10"
-//         style={{
-//           position: "relative",
-//           zIndex: 1,
-//           maxWidth: 1450,
-//           margin: "0 auto",
-//           padding: "70px 24px",
-
-
-//         }}
-//       >
-//         <div>
-//           <Eyebrow>اختياراتك تبدأ من هنا</Eyebrow>
-//           <h1
-//             style={{
-//               ...display,
-//               fontSize: "clamp(2.1rem,4.4vw,3.6rem)",
-//               lineHeight: 1.5,
-//               color: C.ivory
-//             }}
-//           >
-//             كل اللي <span style={{ color: C.gold }}>بتحبيه  </span>
-
-//             في مكان واحد
-//           </h1>
-
-//           <p
-//             style={{
-//               color: C.ivoryDim,
-//               maxWidth: 460,
-//               margin: "20px 0 32px",
-
-//             }}
-//           >
-//             تشكيلة مختارة بعناية من الأزياء - الإكسسوارات  - مستحضرات التجميل  -  منتجات العناية بالبشرة
-//             -  مستلزمات المنزل — جودة توثقين بها، وأسعار تُنصفك.
-//           </p>
-
-//           <div className="flex gap-3 flex-wrap">
-//             <Btn onClick={() => setView("shop")}>
-//               تسوّقي المجموعة
-//             </Btn>
-
-//             {/* <Btn
-//               variant="outline"
-//               onClick={() => setView("shop")}
-//             >
-//               اكتشفي العروض
-//             </Btn> */}
-//           </div>
-//         </div>
-
-
-
-//       </div>
-//     </section>
-//   );
-// }
 
 
 function Hero({ setView }) {
@@ -3918,7 +3825,7 @@ function CategoryStrip({ setView, setCatFilter }) {
     <section
       style={{
         padding: "75px 0",
-        background: C.inkSoft,
+        // background: C.inkSoft,
         borderTop: `1px solid ${C.line}`,
         borderBottom: `1px solid ${C.line}`
       }}
@@ -8672,6 +8579,7 @@ export default function App() {
     setToast(msg);
 
     setTimeout(
+
       () => setToast(""),
       2800
     );
@@ -8775,7 +8683,7 @@ export default function App() {
 
       notify(
         ok
-          ? "تم الدفع بنجاح 🎉 جاري تجهيز طلبك"
+          ? "تم الدفع بنجاح . جاري تجهيز طلبك"
           : "لم تكتمل عملية الدفع، ممكن تحاولي تاني"
       );
 
