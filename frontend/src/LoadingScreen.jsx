@@ -7,7 +7,7 @@ export default function LoadingScreen() {
       <div className="loading-content">
 
         <div className="loading-brand">
-          <img src="./images/595885079_891088616816731_6891525580904720580_n-removebg-preview.png" alt="" />
+          <img src="/images/595885079_891088616816731_6891525580904720580_n-removebg-preview.png" alt="" />
         </div>
 
         <div className="loading-line">

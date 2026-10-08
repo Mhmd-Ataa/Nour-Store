@@ -583,10 +583,10 @@ function Header({
           <span
             style={{
               ...display,
-            width:"100px"
+              width: "100px"
             }}
           >
-            <img src="./images/595885079_891088616816731_6891525580904720580_n-removebg-preview.png"/>
+            <img src="/images/595885079_891088616816731_6891525580904720580_n-removebg-preview.png" />
           </span>
         </button>
 
@@ -1336,7 +1336,7 @@ function Hero({ setView }) {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
-    }, 6000);
+    }, 4000);
 
     return () => clearInterval(timer);
   }, []);
@@ -2216,38 +2216,47 @@ function NourEditorialSection() {
     </section>
   );
 }
-
 function ProductCard({ p, onAdd, onOpen }) {
   const [hover, setHover] = useState(false);
   const Icon = catIcon(p.cat);
+
+  const discount =
+    p.old && Number(p.old) > Number(p.price)
+      ? Math.round(
+        ((Number(p.old) - Number(p.price)) / Number(p.old)) * 100
+      )
+      : 0;
+
+  const savings =
+    p.old && Number(p.old) > Number(p.price)
+      ? Number(p.old) - Number(p.price)
+      : 0;
 
   return (
     <div
       onClick={() => onOpen(p.id)}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      className="product-card"
       style={{
-        background: C.panel,
-        border: `5px solid ${hover
-          ? "rgba(217,143,163,.45)"
-          : C.line
+        background: "#fff",
+        border: `1px solid ${hover ? "rgba(217,143,163,.45)" : "rgba(58,44,50,.10)"
           }`,
-        borderRadius: 10,
+        borderRadius: 14,
         overflow: "hidden",
         transition:
-          "transform .3s ease, box-shadow .3s ease, border-color .3s ease",
-        transform: hover
-          ? "translateY(-5px)"
-          : "translateY(0)",
+          "transform .35s cubic-bezier(.22,.61,.36,1), box-shadow .35s ease, border-color .35s ease",
+        transform: hover ? "translateY(-6px)" : "translateY(0)",
         boxShadow: hover
-          ? "0 12px 30px rgba(58,44,50,.10)"
-          : "0 4px 15px rgba(58,44,50,.04)",
+          ? "0 18px 40px rgba(58,44,50,.13)"
+          : "0 6px 20px rgba(58,44,50,.06)",
         position: "relative",
-        cursor: "pointer"
+        cursor: "pointer",
       }}
     >
-      {/* صورة المنتج */}
+      {/* ================= IMAGE ================= */}
       <div
+        className="product-card-image"
         style={{
           aspectRatio: "4 / 5",
           background: catGrad(p.cat),
@@ -2259,61 +2268,105 @@ function ProductCard({ p, onAdd, onOpen }) {
           justifyContent: "center",
         }}
       >
-        {/* Overlay خفيف */}
+        {/* Image overlay */}
         <div
           style={{
             position: "absolute",
             inset: 0,
             background:
-              "linear-gradient(to top, rgba(35,24,29,.08), transparent 35%)",
+              "linear-gradient(to top, rgba(35,24,29,.12), transparent 38%)",
             zIndex: 1,
-            pointerEvents: "none"
+            pointerEvents: "none",
           }}
         />
 
-        {/* الخصم */}
-        {p.old && (
-          <span
+        {/* Discount badge */}
+        {discount > 0 && (
+          <div
             style={{
               position: "absolute",
               top: 12,
               right: 12,
-              zIndex: 3,
+              zIndex: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              minWidth: 54,
+              height: 54,
+              borderRadius: "50%",
               background: C.danger,
               color: "#fff",
-              fontSize: ".68rem",
-              fontWeight: 800,
-              padding: "6px 12px",
-              borderRadius: 20,
-              boxShadow:
-                "0 4px 12px rgba(217,83,79,.22)"
+              boxShadow: "0 6px 18px rgba(217,83,79,.25)",
+              lineHeight: 1.1,
             }}
           >
-            خصم
-          </span>
+            <span
+              style={{
+                fontSize: ".62rem",
+                fontWeight: 700,
+              }}
+            >
+              خصم
+            </span>
+
+            <span
+              style={{
+                fontSize: ".82rem",
+                fontWeight: 950,
+              }}
+            >
+              {discount}%
+            </span>
+          </div>
         )}
 
-        {/* كمية محدودة */}
+        {/* Limited stock */}
         {p.stock <= 8 && !p.old && (
           <span
             style={{
               position: "absolute",
-              top: 12,
-              right: 12,
-              zIndex: 3,
+              top: 14,
+              right: 14,
+              zIndex: 4,
               background: "rgba(58,44,50,.88)",
               color: "#fff",
-              fontSize: ".65rem",
+              fontSize: ".63rem",
               fontWeight: 800,
-              padding: "6px 11px",
-              borderRadius: 20,
-              backdropFilter: "blur(5px)"
+              padding: "7px 11px",
+              borderRadius: 999,
+              backdropFilter: "blur(8px)",
+              boxShadow: "0 5px 15px rgba(0,0,0,.12)",
             }}
           >
             كمية محدودة
           </span>
         )}
 
+        {/* Saving badge */}
+        {savings > 0 && (
+          <div
+            style={{
+              position: "absolute",
+              bottom: 12,
+              left: 12,
+              zIndex: 4,
+              background: "rgba(255,255,255,.94)",
+              color: C.gold,
+              border: "1px solid rgba(217,143,163,.22)",
+              padding: "6px 10px",
+              borderRadius: 999,
+              fontSize: ".62rem",
+              fontWeight: 900,
+              backdropFilter: "blur(8px)",
+              boxShadow: "0 5px 15px rgba(58,44,50,.08)",
+            }}
+          >
+            وفّري {fmt(savings)}
+          </div>
+        )}
+
+        {/* Product image */}
         {p.image ? (
           <img
             src={p.image}
@@ -2324,10 +2377,8 @@ function ProductCard({ p, onAdd, onOpen }) {
               objectFit: "cover",
               display: "block",
               transition:
-                "transform .5s ease",
-              transform: hover
-                ? "scale(1.05)"
-                : "scale(1)"
+                "transform .65s cubic-bezier(.22,.61,.36,1)",
+              transform: hover ? "scale(1.055)" : "scale(1)",
             }}
           />
         ) : (
@@ -2335,35 +2386,50 @@ function ProductCard({ p, onAdd, onOpen }) {
             size={54}
             style={{
               color: C.gold,
-              opacity: 0.9
+              opacity: 0.9,
             }}
           />
         )}
+
+        {/* Bottom image gradient */}
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 90,
+            background:
+              "linear-gradient(to top, rgba(35,24,29,.14), transparent)",
+            pointerEvents: "none",
+            zIndex: 2,
+          }}
+        />
       </div>
 
-      {/* بيانات المنتج */}
+      {/* ================= CONTENT ================= */}
       <div
         style={{
-          padding: "15px 16px 16px"
+          padding: "15px 16px 16px",
         }}
       >
-        {/* التصنيف */}
+        {/* Category */}
         <div
           style={{
             color: C.taupe,
-            fontSize: ".68rem",
-            fontWeight: 700,
-            marginBottom: 6
+            fontSize: ".65rem",
+            fontWeight: 800,
+            marginBottom: 5,
           }}
         >
           {p.cat}
         </div>
 
-        {/* اسم المنتج */}
+        {/* Product name */}
         <div
           style={{
-            fontWeight: 800,
-            fontSize: ".95rem",
+            fontWeight: 850,
+            fontSize: ".94rem",
             lineHeight: 1.5,
             marginBottom: 7,
             color: C.ivory,
@@ -2371,35 +2437,38 @@ function ProductCard({ p, onAdd, onOpen }) {
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",
             overflow: "hidden",
-            minHeight: "2.85em"
+            minHeight: "2.85em",
           }}
         >
           {p.name}
         </div>
 
-        {/* التقييم */}
+        {/* Rating */}
         <div
           style={{
-            marginBottom: 8
+            marginBottom: 8,
+            display: "flex",
+            alignItems: "center",
           }}
         >
           <Stars rating={p.rating} />
         </div>
 
-        {/* السعر */}
+        {/* Price */}
         <div
           style={{
             display: "flex",
-            alignItems: "baseline",
-            gap: 9,
-            minHeight: 25
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 8,
+            minHeight: 27,
           }}
         >
           <span
             style={{
-              fontWeight: 900,
+              fontWeight: 950,
               color: C.gold,
-              fontSize: "1rem"
+              fontSize: "1.03rem",
             }}
           >
             {fmt(p.price)}
@@ -2410,7 +2479,8 @@ function ProductCard({ p, onAdd, onOpen }) {
               style={{
                 color: C.taupe,
                 textDecoration: "line-through",
-                fontSize: ".76rem"
+                fontSize: ".73rem",
+                opacity: 0.8,
               }}
             >
               {fmt(p.old)}
@@ -2418,17 +2488,19 @@ function ProductCard({ p, onAdd, onOpen }) {
           )}
         </div>
 
-        {/* إضافة للسلة */}
+        {/* Add to cart */}
         <div
           className="product-card-add"
           style={{
             marginTop: 13,
-            opacity: hover ? 1 : 0,
-            transform: hover
-              ? "translateY(0)"
-              : "translateY(7px)",
+            opacity:
+              hover || window.innerWidth <= 767 ? 1 : 0.92,
+            transform:
+              hover || window.innerWidth <= 767
+                ? "translateY(0)"
+                : "translateY(5px)",
             transition:
-              "opacity .25s ease, transform .25s ease"
+              "opacity .25s ease, transform .25s ease",
           }}
         >
           <button
@@ -2439,12 +2511,13 @@ function ProductCard({ p, onAdd, onOpen }) {
             }}
             style={{
               width: "100%",
-              background: C.gold,
-              color: "#fff",
-              border: `1px solid ${C.gold}`,
+              background: hover ? C.gold : "rgba(217,143,163,.10)",
+              color: hover ? "#fff" : C.gold,
+              border: `1px solid ${hover ? C.gold : "rgba(217,143,163,.28)"
+                }`,
               padding: "10px 9px",
-              borderRadius: 6,
-              fontWeight: 800,
+              borderRadius: 8,
+              fontWeight: 850,
               fontSize: ".72rem",
               display: "flex",
               alignItems: "center",
@@ -2452,8 +2525,8 @@ function ProductCard({ p, onAdd, onOpen }) {
               gap: 8,
               cursor: "pointer",
               fontFamily: "inherit",
-              boxShadow:
-                "0 4px 12px rgba(217,143,163,.18)"
+              transition:
+                "background .25s ease, color .25s ease, border-color .25s ease",
             }}
           >
             <ShoppingCart size={14} />
@@ -4136,7 +4209,7 @@ function FeaturedProductsSection({
             ))}
 
             {/* كارت عرض كل المنتجات */}
-            <div
+            {/* <div
               onClick={openShop}
               style={{
                 minHeight: 320,
@@ -4172,7 +4245,7 @@ function FeaturedProductsSection({
                   عرض جميع المنتجات
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         )}
       </div>
@@ -4217,33 +4290,104 @@ function WhyNourStore() {
   return (
     <section
       style={{
-        background: C.ink,
-        borderTop: `1px solid ${C.line}`,
-        borderBottom: `1px solid ${C.line}`,
-        padding: "70px 0"
+        position: "relative",
+        background: `
+          radial-gradient(
+            circle at 50% 0%,
+            rgba(217,143,163,.12),
+            transparent 38%
+          ),
+          ${C.ink}
+        `,
+        borderTop: `1px solid rgba(255,255,255,.06)`,
+        borderBottom: `1px solid rgba(255,255,255,.06)`,
+        padding: "88px 0",
+        overflow: "hidden"
       }}
     >
+      {/* Decorative glow */}
       <div
         style={{
-          maxWidth: 1450,
+          position: "absolute",
+          width: 320,
+          height: 320,
+          borderRadius: "50%",
+          background: "rgba(217,143,163,.06)",
+          filter: "blur(80px)",
+          top: -180,
+          right: -100,
+          pointerEvents: "none"
+        }}
+      />
+
+      <div
+        style={{
+          position: "absolute",
+          width: 280,
+          height: 280,
+          borderRadius: "50%",
+          background: "rgba(255,255,255,.025)",
+          filter: "blur(70px)",
+          bottom: -170,
+          left: -100,
+          pointerEvents: "none"
+        }}
+      />
+
+      <div
+        style={{
+          maxWidth: 1250,
           margin: "0 auto",
-          padding: "0 24px"
+          padding: "0 24px",
+          position: "relative",
+          zIndex: 2
         }}
       >
+        {/* Header */}
         <div
           style={{
             textAlign: "center",
-            marginBottom: 42
+            marginBottom: 52
           }}
         >
-          <Eyebrow>لماذا 𝓝𝓸𝓾𝓻 𝑺𝒕𝒐𝒓𝒆  ؟</Eyebrow>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              marginBottom: 13
+            }}
+          >
+            <span
+              style={{
+                width: 30,
+                height: 1,
+                background: C.gold,
+                opacity: .7
+              }}
+            />
+
+            <Eyebrow>
+              لماذا 𝓝𝓸𝓾𝓻 𝑺𝒕𝒐𝒓𝒆؟
+            </Eyebrow>
+
+            <span
+              style={{
+                width: 30,
+                height: 1,
+                background: C.gold,
+                opacity: .7
+              }}
+            />
+          </div>
 
           <h2
             style={{
               ...display,
-              fontSize: "clamp(1.7rem, 3vw, 2.4rem)",
+              fontSize: "clamp(1.8rem, 3vw, 2.6rem)",
               color: C.ivory,
-              margin: "10px 0 12px"
+              margin: "0 0 14px",
+              letterSpacing: "-.02em"
             }}
           >
             تجربة تسوّق تستحق ثقتك
@@ -4252,9 +4396,9 @@ function WhyNourStore() {
           <p
             style={{
               color: C.ivoryDim,
-              maxWidth: 600,
+              maxWidth: 620,
               margin: "0 auto",
-              lineHeight: 1.8,
+              lineHeight: 1.9,
               fontSize: ".9rem"
             }}
           >
@@ -4263,46 +4407,92 @@ function WhyNourStore() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {features.map((feature) => {
+        {/* Features */}
+        <div
+          className="grid grid-cols-2 md:grid-cols-3 gap-4"
+        >
+          {features.map((feature, index) => {
             const Icon = feature.icon;
 
             return (
               <div
                 key={feature.title}
+                className="why-nour-card"
                 style={{
-                  background: C.panel,
-                  border: `1px solid ${C.line}`,
-                  borderRadius: 6,
-                  padding: "28px 20px",
+                  position: "relative",
+                  background: `
+                    linear-gradient(
+                      145deg,
+                      rgba(255,255,255,.055),
+                      rgba(255,255,255,.025)
+                    )
+                  `,
+                  border: "1px solid rgba(255,255,255,.09)",
+                  borderRadius: 18,
+                  padding: "30px 22px 28px",
                   textAlign: "center",
-                  transition: "all .25s ease"
+                  transition:
+                    "transform .3s ease, border-color .3s ease, box-shadow .3s ease",
+                  overflow: "hidden"
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = C.gold;
                   e.currentTarget.style.transform =
-                    "translateY(-4px)";
+                    "translateY(-6px)";
+
+                  e.currentTarget.style.borderColor =
+                    "rgba(217,143,163,.5)";
+
+                  e.currentTarget.style.boxShadow =
+                    "0 18px 45px rgba(0,0,0,.18)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = C.line;
                   e.currentTarget.style.transform =
                     "translateY(0)";
+
+                  e.currentTarget.style.borderColor =
+                    "rgba(255,255,255,.09)";
+
+                  e.currentTarget.style.boxShadow =
+                    "none";
                 }}
               >
+                {/* Number */}
+                <span
+                  style={{
+                    position: "absolute",
+                    top: 14,
+                    right: 16,
+                    color: "rgba(255,255,255,.16)",
+                    fontSize: ".65rem",
+                    fontWeight: 800,
+                    letterSpacing: ".08em"
+                  }}
+                >
+                  0{index + 1}
+                </span>
+
+                {/* Icon */}
                 <div
                   style={{
-                    width: 52,
-                    height: 52,
-                    margin: "0 auto 16px",
+                    width: 58,
+                    height: 58,
+                    margin: "0 auto 18px",
                     borderRadius: "50%",
-                    border: `1px solid ${C.gold}`,
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center"
+                    justifyContent: "center",
+                    background:
+                      "rgba(217,143,163,.09)",
+                    border:
+                      "1px solid rgba(217,143,163,.35)",
+                    boxShadow:
+                      "0 8px 22px rgba(0,0,0,.12)",
+                    transition: "all .3s ease"
                   }}
                 >
                   <Icon
                     size={23}
+                    strokeWidth={1.8}
                     style={{
                       color: C.gold
                     }}
@@ -4312,9 +4502,9 @@ function WhyNourStore() {
                 <h3
                   style={{
                     color: C.ivory,
-                    fontSize: "1rem",
+                    fontSize: ".98rem",
                     fontWeight: 800,
-                    margin: "0 0 9px"
+                    margin: "0 0 10px"
                   }}
                 >
                   {feature.title}
@@ -4323,13 +4513,30 @@ function WhyNourStore() {
                 <p
                   style={{
                     color: C.ivoryDim,
-                    fontSize: ".78rem",
-                    lineHeight: 1.8,
-                    margin: 0
+                    fontSize: ".76rem",
+                    lineHeight: 1.85,
+                    margin: 0,
+                    maxWidth: 240,
+                    marginInline: "auto"
                   }}
                 >
                   {feature.text}
                 </p>
+
+                {/* Bottom accent */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    width: 42,
+                    height: 2,
+                    borderRadius: 999,
+                    background: C.gold,
+                    opacity: .45
+                  }}
+                />
               </div>
             );
           })}
@@ -4690,9 +4897,9 @@ function CartDrawer({
     0
   );
   const shippingFee =
-  SHIPPING_RATES[guestInfo.governorate] ?? 0;
+    SHIPPING_RATES[guestInfo.governorate] ?? 0;
 
-const total = subtotal + shippingFee;
+  const total = subtotal + shippingFee;
 
   const totalItems = cart.reduce(
     (s, i) => s + i.qty,
@@ -5254,34 +5461,34 @@ const total = subtotal + shippingFee;
                   />
 
                   <select
-  value={guestInfo.governorate}
-  onChange={(e) => {
-    setGuestInfo({
-      ...guestInfo,
-      governorate: e.target.value
-    });
-  }}
-  style={{
-    ...inputStyle,
-    color: guestInfo.governorate
-      ? "black"
-      : "#777",
-    cursor: "pointer"
-  }}
->
-  <option value="">
-    اختر المحافظة
-  </option>
+                    value={guestInfo.governorate}
+                    onChange={(e) => {
+                      setGuestInfo({
+                        ...guestInfo,
+                        governorate: e.target.value
+                      });
+                    }}
+                    style={{
+                      ...inputStyle,
+                      color: guestInfo.governorate
+                        ? "black"
+                        : "#777",
+                      cursor: "pointer"
+                    }}
+                  >
+                    <option value="">
+                      اختر المحافظة
+                    </option>
 
-  {Object.keys(SHIPPING_RATES).map((governorate) => (
-    <option
-      key={governorate}
-      value={governorate}
-    >
-      {governorate}
-    </option>
-  ))}
-</select>
+                    {Object.keys(SHIPPING_RATES).map((governorate) => (
+                      <option
+                        key={governorate}
+                        value={governorate}
+                      >
+                        {governorate}
+                      </option>
+                    ))}
+                  </select>
 
                   <input
                     type="text"
@@ -5304,29 +5511,29 @@ const total = subtotal + shippingFee;
                   />
 
                   <textarea
-  placeholder="ملاحظات على الطلب (اختياري)"
-  value={guestInfo.notes}
-  maxLength={500}
-  rows={3}
-  onChange={(e) => {
-    const value =
-      e.target.value.slice(
-        0,
-        500
-      );
+                    placeholder="ملاحظات على الطلب (اختياري)"
+                    value={guestInfo.notes}
+                    maxLength={500}
+                    rows={3}
+                    onChange={(e) => {
+                      const value =
+                        e.target.value.slice(
+                          0,
+                          500
+                        );
 
-    setGuestInfo({
-      ...guestInfo,
-      notes: value
-    });
-  }}
-  style={{
-    ...inputStyle,
-    resize: "vertical",
-    minHeight: 80,
-    lineHeight: 1.6,
-  }}
-/>
+                      setGuestInfo({
+                        ...guestInfo,
+                        notes: value
+                      });
+                    }}
+                    style={{
+                      ...inputStyle,
+                      resize: "vertical",
+                      minHeight: 80,
+                      lineHeight: 1.6,
+                    }}
+                  />
                 </div>
               </div>
 
@@ -5504,63 +5711,63 @@ const total = subtotal + shippingFee;
               }}
             >
 
-<div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between"
-  }}
->
-  <span
-    style={{
-      color: C.taupe,
-      fontSize: ".78rem"
-    }}
-  >
-    المنتجات
-  </span>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}
+              >
+                <span
+                  style={{
+                    color: C.taupe,
+                    fontSize: ".78rem"
+                  }}
+                >
+                  المنتجات
+                </span>
 
-  <span
-    style={{
-      color: C.ivory,
-      fontSize: ".78rem",
-      fontWeight: 700
-    }}
-  >
-    {fmt(subtotal)}
-  </span>
-</div>
+                <span
+                  style={{
+                    color: C.ivory,
+                    fontSize: ".78rem",
+                    fontWeight: 700
+                  }}
+                >
+                  {fmt(subtotal)}
+                </span>
+              </div>
 
-<div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between"
-  }}
->
-  <span
-    style={{
-      color: C.taupe,
-      fontSize: ".78rem"
-    }}
-  >
-    الشحن
-  </span>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}
+              >
+                <span
+                  style={{
+                    color: C.taupe,
+                    fontSize: ".78rem"
+                  }}
+                >
+                  الشحن
+                </span>
 
-  <span
-    style={{
-      color: shippingFee
-        ? C.ivory
-        : C.taupe,
-      fontSize: ".78rem",
-      fontWeight: 700
-    }}
-  >
-    {shippingFee
-      ? fmt(shippingFee)
-      : "اختر المحافظة"}
-  </span>
-</div>
+                <span
+                  style={{
+                    color: shippingFee
+                      ? C.ivory
+                      : C.taupe,
+                    fontSize: ".78rem",
+                    fontWeight: 700
+                  }}
+                >
+                  {shippingFee
+                    ? fmt(shippingFee)
+                    : "اختر المحافظة"}
+                </span>
+              </div>
               <div
                 style={{
                   height: 1,
@@ -5593,7 +5800,7 @@ const total = subtotal + shippingFee;
                     fontSize: "1.18rem"
                   }}
                 >
-    {fmt(total)}
+                  {fmt(total)}
                 </span>
               </div>
             </div>
@@ -6493,39 +6700,39 @@ function OrdersTable({
                 </td>
 
                 <td
-  style={{
-    padding: 14,
-    color: C.goldLight,
-    fontWeight: 700,
-    whiteSpace: "nowrap"
-  }}
->
-  <div>
-    {fmt(
-      o.total - (o.shippingFee || 0)
-    )}
-  </div>
+                  style={{
+                    padding: 14,
+                    color: C.goldLight,
+                    fontWeight: 700,
+                    whiteSpace: "nowrap"
+                  }}
+                >
+                  <div>
+                    {fmt(
+                      o.total - (o.shippingFee || 0)
+                    )}
+                  </div>
 
-  <div
-    style={{
-      color: C.taupe,
-      fontSize: ".72rem",
-      fontWeight: 400,
-      marginTop: 4
-    }}
-  >
-    الشحن: {fmt(o.shippingFee || 0)}
-  </div>
+                  <div
+                    style={{
+                      color: C.taupe,
+                      fontSize: ".72rem",
+                      fontWeight: 400,
+                      marginTop: 4
+                    }}
+                  >
+                    الشحن: {fmt(o.shippingFee || 0)}
+                  </div>
 
-  <div
-    style={{
-      color: C.goldLight,
-      marginTop: 3
-    }}
-  >
-    الإجمالي: {fmt(o.total)}
-  </div>
-</td>
+                  <div
+                    style={{
+                      color: C.goldLight,
+                      marginTop: 3
+                    }}
+                  >
+                    الإجمالي: {fmt(o.total)}
+                  </div>
+                </td>
 
                 <td style={{ padding: 14 }}>
                   <span
@@ -6637,9 +6844,12 @@ function ProductFormModal({
           ? [product.image]
           : []
     );
+
   const [croppedFiles, setCroppedFiles] =
     useState([]);
-  const [selectedGalleryIndex, setSelectedGalleryIndex] = useState(0);
+
+  const [selectedGalleryIndex, setSelectedGalleryIndex] =
+    useState(0);
 
   const [newImageFiles, setNewImageFiles] =
     useState([]);
@@ -6649,6 +6859,7 @@ function ProductFormModal({
 
   const [cropIndex, setCropIndex] =
     useState(0);
+
   const [saving, setSaving] =
     useState(false);
 
@@ -6683,16 +6894,27 @@ function ProductFormModal({
       formData.append("name", form.name);
       formData.append("cat", form.cat);
       formData.append("price", Number(form.price));
+
       formData.append(
         "old",
         form.old ? Number(form.old) : ""
       );
-      formData.append("stock", Number(form.stock));
-      formData.append("rating", Number(form.rating));
+
+      formData.append(
+        "stock",
+        Number(form.stock)
+      );
+
+      formData.append(
+        "rating",
+        Number(form.rating)
+      );
+
       formData.append(
         "description",
         form.description || ""
       );
+
       formData.append(
         "featured",
         form.featured ? "true" : "false"
@@ -6701,13 +6923,18 @@ function ProductFormModal({
       croppedFiles.forEach((file) => {
         formData.append("images", file);
       });
+
       formData.append(
         "galleryImages",
         JSON.stringify(galleryImages)
       );
 
       console.log("IMAGE:", form.image);
-      console.log("FORM DATA IMAGE:", formData.get("image"));
+      console.log(
+        "FORM DATA IMAGE:",
+        formData.get("image")
+      );
+
       await onSave(formData);
     } catch (err) {
       setError(err.message);
@@ -6716,18 +6943,31 @@ function ProductFormModal({
     }
   };
 
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
   return (
     <div
       style={{
         position: "fixed",
-        inset: 0,
-        background: "rgba(0,0,0,.6)",
-        zIndex: 100,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: "rgba(0,0,0,.65)",
+        zIndex: 9999,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: 20,
-        overflowY: "auto"
+        padding: 16,
+        overflow: "hidden"
       }}
     >
       <form
@@ -6735,41 +6975,81 @@ function ProductFormModal({
         style={{
           background: C.panel,
           border: `1px solid ${C.line}`,
-          borderRadius: 10,
-          padding: 30,
+          borderRadius: "clamp(12px, 2vw, 18px)",
+          padding: "clamp(18px, 3vw, 30px)",
           width: "100%",
-          maxWidth: 420,
-          maxHeight: "90vh",
-          overflowY: "auto"
+          maxWidth: 500,
+          maxHeight: "88vh",
+          overflowY: "auto",
+          overflowX: "hidden",
+          boxSizing: "border-box",
+          WebkitOverflowScrolling: "touch",
+          boxShadow:
+            "0 24px 70px rgba(0,0,0,.35)"
         }}
         className="flex flex-col gap-4"
       >
-        <div className="flex justify-between items-center">
-          <h3
-            style={{
-              ...display,
-              fontSize: "1.2rem",
-              color: C.ivory
-            }}
-          >
-            {product
-              ? "تعديل المنتج"
-              : "إضافة منتج جديد"}
-          </h3>
+        {/* HEADER */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 15,
+            paddingBottom: 14,
+            borderBottom: `1px solid ${C.line}`
+          }}
+        >
+          <div>
+            <div
+              style={{
+                color: C.gold,
+                fontSize: ".68rem",
+                fontWeight: 800,
+                letterSpacing: ".12em",
+                marginBottom: 4
+              }}
+            >
+              NOUR STORE
+            </div>
+
+            <h3
+              style={{
+                ...display,
+                fontSize: "clamp(1.05rem, 2vw, 1.3rem)",
+                color: C.ivory,
+                margin: 0
+              }}
+            >
+              {product
+                ? "تعديل المنتج"
+                : "إضافة منتج جديد"}
+            </h3>
+          </div>
 
           <button
             type="button"
             onClick={onClose}
+            aria-label="إغلاق"
             style={{
-              background: "none",
-              border: 0,
-              color: C.taupe
+              flexShrink: 0,
+              width: 38,
+              height: 38,
+              borderRadius: "50%",
+              background: "rgba(255,255,255,.04)",
+              border: `1px solid ${C.line}`,
+              color: C.taupe,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer"
             }}
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
+        {/* PRODUCT NAME */}
         <Input
           label="اسم المنتج"
           required
@@ -6782,6 +7062,7 @@ function ProductFormModal({
           }
         />
 
+        {/* IMAGE */}
         <div
           style={{
             display: "flex",
@@ -6792,71 +7073,96 @@ function ProductFormModal({
           <label
             style={{
               fontSize: ".85rem",
-              color: C.ivoryDim
+              color: C.ivoryDim,
+              fontWeight: 600
             }}
           >
-            صورة المنتج
+            صور المنتج
           </label>
 
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={(e) => {
-              const files = Array.from(e.target.files || []);
-
-              if (!files.length) return;
-
-              setPendingFiles(files);
-
-              const firstFile = files[0];
-
-              setForm((prev) => ({
-                ...prev,
-                image: firstFile
-              }));
-
-              setImagePreview(
-                URL.createObjectURL(firstFile)
-              );
-
-              setCrop({ x: 0, y: 0 });
-              setZoom(1);
-              setShowCrop(true);
-            }}
+          <div
             style={{
-              color: C.ivory,
-              fontSize: ".8rem"
+              padding: "14px",
+              borderRadius: 12,
+              border: `1px solid ${C.line}`,
+              background: "rgba(255,255,255,.025)"
             }}
-          />
+          >
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(e) => {
+                const files =
+                  Array.from(e.target.files || []);
+
+                if (!files.length) return;
+
+                setPendingFiles(files);
+
+                const firstFile = files[0];
+
+                setForm((prev) => ({
+                  ...prev,
+                  image: firstFile
+                }));
+
+                setImagePreview(
+                  URL.createObjectURL(firstFile)
+                );
+
+                setCropIndex(0);
+                setCrop({ x: 0, y: 0 });
+                setZoom(1);
+                setShowCrop(true);
+              }}
+              style={{
+                width: "100%",
+                maxWidth: "100%",
+                color: C.ivory,
+                fontSize: ".78rem",
+                boxSizing: "border-box"
+              }}
+            />
+          </div>
+
+          {/* CROP MODAL */}
           {showCrop && imagePreview && (
             <div
               style={{
                 position: "fixed",
                 inset: 0,
-                zIndex: 200,
-                background: "rgba(0,0,0,.85)",
+                zIndex: 10000,
+                background: "rgba(0,0,0,.88)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                padding: 20
+                padding: "clamp(10px, 3vw, 24px)",
+                overflowY: "auto",
+                boxSizing: "border-box"
               }}
             >
               <div
                 style={{
                   width: "100%",
-                  maxWidth: 500,
+                  maxWidth: 560,
+                  maxHeight: "calc(100vh - 20px)",
+                  overflowY: "auto",
                   background: C.panel,
-                  borderRadius: 12,
-                  padding: 20,
-                  border: `1px solid ${C.line}`
+                  borderRadius: "clamp(12px, 2vw, 18px)",
+                  padding: "clamp(14px, 3vw, 22px)",
+                  border: `1px solid ${C.line}`,
+                  boxSizing: "border-box",
+                  boxShadow:
+                    "0 24px 80px rgba(0,0,0,.45)"
                 }}
               >
                 <div
                   style={{
                     color: C.ivory,
                     fontWeight: 700,
-                    marginBottom: 15,
+                    fontSize: "1rem",
+                    marginBottom: 14,
                     textAlign: "center"
                   }}
                 >
@@ -6867,9 +7173,11 @@ function ProductFormModal({
                   style={{
                     position: "relative",
                     width: "100%",
-                    height: 400,
+                    height:
+                      "min(55vh, 400px)",
+                    minHeight: 240,
                     background: C.ink,
-                    borderRadius: 8,
+                    borderRadius: 10,
                     overflow: "hidden"
                   }}
                 >
@@ -6886,7 +7194,7 @@ function ProductFormModal({
 
                 <div
                   style={{
-                    marginTop: 15,
+                    marginTop: 14,
                     color: C.ivoryDim,
                     fontSize: ".8rem"
                   }}
@@ -6901,19 +7209,24 @@ function ProductFormModal({
                   step={0.1}
                   value={zoom}
                   onChange={(e) =>
-                    setZoom(Number(e.target.value))
+                    setZoom(
+                      Number(e.target.value)
+                    )
                   }
                   style={{
                     width: "100%",
-                    marginTop: 8
+                    marginTop: 8,
+                    accentColor: C.gold
                   }}
                 />
 
                 <div
                   style={{
-                    display: "flex",
+                    display: "grid",
+                    gridTemplateColumns:
+                      "repeat(2, minmax(0, 1fr))",
                     gap: 10,
-                    marginTop: 20
+                    marginTop: 18
                   }}
                 >
                   <button
@@ -6922,13 +7235,14 @@ function ProductFormModal({
                       setShowCrop(false);
                     }}
                     style={{
-                      flex: 1,
-                      padding: 12,
-                      borderRadius: 8,
+                      minHeight: 44,
+                      padding: "10px 14px",
+                      borderRadius: 9,
                       border: `1px solid ${C.line}`,
                       background: "transparent",
                       color: C.ivory,
-                      cursor: "pointer"
+                      cursor: "pointer",
+                      fontFamily: "inherit"
                     }}
                   >
                     إلغاء
@@ -6946,48 +7260,71 @@ function ProductFormModal({
                             croppedAreaPixels
                           );
 
-                        const croppedFile = new File(
-                          [croppedBlob],
-                          "product-image.jpg",
-                          {
-                            type: "image/jpeg"
-                          }
-                        );
-
-                        const croppedUrl =
-                          URL.createObjectURL(croppedBlob);
-
-                        // حفظ الـ File المقصوص
-                        setCroppedFiles((prev) => [
-                          ...prev,
-                          croppedFile
-                        ]);
-
-                        // حفظ المعاينة
-                        setGalleryImages((prev) => [
-                          ...prev,
-                          croppedUrl
-                        ]);
-
-                        // معرفة الصورة التالية
-                        const currentIndex = cropIndex;
-                        const nextIndex = currentIndex + 1;
-
-                        if (nextIndex < pendingFiles.length) {
-                          const nextFile = pendingFiles[nextIndex];
-
-                          setCropIndex(nextIndex);
-
-                          setForm((prev) => ({
-                            ...prev,
-                            image: nextFile
-                          }));
-
-                          setImagePreview(
-                            URL.createObjectURL(nextFile)
+                        const croppedFile =
+                          new File(
+                            [croppedBlob],
+                            "product-image.jpg",
+                            {
+                              type: "image/jpeg"
+                            }
                           );
 
-                          setCrop({ x: 0, y: 0 });
+                        const croppedUrl =
+                          URL.createObjectURL(
+                            croppedBlob
+                          );
+
+                        setCroppedFiles(
+                          (prev) => [
+                            ...prev,
+                            croppedFile
+                          ]
+                        );
+
+                        setGalleryImages(
+                          (prev) => [
+                            ...prev,
+                            croppedUrl
+                          ]
+                        );
+
+                        const currentIndex =
+                          cropIndex;
+
+                        const nextIndex =
+                          currentIndex + 1;
+
+                        if (
+                          nextIndex <
+                          pendingFiles.length
+                        ) {
+                          const nextFile =
+                            pendingFiles[
+                            nextIndex
+                            ];
+
+                          setCropIndex(
+                            nextIndex
+                          );
+
+                          setForm(
+                            (prev) => ({
+                              ...prev,
+                              image: nextFile
+                            })
+                          );
+
+                          setImagePreview(
+                            URL.createObjectURL(
+                              nextFile
+                            )
+                          );
+
+                          setCrop({
+                            x: 0,
+                            y: 0
+                          });
+
                           setZoom(1);
                           setShowCrop(true);
                         } else {
@@ -7000,14 +7337,15 @@ function ProductFormModal({
                       }
                     }}
                     style={{
-                      flex: 1,
-                      padding: 12,
-                      borderRadius: 8,
+                      minHeight: 44,
+                      padding: "10px 14px",
+                      borderRadius: 9,
                       border: `1px solid ${C.gold}`,
                       background: C.gold,
                       color: C.ink,
                       fontWeight: 700,
-                      cursor: "pointer"
+                      cursor: "pointer",
+                      fontFamily: "inherit"
                     }}
                   >
                     اعتماد الصورة
@@ -7016,13 +7354,17 @@ function ProductFormModal({
               </div>
             </div>
           )}
+
+          {/* MAIN IMAGE PREVIEW */}
           {imagePreview && (
             <div
               style={{
                 position: "relative",
                 width: "100%",
+                maxWidth: 260,
+                margin: "4px auto 0",
                 aspectRatio: "4 / 5",
-                borderRadius: 8,
+                borderRadius: 12,
                 overflow: "hidden",
                 border: `1px solid ${C.line}`,
                 background: C.ink
@@ -7030,14 +7372,17 @@ function ProductFormModal({
             >
               <img
                 src={
-                  galleryImages[selectedGalleryIndex] ||
-                  imagePreview
-                } alt="معاينة المنتج"
+                  galleryImages[
+                  selectedGalleryIndex
+                  ] || imagePreview
+                }
+                alt="معاينة المنتج"
                 style={{
                   width: "100%",
                   height: "100%",
                   objectFit: "cover",
-                  objectPosition: "center"
+                  objectPosition: "center",
+                  display: "block"
                 }}
               />
 
@@ -7048,17 +7393,19 @@ function ProductFormModal({
                     ...form,
                     image: null
                   });
+
                   setImagePreview("");
                 }}
                 style={{
                   position: "absolute",
                   top: 8,
                   left: 8,
-                  width: 30,
-                  height: 30,
+                  width: 32,
+                  height: 32,
                   borderRadius: "50%",
                   border: 0,
-                  background: "rgba(0,0,0,.7)",
+                  background:
+                    "rgba(0,0,0,.72)",
                   color: C.ivory,
                   cursor: "pointer",
                   display: "flex",
@@ -7070,128 +7417,208 @@ function ProductFormModal({
               </button>
             </div>
           )}
+
+          {/* GALLERY */}
           {galleryImages.length > 0 && (
             <div
               style={{
                 display: "flex",
                 gap: 8,
                 flexWrap: "wrap",
-                marginTop: 10
+                marginTop: 4,
+                justifyContent: "center"
               }}
             >
-              {galleryImages.map((img, index) => (
-                <div
-                  key={index}
-                  onClick={() => {
-                    setSelectedGalleryIndex(index);
-                    setImagePreview(img);
-                  }} style={{
-                    position: "relative",
-                    width: 70,
-                    height: 88,
-                    borderRadius: 8,
-                    overflow: "hidden",
-                    border: `1px solid ${C.line}`,
-                    background: C.ink
-                  }}
-                >
-                  <img
-                    src={img}
-                    alt={`صورة المنتج ${index + 1}`}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover"
-                    }}
-                  />
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-
-                      setGalleryImages((prev) => {
-                        const updated = prev.filter((_, i) => i !== index);
-
-                        if (updated.length === 0) {
-                          setImagePreview("");
-                          setSelectedGalleryIndex(0);
-                          return updated;
-                        }
-
-                        if (index === selectedGalleryIndex) {
-                          const nextIndex = Math.min(
-                            index,
-                            updated.length - 1
-                          );
-
-                          setSelectedGalleryIndex(nextIndex);
-                          setImagePreview(updated[nextIndex]);
-                        } else if (index < selectedGalleryIndex) {
-                          const newSelectedIndex =
-                            selectedGalleryIndex - 1;
-
-                          setSelectedGalleryIndex(newSelectedIndex);
-                          setImagePreview(updated[newSelectedIndex]);
-                        }
-
-                        return updated;
-                      });
+              {galleryImages.map(
+                (img, index) => (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      setSelectedGalleryIndex(
+                        index
+                      );
+                      setImagePreview(img);
                     }}
                     style={{
-                      position: "absolute",
-                      top: 3,
-                      right: 3,
-                      width: 22,
-                      height: 22,
-                      borderRadius: "50%",
-                      border: "none",
-                      background: C.danger,
-                      color: "#fff",
+                      position: "relative",
+                      width: 64,
+                      height: 80,
+                      borderRadius: 8,
+                      overflow: "hidden",
+                      border:
+                        index ===
+                          selectedGalleryIndex
+                          ? `2px solid ${C.gold}`
+                          : `1px solid ${C.line}`,
+                      background: C.ink,
                       cursor: "pointer",
-                      fontSize: 14,
-                      lineHeight: 1,
-                      padding: 0
+                      flexShrink: 0
                     }}
                   >
-                    ×
-                  </button>
-                </div>
-              ))}
+                    <img
+                      src={img}
+                      alt={`صورة المنتج ${index + 1
+                        }`}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block"
+                      }}
+                    />
+
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+
+                        setGalleryImages(
+                          (prev) => {
+                            const updated =
+                              prev.filter(
+                                (_, i) =>
+                                  i !== index
+                              );
+
+                            if (
+                              updated.length ===
+                              0
+                            ) {
+                              setImagePreview(
+                                ""
+                              );
+                              setSelectedGalleryIndex(
+                                0
+                              );
+
+                              return updated;
+                            }
+
+                            if (
+                              index ===
+                              selectedGalleryIndex
+                            ) {
+                              const nextIndex =
+                                Math.min(
+                                  index,
+                                  updated.length -
+                                  1
+                                );
+
+                              setSelectedGalleryIndex(
+                                nextIndex
+                              );
+
+                              setImagePreview(
+                                updated[
+                                nextIndex
+                                ]
+                              );
+                            } else if (
+                              index <
+                              selectedGalleryIndex
+                            ) {
+                              const newSelectedIndex =
+                                selectedGalleryIndex -
+                                1;
+
+                              setSelectedGalleryIndex(
+                                newSelectedIndex
+                              );
+
+                              setImagePreview(
+                                updated[
+                                newSelectedIndex
+                                ]
+                              );
+                            }
+
+                            return updated;
+                          }
+                        );
+                      }}
+                      style={{
+                        position: "absolute",
+                        top: 3,
+                        right: 3,
+                        width: 21,
+                        height: 21,
+                        borderRadius: "50%",
+                        border: "none",
+                        background:
+                          C.danger,
+                        color: "#fff",
+                        cursor: "pointer",
+                        fontSize: 13,
+                        lineHeight: 1,
+                        padding: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center"
+                      }}
+                    >
+                      ×
+                    </button>
+                  </div>
+                )
+              )}
             </div>
           )}
-
         </div>
 
-        <textarea
-          placeholder="اكتبي وصف المنتج..."
-          value={form.description || ""}
-          onChange={(e) =>
-            setForm({
-              ...form,
-              description: e.target.value
-            })
-          }
-          rows={6}
+        {/* DESCRIPTION */}
+        <div
           style={{
-            width: "100%",
-            minHeight: 140,
-            background: C.ink,
-            border: `1px solid ${C.line}`,
-            borderRadius: 10,
-            padding: "12px 14px",
-            color: C.ivory,
-            fontFamily: "inherit",
-            fontSize: ".85rem",
-            resize: "vertical",
-            boxSizing: "border-box"
+            display: "flex",
+            flexDirection: "column",
+            gap: 7
           }}
-        />
+        >
+          <label
+            style={{
+              fontSize: ".85rem",
+              color: C.ivoryDim,
+              fontWeight: 600
+            }}
+          >
+            وصف المنتج
+          </label>
 
+          <textarea
+            placeholder="اكتبي وصف المنتج..."
+            value={form.description || ""}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                description:
+                  e.target.value
+              })
+            }
+            rows={5}
+            style={{
+              width: "100%",
+              minHeight: 125,
+              background: C.ink,
+              border: `1px solid ${C.line}`,
+              borderRadius: 10,
+              padding: "12px 14px",
+              color: C.ivory,
+              fontFamily: "inherit",
+              fontSize: ".85rem",
+              resize: "vertical",
+              boxSizing: "border-box",
+              outline: "none"
+            }}
+          />
+        </div>
+
+        {/* CATEGORY */}
         <label
           className="flex flex-col gap-2"
           style={{
             fontSize: ".85rem",
-            color: C.ivoryDim
+            color: C.ivoryDim,
+            fontWeight: 600
           }}
         >
           الفئة
@@ -7205,12 +7632,15 @@ function ProductFormModal({
               })
             }
             style={{
+              width: "100%",
+              minHeight: 46,
               background: C.ink,
               border: `1px solid ${C.line}`,
               borderRadius: 10,
-              padding: "12px 14px",
+              padding: "10px 14px",
               color: C.ivory,
-              fontFamily: "inherit"
+              fontFamily: "inherit",
+              boxSizing: "border-box"
             }}
           >
             {CATS.map((c) => (
@@ -7224,8 +7654,10 @@ function ProductFormModal({
           </select>
         </label>
 
-
-        <div className="grid grid-cols-2 gap-3">
+        {/* PRICE */}
+        <div
+          className="grid grid-cols-2 gap-3"
+        >
           <Input
             label="السعر"
             type="number"
@@ -7252,7 +7684,10 @@ function ProductFormModal({
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        {/* STOCK */}
+        <div
+          className="grid grid-cols-2 gap-3"
+        >
           <Input
             label="المخزون"
             type="number"
@@ -7282,29 +7717,48 @@ function ProductFormModal({
           />
         </div>
 
+        {/* ERROR */}
         {error && (
           <div
             style={{
               color: C.danger,
-              fontSize: ".82rem"
+              fontSize: ".82rem",
+              padding: "10px 12px",
+              borderRadius: 9,
+              background:
+                "rgba(255,80,80,.07)",
+              border:
+                "1px solid rgba(255,80,80,.18)"
             }}
           >
             {error}
           </div>
         )}
 
-        <Btn
-          type="submit"
-          full
-          icon={Save}
-          loading={saving}
+        {/* SAVE */}
+        <div
+          style={{
+            paddingTop: 4,
+            position: "sticky",
+            bottom: 0,
+            background: C.panel
+          }}
         >
-          حفظ المنتج
-        </Btn>
+          <Btn
+            type="submit"
+            full
+            icon={Save}
+            loading={saving}
+          >
+            حفظ المنتج
+          </Btn>
+        </div>
       </form>
     </div>
   );
 }
+
+
 function AdminDashboard({
   products,
   orders,
@@ -7319,8 +7773,6 @@ function AdminDashboard({
   onDeleteOrder,
   onOpenDeleteOrder
 }) {
-
-
   const [tab, setTab] = useState(() => {
     const path = window.location.pathname;
 
@@ -7341,8 +7793,18 @@ function AdminDashboard({
     setEditing(null);
   };
 
-  const totalSales = orders.reduce(
-    (s, o) => s + o.total,
+  // ===============================
+  // Sales calculation rules
+  // ===============================
+
+  const isSalesOrder = (order) => {
+    return order?.status !== "ملغي";
+  };
+
+  const salesOrders = orders.filter(isSalesOrder);
+
+  const totalSales = salesOrders.reduce(
+    (sum, order) => sum + (Number(order.total) || 0),
     0
   );
 
@@ -7379,11 +7841,7 @@ function AdminDashboard({
       customers: "/admin/customers"
     };
 
-    window.history.pushState(
-      {},
-      "",
-      routes[nextTab]
-    );
+    window.history.pushState({}, "", routes[nextTab]);
   };
 
   const featuredCount = products.filter(
@@ -7392,12 +7850,143 @@ function AdminDashboard({
       product.featured === true
   ).length;
 
+  const salesChartData = (() => {
+    const days = [];
+    const today = new Date();
+
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date(today);
+
+      date.setHours(0, 0, 0, 0);
+      date.setDate(today.getDate() - i);
+
+      days.push({
+        dateKey: date.toISOString().split("T")[0],
+        day: date.toLocaleDateString("ar-EG", {
+          day: "numeric",
+          month: "short"
+        }),
+        sales: 0
+      });
+    }
+
+    salesOrders.forEach((order) => {
+      const rawDate = order.createdAt || order.date;
+
+      if (!rawDate) return;
+
+      const orderDate = new Date(rawDate);
+
+      if (Number.isNaN(orderDate.getTime())) return;
+
+      const dateKey = orderDate.toISOString().split("T")[0];
+
+      const day = days.find(
+        (d) => d.dateKey === dateKey
+      );
+
+      if (!day) return;
+
+      if (order.status === "ملغي") return;
+
+      day.sales += Number(order.total) || 0;
+    });
+
+    return days;
+  })();
+
+  // ===============================
+  // Shared premium styles
+  // ===============================
+
+  const panelStyle = {
+    background:
+      "linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.018))",
+    border: `1px solid ${C.line}`,
+    borderRadius: 18,
+    boxShadow: "0 18px 50px rgba(0,0,0,.18)",
+    overflow: "hidden"
+  };
+
+  const tableHeaderStyle = {
+    padding: "15px 14px",
+    color: C.taupe,
+    fontSize: ".72rem",
+    fontWeight: 800,
+    letterSpacing: ".02em",
+    whiteSpace: "nowrap",
+    background:
+      "linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.015))",
+    borderBottom: `1px solid ${C.line}`
+  };
+
+  const cellStyle = {
+    padding: "15px 14px",
+    verticalAlign: "middle"
+  };
+
+  const getStatusStyle = (status) => {
+    if (status === "تم التسليم") {
+      return {
+        color: "#8FE0B0",
+        background: "rgba(100,200,140,.10)",
+        border: "1px solid rgba(100,200,140,.22)"
+      };
+    }
+
+    if (status === "تم الشحن") {
+      return {
+        color: "#9FC9FF",
+        background: "rgba(100,160,255,.10)",
+        border: "1px solid rgba(100,160,255,.22)"
+      };
+    }
+
+    if (status === "ملغي") {
+      return {
+        color: "#FF9E9E",
+        background: "rgba(255,80,80,.09)",
+        border: "1px solid rgba(255,80,80,.20)"
+      };
+    }
+
+    if (status === "بانتظار الدفع") {
+      return {
+        color: "#FFD58A",
+        background: "rgba(255,190,80,.09)",
+        border: "1px solid rgba(255,190,80,.20)"
+      };
+    }
+
+    return {
+      color: C.goldLight,
+      background: "rgba(210,170,100,.09)",
+      border: "1px solid rgba(210,170,100,.20)"
+    };
+  };
+
   return (
     <section
       style={{
-        padding: "50px 0"
+        padding: "34px 0 70px",
+        position: "relative"
       }}
     >
+      {/* Ambient background */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: "10%",
+          width: 500,
+          height: 300,
+          background:
+            "radial-gradient(circle, rgba(190,145,75,.07), transparent 70%)",
+          pointerEvents: "none",
+          filter: "blur(10px)"
+        }}
+      />
+
       <div
         className="admin-dashboard-layout"
         style={{
@@ -7409,21 +7998,25 @@ function AdminDashboard({
             window.innerWidth <= 900
               ? "column"
               : "row",
-          gap: window.innerWidth <= 900
-            ? 16
-            : 24,
-          alignItems: "stretch"
+          gap:
+            window.innerWidth <= 900
+              ? 18
+              : 26,
+          alignItems: "stretch",
+          position: "relative",
+          zIndex: 1
         }}
       >
+        {/* ================= SIDEBAR ================= */}
 
-        {/* Sidebar */}
         <DashSidebar
           tabs={tabs}
           active={tab}
           setActive={handleTabChange}
         />
 
-        {/* Main Content */}
+        {/* ================= MAIN ================= */}
+
         <div
           style={{
             flex: 1,
@@ -7431,23 +8024,78 @@ function AdminDashboard({
             width: "100%"
           }}
         >
-          <h2
+          {/* ================= HEADER ================= */}
+
+          <div
             style={{
-              ...display,
-              fontSize: "1.6rem",
-              color: C.ivory,
-              marginBottom: 24
+              marginBottom: 28,
+              padding: "22px 24px",
+              borderRadius: 18,
+              border: `1px solid ${C.line}`,
+              background:
+                "linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015))",
+              boxShadow: "0 12px 35px rgba(0,0,0,.13)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 20,
+              flexWrap: "wrap"
             }}
           >
-            لوحة تحكم المتجر
-          </h2>
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 9,
+                  marginBottom: 7
+                }}
+              >
+                <span
+                  style={{
+                    color: C.gold,
+                    fontSize: ".68rem",
+                    fontWeight: 800,
+                    letterSpacing: ".16em"
+                  }}
+                >
+                  𝓝𝓸𝓾𝓻 𝑺𝒕𝒐𝒓𝒆
+                </span>
+              </div>
+
+              <h2
+                style={{
+                  ...display,
+                  fontSize: "clamp(1.35rem, 2vw, 1.7rem)",
+                  color: C.ivory,
+                  margin: 0,
+                  fontWeight: 800
+                }}
+              >
+                لوحة تحكم المتجر
+              </h2>
+
+              <p
+                style={{
+                  color: C.taupe,
+                  fontSize: ".78rem",
+                  margin: "7px 0 0",
+                  lineHeight: 1.7
+                }}
+              >
+                إدارة المنتجات والطلبات والعملاء ومتابعة أداء المتجر
+              </p>
+            </div>
+          </div>
 
           {/* ================= OVERVIEW ================= */}
+
           {tab === "overview" && (
             adminDashboardLoading ? (
               <div
                 style={{
-                  padding: 40,
+                  ...panelStyle,
+                  padding: 55,
                   textAlign: "center",
                   color: C.taupe
                 }}
@@ -7456,10 +8104,12 @@ function AdminDashboard({
               </div>
             ) : (
               <>
+                {/* KPI */}
+
                 <div
                   className="grid grid-cols-2 md:grid-cols-4 gap-4"
                   style={{
-                    marginBottom: 30
+                    marginBottom: 26
                   }}
                 >
                   <KpiCard
@@ -7487,78 +8137,157 @@ function AdminDashboard({
                   />
                 </div>
 
+                {/* CHART */}
+
                 <div
                   style={{
-                    background: C.panel,
-                    border: `1px solid ${C.line}`,
-                    borderRadius: 8,
-                    padding: 20,
-                    overflow: "hidden"
+                    ...panelStyle,
+                    padding: "22px 20px 14px"
                   }}
                 >
                   <div
-                    className="flex items-center gap-2"
                     style={{
-                      marginBottom: 16
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      gap: 15,
+                      marginBottom: 20,
+                      flexWrap: "wrap"
                     }}
                   >
-                    <TrendingUp
-                      size={16}
-                      style={{
-                        color: C.gold
-                      }}
-                    />
+                    <div>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 9,
+                          marginBottom: 5
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: 30,
+                            height: 30,
+                            borderRadius: 9,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            background:
+                              "rgba(210,170,100,.10)",
+                            border:
+                              "1px solid rgba(210,170,100,.16)"
+                          }}
+                        >
+                          <TrendingUp
+                            size={15}
+                            style={{
+                              color: C.gold
+                            }}
+                          />
+                        </div>
 
-                    <span
+                        <span
+                          style={{
+                            color: C.ivory,
+                            fontWeight: 800,
+                            fontSize: ".9rem"
+                          }}
+                        >
+                          نظرة عامة على المبيعات
+                        </span>
+                      </div>
+
+                      <span
+                        style={{
+                          color: C.taupe,
+                          fontSize: ".7rem",
+                          paddingRight: 39
+                        }}
+                      >
+                        أداء المبيعات خلال آخر 30 يوم
+                      </span>
+                    </div>
+
+                    <div
                       style={{
-                        color: C.ivory,
-                        fontWeight: 700,
-                        fontSize: ".92rem"
+                        padding: "6px 10px",
+                        borderRadius: 8,
+                        background: C.panel2,
+                        border: `1px solid ${C.line}`,
+                        color: C.taupe,
+                        fontSize: ".68rem"
                       }}
                     >
-                      نظرة عامة على المبيعات
-                      (بيانات توضيحية لآخر ٧ أيام)
-                    </span>
+                      آخر 30 يوم
+                    </div>
                   </div>
 
                   <ResponsiveContainer
                     width="100%"
-                    height={260}
+                    height={280}
                   >
-                    <LineChart data={salesChartData}>
+                    <LineChart
+                      data={salesChartData}
+                      margin={{
+                        top: 10,
+                        right: 10,
+                        left: -10,
+                        bottom: 0
+                      }}
+                    >
                       <CartesianGrid
                         stroke={C.line}
-                        strokeDasharray="3 3"
+                        strokeDasharray="4 5"
+                        vertical={false}
                       />
 
                       <XAxis
                         dataKey="day"
                         stroke={C.taupe}
-                        fontSize={12}
+                        fontSize={11}
+                        tickLine={false}
+                        axisLine={false}
                       />
 
                       <YAxis
                         stroke={C.taupe}
-                        fontSize={12}
+                        fontSize={11}
+                        tickLine={false}
+                        axisLine={false}
                       />
 
                       <Tooltip
                         contentStyle={{
-                          background: C.panel2,
+                          background:
+                            "rgba(25,22,20,.96)",
                           border: `1px solid ${C.line}`,
-                          borderRadius: 8,
-                          color: C.ivory
+                          borderRadius: 12,
+                          color: C.ivory,
+                          boxShadow:
+                            "0 12px 30px rgba(0,0,0,.25)",
+                          fontFamily: "inherit"
                         }}
+                        labelStyle={{
+                          color: C.taupe,
+                          marginBottom: 5
+                        }}
+                        formatter={(value) => [
+                          fmt(value),
+                          "المبيعات"
+                        ]}
                       />
 
                       <Line
                         type="monotone"
                         dataKey="sales"
                         stroke={C.gold}
-                        strokeWidth={2.5}
-                        dot={{
+                        strokeWidth={3}
+                        dot={false}
+                        activeDot={{
+                          r: 5,
                           fill: C.gold,
-                          r: 3
+                          stroke: C.panel,
+                          strokeWidth: 3
                         }}
                       />
                     </LineChart>
@@ -7569,22 +8298,42 @@ function AdminDashboard({
           )}
 
           {/* ================= PRODUCTS ================= */}
+
           {tab === "products" && (
             <>
               <div
-                className="flex justify-between items-center"
                 style={{
-                  marginBottom: 18
+                  ...panelStyle,
+                  padding: "17px 20px",
+                  marginBottom: 16,
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: 15,
+                  flexWrap: "wrap"
                 }}
               >
-                <span
-                  style={{
-                    color: C.taupe,
-                    fontSize: ".85rem"
-                  }}
-                >
-                  {products.length} منتج
-                </span>
+                <div>
+                  <div
+                    style={{
+                      color: C.ivory,
+                      fontWeight: 800,
+                      fontSize: ".95rem",
+                      marginBottom: 4
+                    }}
+                  >
+                    إدارة المنتجات
+                  </div>
+
+                  <div
+                    style={{
+                      color: C.taupe,
+                      fontSize: ".72rem"
+                    }}
+                  >
+                    {products.length} منتج في المتجر
+                  </div>
+                </div>
 
                 <Btn
                   size="sm"
@@ -7600,10 +8349,8 @@ function AdminDashboard({
 
               <div
                 style={{
-                  background: C.panel,
-                  border: `1px solid ${C.line}`,
-                  borderRadius: 8,
-                  maxHeight: 500,
+                  ...panelStyle,
+                  maxHeight: 540,
                   overflow: "auto",
                   WebkitOverflowScrolling: "touch"
                 }}
@@ -7611,87 +8358,138 @@ function AdminDashboard({
                 <table
                   style={{
                     width: "100%",
-                    minWidth: 700,
+                    minWidth: 720,
                     borderCollapse: "collapse",
-                    fontSize: ".85rem"
+                    fontSize: ".82rem"
                   }}
                 >
                   <thead>
                     <tr
                       style={{
-                        background: C.panel2,
-                        color: C.taupe,
                         textAlign: "right",
                         position: "sticky",
                         top: 0,
-                        zIndex: 10
+                        zIndex: 10,
+                        background: C.panel2
                       }}
                     >
-                      <th style={{ padding: 14 }}>
+                      <th style={tableHeaderStyle}>
                         الصورة
                       </th>
-                      <th style={{ padding: 14 }}>
+
+                      <th style={tableHeaderStyle}>
                         المنتج
                       </th>
 
-                      <th style={{ padding: 14 }}>
+                      <th style={tableHeaderStyle}>
                         الفئة
                       </th>
 
-                      <th style={{ padding: 14 }}>
+                      <th style={tableHeaderStyle}>
                         السعر
                       </th>
 
-                      <th style={{ padding: 14 }}>
+                      <th style={tableHeaderStyle}>
                         المخزون
                       </th>
-                      <th style={{ padding: 14 }}>
-                        ⭐ مميز
+
+                      <th
+                        style={{
+                          ...tableHeaderStyle,
+                          textAlign: "center"
+                        }}
+                      >
+                        مميز
                       </th>
 
-                      <th style={{ padding: 14 }} />
+                      <th style={tableHeaderStyle} />
                     </tr>
                   </thead>
 
                   <tbody>
-                    {products.map((p) => (
+                    {products.map((p, index) => (
                       <tr
                         key={p.id}
                         style={{
-                          borderTop: `1px solid ${C.line}`,
-                          color: C.ivory
+                          borderTop:
+                            index === 0
+                              ? "none"
+                              : `1px solid ${C.line}`,
+                          color: C.ivory,
+                          transition:
+                            "background .2s ease"
                         }}
                       >
                         <td
                           style={{
-                            padding: 10
+                            ...cellStyle,
+                            width: 82
                           }}
                         >
-                          <img
-                            src={p.image}
-                            alt={p.name}
+                          <div
                             style={{
-                              width: 60,
-                              height: 60,
-                              objectFit: "cover",
-                              borderRadius: 6,
+                              width: 58,
+                              height: 64,
+                              borderRadius: 11,
+                              overflow: "hidden",
                               border: `1px solid ${C.line}`,
-                              display: "block"
+                              background: C.panel2,
+                              boxShadow:
+                                "0 5px 16px rgba(0,0,0,.16)"
                             }}
-                          />
-                        </td>
-                        <td
-                          style={{
-                            padding: 14,
-                            fontWeight: 600
-                          }}
-                        >
-                          {p.name}
+                          >
+                            <img
+                              src={p.image}
+                              alt={p.name}
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                display: "block"
+                              }}
+                            />
+                          </div>
                         </td>
 
                         <td
                           style={{
-                            padding: 14,
+                            ...cellStyle,
+                            fontWeight: 700,
+                            minWidth: 170
+                          }}
+                        >
+                          <div
+                            style={{
+                              color: C.ivory,
+                              lineHeight: 1.5
+                            }}
+                          >
+                            {p.name}
+                          </div>
+
+                          {!p.isActive && (
+                            <span
+                              style={{
+                                display: "inline-block",
+                                marginTop: 5,
+                                padding: "3px 7px",
+                                borderRadius: 6,
+                                background:
+                                  "rgba(255,90,90,.08)",
+                                border:
+                                  "1px solid rgba(255,90,90,.14)",
+                                color: C.danger,
+                                fontSize: ".62rem"
+                              }}
+                            >
+                              غير نشط
+                            </span>
+                          )}
+                        </td>
+
+                        <td
+                          style={{
+                            ...cellStyle,
                             color: C.ivoryDim
                           }}
                         >
@@ -7700,8 +8498,10 @@ function AdminDashboard({
 
                         <td
                           style={{
-                            padding: 14,
-                            color: C.goldLight
+                            ...cellStyle,
+                            color: C.goldLight,
+                            fontWeight: 700,
+                            whiteSpace: "nowrap"
                           }}
                         >
                           {fmt(p.price)}
@@ -7709,18 +8509,43 @@ function AdminDashboard({
 
                         <td
                           style={{
-                            padding: 14,
+                            ...cellStyle,
                             color:
                               p.stock <= 8
                                 ? C.danger
-                                : C.ivoryDim
+                                : C.ivoryDim,
+                            fontWeight:
+                              p.stock <= 8
+                                ? 700
+                                : 500
                           }}
                         >
-                          {p.stock}
+                          <span
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 6
+                            }}
+                          >
+                            <span
+                              style={{
+                                width: 6,
+                                height: 6,
+                                borderRadius: "50%",
+                                background:
+                                  p.stock <= 8
+                                    ? C.danger
+                                    : "#8CCFA2"
+                              }}
+                            />
+
+                            {p.stock}
+                          </span>
                         </td>
+
                         <td
                           style={{
-                            padding: 14,
+                            ...cellStyle,
                             textAlign: "center"
                           }}
                         >
@@ -7728,26 +8553,29 @@ function AdminDashboard({
                             type="checkbox"
                             checked={!!p.featured}
                             onChange={async (e) => {
-                              const isFeatured = e.target.checked;
+                              const isFeatured =
+                                e.target.checked;
 
-                              // منع إضافة المنتج رقم 8
                               if (
                                 isFeatured &&
-                                featuredCount >= 7 &&
+                                featuredCount >= 8 &&
                                 !p.featured
                               ) {
                                 onNotify(
-                                  "تم إضافة 7 منتجات مميزة بالفعل ⭐"
+                                  "تم إضافة 8 منتجات مميزة بالفعل "
                                 );
 
                                 return;
                               }
 
-                              const formData = new FormData();
+                              const formData =
+                                new FormData();
 
                               formData.append(
                                 "featured",
-                                isFeatured ? "true" : "false"
+                                isFeatured
+                                  ? "true"
+                                  : "false"
                               );
 
                               try {
@@ -7781,64 +8609,95 @@ function AdminDashboard({
                           />
                         </td>
 
-                        <td
-                          style={{
-                            padding: 14
-                          }}
-                        >
-                          <div className="flex gap-2">
+                        <td style={cellStyle}>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 7
+                            }}
+                          >
                             <button
                               onClick={() => {
                                 setEditing(p);
                                 setShowForm(true);
                               }}
+                              title="تعديل المنتج"
                               style={{
-                                background: "none",
-                                border: 0,
+                                width: 34,
+                                height: 34,
+                                borderRadius: 9,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                background:
+                                  "rgba(210,170,100,.07)",
+                                border:
+                                  "1px solid rgba(210,170,100,.14)",
                                 color: C.gold,
                                 cursor: "pointer"
                               }}
                             >
-                              <Pencil size={16} />
+                              <Pencil size={15} />
                             </button>
 
                             {p.isActive ? (
                               <button
                                 onClick={async () => {
-                                  await onDeleteProduct(p.id);
+                                  await onDeleteProduct(
+                                    p.id
+                                  );
 
                                   onNotify(
                                     "تم حذف المنتج من الموقع بنجاح 🗑️"
                                   );
                                 }}
+                                title="حذف من الموقع"
                                 style={{
-                                  background: "none",
-                                  border: 0,
+                                  width: 34,
+                                  height: 34,
+                                  borderRadius: 9,
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  background:
+                                    "rgba(255,80,80,.06)",
+                                  border:
+                                    "1px solid rgba(255,80,80,.13)",
                                   color: C.danger,
                                   cursor: "pointer"
                                 }}
-                                title="حذف من الموقع"
                               >
-                                <Trash2 size={16} />
+                                <Trash2 size={15} />
                               </button>
                             ) : (
                               <button
                                 onClick={async () => {
-                                  await reactivateProduct(p.id);
+                                  await reactivateProduct(
+                                    p.id
+                                  );
 
                                   onNotify(
                                     "تم إعادة المنتج إلى الموقع بنجاح ✨"
                                   );
                                 }}
+                                title="إعادة المنتج للموقع"
                                 style={{
-                                  background: "none",
-                                  border: 0,
+                                  width: 34,
+                                  height: 34,
+                                  borderRadius: 9,
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  background:
+                                    "rgba(210,170,100,.07)",
+                                  border:
+                                    "1px solid rgba(210,170,100,.14)",
                                   color: C.gold,
                                   cursor: "pointer"
                                 }}
-                                title="إعادة المنتج للموقع"
                               >
-                                <RotateCcw size={16} />
+                                <RotateCcw size={15} />
                               </button>
                             )}
                           </div>
@@ -7848,36 +8707,25 @@ function AdminDashboard({
                   </tbody>
                 </table>
               </div>
-
-              {showForm && (
-                <ProductFormModal
-                  product={editing}
-                  onSave={saveProduct}
-                  onClose={() => {
-                    setShowForm(false);
-                    setEditing(null);
-                  }}
-                />
-              )}
             </>
           )}
 
           {/* ================= ORDERS ================= */}
+
           {tab === "orders" && (
             <div
               style={{
-                background: C.panel,
-                border: `1px solid ${C.line}`,
-                borderRadius: 8,
+                ...panelStyle,
+                maxHeight: 560,
                 overflow: "auto",
-                maxHeight: 500,
                 WebkitOverflowScrolling: "touch"
               }}
             >
               {ordersLoading ? (
                 <div
                   style={{
-                    padding: 30,
+                    padding: 55,
+                    textAlign: "center",
                     color: C.taupe
                   }}
                 >
@@ -7886,11 +8734,37 @@ function AdminDashboard({
               ) : orders.length === 0 ? (
                 <div
                   style={{
-                    padding: 30,
-                    color: C.taupe
+                    padding: 55,
+                    textAlign: "center"
                   }}
                 >
-                  لا توجد طلبات حتى الآن.
+                  <ClipboardList
+                    size={30}
+                    style={{
+                      color: C.gold,
+                      opacity: 0.7,
+                      marginBottom: 10
+                    }}
+                  />
+
+                  <div
+                    style={{
+                      color: C.ivory,
+                      fontWeight: 700,
+                      marginBottom: 5
+                    }}
+                  >
+                    لا توجد طلبات حتى الآن
+                  </div>
+
+                  <div
+                    style={{
+                      color: C.taupe,
+                      fontSize: ".72rem"
+                    }}
+                  >
+                    ستظهر الطلبات الجديدة هنا
+                  </div>
                 </div>
               ) : (
                 <table
@@ -7898,64 +8772,62 @@ function AdminDashboard({
                     width: "100%",
                     minWidth: 1100,
                     borderCollapse: "collapse",
-                    fontSize: ".85rem"
+                    fontSize: ".82rem"
                   }}
                 >
                   <thead>
                     <tr
                       style={{
-                        background: C.panel2,
-                        color: C.taupe,
                         textAlign: "right",
                         position: "sticky",
                         top: 0,
-                        zIndex: 2
+                        zIndex: 10,
+                        background: C.panel2
                       }}
                     >
-                      <th style={{ padding: 14 }}>
+                      <th style={tableHeaderStyle}>
                         رقم الطلب
                       </th>
 
-                      <th style={{ padding: 14 }}>
+                      <th style={tableHeaderStyle}>
                         التاريخ
                       </th>
 
-                      <th style={{ padding: 14 }}>
+                      <th style={tableHeaderStyle}>
                         العميل
                       </th>
 
-                      <th style={{ padding: 14 }}>
+                      <th style={tableHeaderStyle}>
                         الموبايل
                       </th>
 
-                      <th style={{ padding: 14 }}>
+                      <th style={tableHeaderStyle}>
                         العنوان
                       </th>
 
-                      <th style={{ padding: 14 }}>
+                      <th style={tableHeaderStyle}>
                         ملاحظات الطلب
                       </th>
 
-                      <th style={{ padding: 14 }}>
+                      <th style={tableHeaderStyle}>
                         المنتجات
                       </th>
 
-                      <th style={{ padding: 14 }}>
+                      <th style={tableHeaderStyle}>
                         عدد المنتجات
                       </th>
 
-                      <th style={{ padding: 14 }}>
+                      <th style={tableHeaderStyle}>
                         الإجمالي
                       </th>
 
-                      <th style={{ padding: 14 }}>
+                      <th style={tableHeaderStyle}>
                         الحالة
                       </th>
-                      <th style={{ padding: 14 }}>
+
+                      <th style={tableHeaderStyle}>
                         الإجراء
                       </th>
-
-
                     </tr>
                   </thead>
 
@@ -7970,45 +8842,80 @@ function AdminDashboard({
                       >
                         <td
                           style={{
-                            padding: 14,
+                            ...cellStyle,
                             color: C.gold,
-                            fontWeight: 800
+                            fontWeight: 900
                           }}
                         >
-                          #{index + 1}
+                          <span
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              minWidth: 42,
+                              height: 28,
+                              padding: "0 8px",
+                              borderRadius: 8,
+                              background:
+                                "rgba(210,170,100,.08)",
+                              border:
+                                "1px solid rgba(210,170,100,.14)"
+                            }}
+                          >
+                            #{index + 1}
+                          </span>
                         </td>
 
                         <td
                           style={{
-                            padding: 14,
-                            color: C.ivoryDim
+                            ...cellStyle,
+                            color: C.ivoryDim,
+                            whiteSpace: "nowrap"
                           }}
                         >
                           {o.date}
                         </td>
 
-                        <td style={{ padding: 14 }}>
+                        <td
+                          style={{
+                            ...cellStyle,
+                            fontWeight: 700
+                          }}
+                        >
                           {o.customerName || "—"}
                         </td>
 
-                        <td style={{ padding: 14 }}>
+                        <td
+                          style={{
+                            ...cellStyle,
+                            direction: "ltr",
+                            textAlign: "right",
+                            whiteSpace: "nowrap"
+                          }}
+                        >
                           {o.phone || "—"}
                         </td>
 
                         <td
                           style={{
-                            padding: 14,
+                            ...cellStyle,
                             maxWidth: 220
                           }}
                         >
-                          {o.address || "—"}
+                          <div
+                            style={{
+                              lineHeight: 1.6
+                            }}
+                          >
+                            {o.address || "—"}
+                          </div>
 
                           {o.city && (
                             <div
                               style={{
                                 color: C.taupe,
-                                fontSize: ".75rem",
-                                marginTop: 4
+                                fontSize: ".7rem",
+                                marginTop: 5
                               }}
                             >
                               {o.city}
@@ -8019,11 +8926,12 @@ function AdminDashboard({
                             </div>
                           )}
                         </td>
+
                         <td
                           style={{
-                            padding: 14,
+                            ...cellStyle,
                             maxWidth: 220,
-                            verticalAlign: "top",
+                            verticalAlign: "top"
                           }}
                         >
                           {o.notes ? (
@@ -8032,7 +8940,7 @@ function AdminDashboard({
                                 color: C.ivoryDim,
                                 lineHeight: 1.7,
                                 whiteSpace: "pre-wrap",
-                                wordBreak: "break-word",
+                                wordBreak: "break-word"
                               }}
                               title={o.notes}
                             >
@@ -8043,6 +8951,7 @@ function AdminDashboard({
                               style={{
                                 color: C.taupe,
                                 opacity: 0.6,
+                                fontSize: ".72rem"
                               }}
                             >
                               لا توجد ملاحظات
@@ -8052,8 +8961,8 @@ function AdminDashboard({
 
                         <td
                           style={{
-                            padding: 14,
-                            minWidth: 240
+                            ...cellStyle,
+                            minWidth: 250
                           }}
                         >
                           {o.items?.map((item) => (
@@ -8068,14 +8977,13 @@ function AdminDashboard({
                             >
                               <div
                                 style={{
-                                  width: 50,
-                                  height: 62,
+                                  width: 48,
+                                  height: 58,
                                   flexShrink: 0,
-                                  borderRadius: 6,
+                                  borderRadius: 9,
                                   overflow: "hidden",
-                                  background: catGrad(
-                                    item.cat
-                                  ),
+                                  background:
+                                    catGrad(item.cat),
                                   display: "flex",
                                   alignItems: "center",
                                   justifyContent: "center",
@@ -8095,7 +9003,7 @@ function AdminDashboard({
                                   />
                                 ) : (
                                   <Package
-                                    size={22}
+                                    size={20}
                                     style={{
                                       color: C.gold,
                                       opacity: 0.8
@@ -8104,16 +9012,26 @@ function AdminDashboard({
                                 )}
                               </div>
 
-                              <div>
-                                <div>
+                              <div
+                                style={{
+                                  minWidth: 0
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    color: C.ivory,
+                                    fontWeight: 600,
+                                    lineHeight: 1.5
+                                  }}
+                                >
                                   {item.name} × {item.qty}
                                 </div>
 
                                 <div
                                   style={{
                                     color: C.taupe,
-                                    fontSize: ".75rem",
-                                    marginTop: 2
+                                    fontSize: ".68rem",
+                                    marginTop: 3
                                   }}
                                 >
                                   {fmt(item.price)} للقطعة
@@ -8123,7 +9041,12 @@ function AdminDashboard({
                           ))}
                         </td>
 
-                        <td style={{ padding: 14 }}>
+                        <td
+                          style={{
+                            ...cellStyle,
+                            fontWeight: 700
+                          }}
+                        >
                           {o.items?.reduce(
                             (sum, item) =>
                               sum + item.qty,
@@ -8132,96 +9055,146 @@ function AdminDashboard({
                         </td>
 
                         <td
-  style={{
-    padding: 14,
-    whiteSpace: "nowrap"
-  }}
->
-  <div
-    style={{
-      color: C.ivoryDim,
-      fontSize: ".78rem",
-      marginBottom: 4
-    }}
-  >
-    المنتجات:{" "}
-    {fmt(
-      o.total - (o.shippingFee || 0)
-    )}
-  </div>
-
-  <div
-    style={{
-      color: C.taupe,
-      fontSize: ".78rem",
-      marginBottom: 5
-    }}
-  >
-    الشحن:{" "}
-    {fmt(o.shippingFee || 0)}
-  </div>
-
-  <div
-    style={{
-      color: C.goldLight,
-      fontWeight: 700
-    }}
-  >
-    الإجمالي: {fmt(o.total)}
-  </div>
-</td>
-
-                        <td style={{ padding: 14 }}>
-                          <select
-                            value={o.status}
-                            onChange={(e) =>
-                              onUpdateOrderStatus(
-                                o.id,
-                                e.target.value
-                              )
-                            }
+                          style={{
+                            ...cellStyle,
+                            whiteSpace: "nowrap"
+                          }}
+                        >
+                          <div
                             style={{
-                              background: C.ink,
-                              border: `1px solid ${C.line}`,
-                              borderRadius: 6,
-                              padding: "6px 10px",
-                              color: C.ivory,
-                              fontFamily: "inherit",
-                              fontSize: ".8rem"
+                              color: C.ivoryDim,
+                              fontSize: ".72rem",
+                              marginBottom: 5
                             }}
                           >
-                            {ORDER_STATUSES.map((s) => (
-                              <option
-                                key={s}
-                                value={s}
-                              >
-                                {s}
-                              </option>
-                            ))}
-                          </select>
+                            المنتجات:{" "}
+                            {fmt(
+                              o.total -
+                              (o.shippingFee || 0)
+                            )}
+                          </div>
+
+                          <div
+                            style={{
+                              color: C.taupe,
+                              fontSize: ".72rem",
+                              marginBottom: 6
+                            }}
+                          >
+                            الشحن:{" "}
+                            {fmt(
+                              o.shippingFee || 0
+                            )}
+                          </div>
+
+                          <div
+                            style={{
+                              color: C.goldLight,
+                              fontWeight: 800,
+                              fontSize: ".82rem"
+                            }}
+                          >
+                            الإجمالي: {fmt(o.total)}
+                          </div>
                         </td>
-                        <td style={{ padding: 14 }}>
+
+                        <td style={cellStyle}>
+                          <div
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 7,
+                              padding: "6px 9px",
+                              borderRadius: 8,
+                              ...getStatusStyle(
+                                o.status
+                              )
+                            }}
+                          >
+                            <span
+                              style={{
+                                width: 5,
+                                height: 5,
+                                borderRadius: "50%",
+                                background:
+                                  getStatusStyle(
+                                    o.status
+                                  ).color
+                              }}
+                            />
+
+                            <select
+                              value={o.status}
+                              onChange={(e) =>
+                                onUpdateOrderStatus(
+                                  o.id,
+                                  e.target.value
+                                )
+                              }
+                              style={{
+                                background:
+                                  "transparent",
+                                border: 0,
+                                outline: "none",
+                                color:
+                                  getStatusStyle(
+                                    o.status
+                                  ).color,
+                                fontFamily:
+                                  "inherit",
+                                fontSize: ".72rem",
+                                fontWeight: 700,
+                                cursor: "pointer"
+                              }}
+                            >
+                              {ORDER_STATUSES.map(
+                                (s) => (
+                                  <option
+                                    key={s}
+                                    value={s}
+                                    style={{
+                                      background:
+                                        C.ink,
+                                      color:
+                                        C.ivory
+                                    }}
+                                  >
+                                    {s}
+                                  </option>
+                                )
+                              )}
+                            </select>
+                          </div>
+                        </td>
+
+                        <td style={cellStyle}>
                           {o.status === "تم التسليم" && (
                             <button
-                              onClick={() => onOpenDeleteOrder(o.id)}
+                              onClick={() =>
+                                onOpenDeleteOrder(
+                                  o.id
+                                )
+                              }
                               title="حذف الطلب"
                               style={{
-                                background: "none",
-                                border: 0,
-                                color: C.danger,
-                                cursor: "pointer",
+                                width: 34,
+                                height: 34,
+                                borderRadius: 9,
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
-                                padding: 4
+                                background:
+                                  "rgba(255,80,80,.06)",
+                                border:
+                                  "1px solid rgba(255,80,80,.13)",
+                                color: C.danger,
+                                cursor: "pointer"
                               }}
                             >
-                              <Trash2 size={17} />
+                              <Trash2 size={15} />
                             </button>
                           )}
                         </td>
-
-
                       </tr>
                     ))}
                   </tbody>
@@ -8231,63 +9204,150 @@ function AdminDashboard({
           )}
 
           {/* ================= CUSTOMERS ================= */}
+
           {tab === "customers" && (
             <div
               style={{
-                background: C.panel,
-                border: `1px solid ${C.line}`,
-                borderRadius: 8,
+                ...panelStyle,
                 overflow: "auto",
                 WebkitOverflowScrolling: "touch"
               }}
             >
+              <div
+                style={{
+                  padding: "18px 20px",
+                  borderBottom: `1px solid ${C.line}`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}
+              >
+                <div>
+                  <div
+                    style={{
+                      color: C.ivory,
+                      fontWeight: 800,
+                      fontSize: ".92rem",
+                      marginBottom: 4
+                    }}
+                  >
+                    العملاء
+                  </div>
+
+                  <div
+                    style={{
+                      color: C.taupe,
+                      fontSize: ".7rem"
+                    }}
+                  >
+                    {customers.length} عميل مسجل
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    width: 34,
+                    height: 34,
+                    borderRadius: 10,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background:
+                      "rgba(210,170,100,.08)",
+                    border:
+                      "1px solid rgba(210,170,100,.14)"
+                  }}
+                >
+                  <UsersIcon
+                    size={16}
+                    style={{
+                      color: C.gold
+                    }}
+                  />
+                </div>
+              </div>
+
               <table
                 style={{
                   width: "100%",
                   minWidth: 600,
                   borderCollapse: "collapse",
-                  fontSize: ".85rem"
+                  fontSize: ".82rem"
                 }}
               >
                 <thead>
                   <tr
                     style={{
                       background: C.panel2,
-                      color: C.taupe,
                       textAlign: "right"
                     }}
                   >
-                    <th style={{ padding: 14 }}>
+                    <th style={tableHeaderStyle}>
                       الاسم
                     </th>
 
-                    <th style={{ padding: 14 }}>
+                    <th style={tableHeaderStyle}>
                       البريد الإلكتروني
                     </th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  {customers.map((u) => (
+                  {customers.map((u, index) => (
                     <tr
                       key={u.id}
                       style={{
-                        borderTop: `1px solid ${C.line}`,
+                        borderTop:
+                          index === 0
+                            ? "none"
+                            : `1px solid ${C.line}`,
                         color: C.ivory
                       }}
                     >
                       <td
                         style={{
-                          padding: 14,
-                          fontWeight: 600
+                          ...cellStyle,
+                          fontWeight: 700
                         }}
                       >
-                        {u.name}
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 10
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: 34,
+                              height: 34,
+                              borderRadius: "50%",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              background:
+                                "rgba(210,170,100,.08)",
+                              border:
+                                "1px solid rgba(210,170,100,.14)",
+                              color: C.gold,
+                              fontSize: ".72rem",
+                              fontWeight: 800
+                            }}
+                          >
+                            {(u.name || "?")
+                              .charAt(0)
+                              .toUpperCase()}
+                          </div>
+
+                          <span>
+                            {u.name}
+                          </span>
+                        </div>
                       </td>
 
                       <td
                         style={{
-                          padding: 14,
+                          ...cellStyle,
                           color: C.ivoryDim
                         }}
                       >
@@ -8301,10 +9361,25 @@ function AdminDashboard({
           )}
         </div>
       </div>
+
+      {/* =====================================================
+          PRODUCT MODAL
+          خارج admin-dashboard-layout عشان يظهر فوق الـ Navbar
+          ===================================================== */}
+
+      {showForm && (
+        <ProductFormModal
+          product={editing}
+          onSave={saveProduct}
+          onClose={() => {
+            setShowForm(false);
+            setEditing(null);
+          }}
+        />
+      )}
     </section>
   );
 }
-
 
 /* ============================= APP ROOT ============================= */
 
@@ -9268,13 +10343,13 @@ export default function App() {
     const phone = guestInfo.phone.trim();
 
     if (
-  !phone ||
-  !guestInfo.address.trim() ||
-  !guestInfo.governorate.trim()
-) {
-  notify("من فضلك املئي رقم الموبايل والعنوان واختاري المحافظة");
-  return;
-}
+      !phone ||
+      !guestInfo.address.trim() ||
+      !guestInfo.governorate.trim()
+    ) {
+      notify("من فضلك املئي رقم الموبايل والعنوان واختاري المحافظة");
+      return;
+    }
     if (!/^01[0125][0-9]{8}$/.test(phone)) {
       notify("من فضلك أدخل رقم موبايل مصري صحيح");
       return;
@@ -9718,8 +10793,8 @@ export default function App() {
             <CategoryStrip
               setView={setView}
               setCatFilter={setCatFilter}
-            /> 
-            
+            />
+
             <FeaturedProductsSlider
               products={latestProducts}
               loading={latestProductsLoading}
@@ -9736,7 +10811,7 @@ export default function App() {
                 window.history.pushState({}, "", "/shop");
               }}
             />
-            
+
             <FeaturedProductsSection
               products={featuredProducts}
               loading={featuredProductsLoading}
